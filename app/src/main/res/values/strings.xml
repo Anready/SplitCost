@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">SplitCost</string>
+    <string name="expenses">Expenses</string>
+    <string name="incomes">Incomes</string>
+    <string name="plus">+</string>
+    <string name="perAlHistory">Per all history:</string>
+    <string name="perDay">Per day:</string>
+    <string name="balans">Balans</string>
 </resources>
