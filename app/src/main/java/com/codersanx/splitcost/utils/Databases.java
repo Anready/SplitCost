@@ -5,10 +5,15 @@ import static android.content.Context.MODE_PRIVATE;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class Databases {
     Context context;
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
+    private static final byte XOR_KEY = 0x5A; // XOR key
 
     public Databases(Context context, String database) {
         this.context = context;
@@ -18,7 +23,7 @@ public class Databases {
     }
 
     public void set(String key, String data) {
-        editor.putString(key, encrypt(get(key) + data)).apply();
+        editor.putString(key, encrypt(get(key) == null ? data : data + "\n" + get(key))).apply();
     }
 
     public String get(String key) {
@@ -29,20 +34,43 @@ public class Databases {
         editor.remove(key);
     }
 
-    private static String invertByte(String data) {
-        byte[] bytes = data.getBytes();
-        byte[] invertedBytes = new byte[bytes.length];
-        for (int i = 0; i < bytes.length; i++) {
-            invertedBytes[i] = (byte) ~bytes[i];
+    // XOR method
+    private static byte[] xorEncryptDecrypt(byte[] data, byte key) {
+        byte[] result = new byte[data.length];
+        for (int i = 0; i < data.length; i++) {
+            result[i] = (byte) (data[i] ^ key);
         }
-        return new String(invertedBytes);
+        return result;
     }
 
+    // Convert string to byte array
+    private static byte[] stringToBytes(String input) {
+        return input.getBytes();
+    }
+
+    // Convert byte array to string
+    private static String bytesToString(byte[] input) {
+        return new String(input);
+    }
+
+    // XOR invert method
+    private static String xorByte(String data) {
+        if (data == null) {
+            return null;
+        }
+
+        byte[] bytes = stringToBytes(data);
+        byte[] xorBytes = xorEncryptDecrypt(bytes, XOR_KEY);
+        return bytesToString(xorBytes);
+    }
+
+    // Encrypt method
     private static String encrypt(String data) {
-        return invertByte(data);
+        return xorByte(data);
     }
 
+    // Decrypt method
     private static String decrypt(String data) {
-        return invertByte(data);
+        return xorByte(data);
     }
 }

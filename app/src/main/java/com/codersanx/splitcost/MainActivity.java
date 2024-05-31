@@ -1,6 +1,7 @@
 package com.codersanx.splitcost;
 
 import static com.codersanx.splitcost.utils.Utils.currentDb;
+import static com.codersanx.splitcost.utils.Utils.initApp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -12,6 +13,7 @@ import com.codersanx.splitcost.utils.Databases;
 
 import java.util.Arrays;
 
+
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
@@ -22,13 +24,14 @@ public class MainActivity extends AppCompatActivity {
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        initApp(this);
 
         Databases db = new Databases(this, currentDb(this) + "Minus");
 
         for (int i = 0; i < 20; i++)
-            db.set("ÄllStrings", "Hi");
+            db.set("AllStrings", "Hi");
 
         String[] allData = db.get("AllStrings").split("\n");
-        System.out.println(Arrays.toString(allData));
+        System.out.println( db.get("AllStrings"));
     }
 }
