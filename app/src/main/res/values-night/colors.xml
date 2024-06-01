@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="backTint">#000000</color>
+    <color name="back">#232323</color>
+    <color name="mainBack">#232323</color>
+    <color name="calcButtonText">#FFFFFF</color>
+    <color name="welcomeText">#D1D1D1</color>
+    <color name="background">#0d0d0d</color>
+</resources>
