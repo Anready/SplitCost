@@ -34,7 +34,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-public class DuplicateMethods extends Expense{
+public class DuplicateMethods extends Expense {
     private final Activity context;
     private final Databases category, db, settings;
     private final Spinner categoryE;
@@ -42,7 +42,7 @@ public class DuplicateMethods extends Expense{
     private final TextView dateE, timeE;
     private final EditText amountE;
 
-    public DuplicateMethods(Activity context,  Databases category, Databases db,
+    public DuplicateMethods(Activity context, Databases category, Databases db,
                             Databases settings, Spinner categoryE, Button back,
                             Button deleteCategory, Button save, TextView dateE,
                             TextView timeE, EditText amountE
@@ -59,11 +59,11 @@ public class DuplicateMethods extends Expense{
         this.timeE = timeE;
         this.amountE = amountE;
     }
-    
+
     void setObjects() {
         setCategoryE();
 
-        back.setOnClickListener( v -> {
+        back.setOnClickListener(v -> {
             settings.set(LAST_CATEGORY, categoryE.getSelectedItem().toString());
             context.finish();
         });
@@ -71,7 +71,7 @@ public class DuplicateMethods extends Expense{
         dateE.setText(new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date()));
         timeE.setText(new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(new Date()));
 
-        dateE.setOnClickListener( v -> {
+        dateE.setOnClickListener(v -> {
             Calendar calendar = Calendar.getInstance();
             int year = calendar.get(Calendar.YEAR);
             int month = calendar.get(Calendar.MONTH);
@@ -105,7 +105,8 @@ public class DuplicateMethods extends Expense{
 
         amountE.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -120,7 +121,7 @@ public class DuplicateMethods extends Expense{
                     amountE.setSelection(2);
                 }
 
-                if(charSequence.length() > 8 && charSequence.charAt(8) != '.'){
+                if (charSequence.length() > 8 && charSequence.charAt(8) != '.') {
                     amountE.setText(charSequence.subSequence(0, charSequence.length() - 1));
                     amountE.setSelection(8);
                 }
@@ -139,7 +140,7 @@ public class DuplicateMethods extends Expense{
             }
         });
 
-        deleteCategory.setOnClickListener( v -> {
+        deleteCategory.setOnClickListener(v -> {
             AlertDialog.Builder builder = new AlertDialog.Builder(context);
             builder.setTitle(context.getResources().getString(R.string.deleteCategory));
             builder.setMessage(context.getResources().getString(R.string.descriptionOfDeleteCategory));
@@ -163,26 +164,26 @@ public class DuplicateMethods extends Expense{
             builder.show();
         });
 
-        save.setOnClickListener( v -> {
+        save.setOnClickListener(v -> {
             String userInput = amountE.getText().toString();
-            if(userInput.isEmpty() || userInput.equals("0.0") || userInput.equals("0.") || userInput.equals("0.00") || userInput.equals("0") || categoryE.getSelectedItem().toString().equals("New Category") || userInput.endsWith(".")){
+            if (userInput.isEmpty() || userInput.equals("0.0") || userInput.equals("0.") || userInput.equals("0.00") || userInput.equals("0") || categoryE.getSelectedItem().toString().equals("New Category") || userInput.endsWith(".")) {
                 Toast.makeText(context, "Error!", Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            if(userInput.indexOf('.') != -1){
-                if(userInput.indexOf('.') + 3 > userInput.length()){
+            if (userInput.indexOf('.') != -1) {
+                if (userInput.indexOf('.') + 3 > userInput.length()) {
                     userInput = userInput + "0";
                 }
 
                 int commaPos = userInput.indexOf(".");
-                if(userInput.charAt(commaPos + 1) == '0' && userInput.charAt(commaPos + 2) == '0' || userInput.charAt(commaPos + 1) == '0' && userInput.charAt(userInput.length() - 1) == '0'){
+                if (userInput.charAt(commaPos + 1) == '0' && userInput.charAt(commaPos + 2) == '0' || userInput.charAt(commaPos + 1) == '0' && userInput.charAt(userInput.length() - 1) == '0') {
                     userInput = userInput.substring(0, commaPos);
                 }
             }
 
             String seconds = String.valueOf(Calendar.getInstance().get(Calendar.SECOND));
-            if(seconds.length() == 1){
+            if (seconds.length() == 1) {
                 seconds = "0" + seconds;
             }
 
@@ -234,10 +235,12 @@ public class DuplicateMethods extends Expense{
 
         input.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
 
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
 
             @Override
             public void afterTextChanged(Editable editable) {
@@ -247,7 +250,7 @@ public class DuplicateMethods extends Expense{
                     String newText = text.substring(0, commaIndex) + text.substring(commaIndex + 1);
                     input.setText(newText);
                     input.setSelection(commaIndex);
-                } else if(text.contains("@")) {
+                } else if (text.contains("@")) {
                     int commaIndex = text.indexOf('@');
                     String newText = text.substring(0, commaIndex) + text.substring(commaIndex + 1);
                     input.setText(newText);
@@ -261,12 +264,12 @@ public class DuplicateMethods extends Expense{
 
         builder.setPositiveButton(context.getResources().getString(R.string.create), (dialog, which) -> {
             String inputText = input.getText().toString();
-            if(Arrays.asList(getCategories()).contains(inputText)) {
+            if (Arrays.asList(getCategories()).contains(inputText)) {
                 Toast.makeText(context, context.getResources().getText(R.string.categotyAlreadyExist), Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            if(inputText.isEmpty()) {
+            if (inputText.isEmpty()) {
                 Toast.makeText(context, "Error!", Toast.LENGTH_SHORT).show();
                 return;
             }

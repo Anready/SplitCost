@@ -5,12 +5,12 @@ import static com.codersanx.splitcost.utils.Constants.INCOMES;
 import static com.codersanx.splitcost.utils.Utils.currentDb;
 import static com.codersanx.splitcost.utils.Utils.initApp;
 
+import android.content.Intent;
+import android.os.Bundle;
+
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.Intent;
-import android.os.Bundle;
 
 import com.codersanx.splitcost.add.Expense;
 import com.codersanx.splitcost.add.Income;
@@ -18,7 +18,6 @@ import com.codersanx.splitcost.databinding.ActivityMainBinding;
 import com.codersanx.splitcost.utils.Databases;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -100,8 +99,7 @@ public class MainActivity extends AppCompatActivity {
                 if (comparison == 0) {
                     total = total.add(new BigDecimal(entry.getValue()));
                 }
-            } catch (ParseException e) {
-                e.printStackTrace();
+            } catch (ParseException ignored) {
             }
         }
 

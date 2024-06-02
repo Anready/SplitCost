@@ -57,5 +57,6 @@ public class Expense extends AppCompatActivity implements AdapterView.OnItemSele
     }
 
     @Override
-    public void onNothingSelected(AdapterView<?> parent) {}
+    public void onNothingSelected(AdapterView<?> parent) {
+    }
 }

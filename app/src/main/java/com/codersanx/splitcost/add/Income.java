@@ -57,5 +57,6 @@ public class Income extends AppCompatActivity implements AdapterView.OnItemSelec
     }
 
     @Override
-    public void onNothingSelected(AdapterView<?> parent) {}
+    public void onNothingSelected(AdapterView<?> parent) {
+    }
 }

@@ -5,10 +5,7 @@ import static android.content.Context.MODE_PRIVATE;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class Databases {
@@ -46,43 +43,5 @@ public class Databases {
 
     public void delete(String key) {
         editor.remove(key).apply();
-    }
-
-    // Encrypt method
-    private static String encrypt(String data) {
-        if (data == null)
-            return null;
-
-        byte[] byteArray = data.getBytes();
-
-        // Создаем новый массив для результатов
-        byte[] resultArray = new byte[byteArray.length];
-
-        // Добавляем к каждому байту +5
-        for (int i = 0; i < byteArray.length; i++) {
-            resultArray[i] = (byte) (byteArray[i] + 5);
-        }
-
-        // Преобразуем модифицированные байты обратно в строку
-        return new String(resultArray);
-    }
-
-    // Decrypt method
-    private static String decrypt(String data) {
-        if (data == null)
-            return null;
-
-        byte[] byteArray = data.getBytes();
-
-        // Создаем новый массив для результатов
-        byte[] resultArray = new byte[byteArray.length];
-
-        // Добавляем к каждому байту +5
-        for (int i = 0; i < byteArray.length; i++) {
-            resultArray[i] = (byte) (byteArray[i] - 5);
-        }
-
-        // Преобразуем модифицированные байты обратно в строку
-        return new String(resultArray);
     }
 }

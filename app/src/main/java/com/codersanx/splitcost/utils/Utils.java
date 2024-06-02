@@ -36,8 +36,8 @@ public class Utils {
         return db.get("currentDb");
     }
 
-    public static String getSettings(Context c, String setting) {
-        Databases db = new Databases(c, "MainSettings");
-        return db.get(setting);
-    }
+//    public static String getSettings(Context c, String setting) {
+//        Databases db = new Databases(c, "MainSettings");
+//        return db.get(setting);
+//    }
 }
