@@ -6,4 +6,24 @@
     <string name="perAlHistory">Per all history:</string>
     <string name="perDay">Per day:</string>
     <string name="balans">Balans</string>
+    <string name="Date">Date</string>
+    <string name="Time">Time</string>
+    <string name="Sum">Sum</string>
+    <string name="Category">Category</string>
+    <string name="amount">Amount</string>
+    <string name="Save">Save</string>
+    <string name="AddMinus">Add Expense</string>
+    <string name="Change">Delete</string>
+    <string name="error">Error!</string>
+    <string name="calculator">Calculator</string>
+    <string name="back"><![CDATA[<]]></string>
+    <string name="newCategory">New Category</string>
+    <string name="descriptionOfNewCategory">Enter the name of category (Without Spaces and Symbol \'@\')</string>
+    <string name="create">Create</string>
+    <string name="cancel">Cancel</string>
+    <string name="categotyAlreadyExist">Category already exist!</string>
+    <string name="delete">Delete</string>
+    <string name="AddPlus">Add Income</string>
+    <string name="deleteCategory">Delete category</string>
+    <string name="descriptionOfDeleteCategory">After deleting you will not be able to write data to this category, but all current data in this category will be saved</string>
 </resources>

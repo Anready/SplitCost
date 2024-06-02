@@ -15,7 +15,6 @@ public class Databases {
     Context context;
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
-    private static final byte XOR_KEY = 0x5A; // XOR key
 
     public Databases(Context context, String database) {
         this.context = context;
@@ -25,11 +24,11 @@ public class Databases {
     }
 
     public void set(String key, String data) {
-        editor.putString(key, encrypt(data)).apply();
+        editor.putString(key, data).apply();
     }
 
     public String get(String key) {
-        return decrypt(sharedPreferences.getString(key, null));
+        return sharedPreferences.getString(key, null);
     }
 
     public Map<String, String> readAll() {
@@ -46,46 +45,44 @@ public class Databases {
     }
 
     public void delete(String key) {
-        editor.remove(key);
-    }
-
-    // XOR method
-    private static byte[] xorEncryptDecrypt(byte[] data, byte key) {
-        byte[] result = new byte[data.length];
-        for (int i = 0; i < data.length; i++) {
-            result[i] = (byte) (data[i] ^ key);
-        }
-        return result;
-    }
-
-    // Convert string to byte array
-    private static byte[] stringToBytes(String input) {
-        return input.getBytes();
-    }
-
-    // Convert byte array to string
-    private static String bytesToString(byte[] input) {
-        return new String(input);
-    }
-
-    // XOR invert method
-    private static String xorByte(String data) {
-        if (data == null) {
-            return null;
-        }
-
-        byte[] bytes = stringToBytes(data);
-        byte[] xorBytes = xorEncryptDecrypt(bytes, XOR_KEY);
-        return bytesToString(xorBytes);
+        editor.remove(key).apply();
     }
 
     // Encrypt method
     private static String encrypt(String data) {
-        return xorByte(data);
+        if (data == null)
+            return null;
+
+        byte[] byteArray = data.getBytes();
+
+        // Создаем новый массив для результатов
+        byte[] resultArray = new byte[byteArray.length];
+
+        // Добавляем к каждому байту +5
+        for (int i = 0; i < byteArray.length; i++) {
+            resultArray[i] = (byte) (byteArray[i] + 5);
+        }
+
+        // Преобразуем модифицированные байты обратно в строку
+        return new String(resultArray);
     }
 
     // Decrypt method
     private static String decrypt(String data) {
-        return xorByte(data);
+        if (data == null)
+            return null;
+
+        byte[] byteArray = data.getBytes();
+
+        // Создаем новый массив для результатов
+        byte[] resultArray = new byte[byteArray.length];
+
+        // Добавляем к каждому байту +5
+        for (int i = 0; i < byteArray.length; i++) {
+            resultArray[i] = (byte) (byteArray[i] - 5);
+        }
+
+        // Преобразуем модифицированные байты обратно в строку
+        return new String(resultArray);
     }
 }
