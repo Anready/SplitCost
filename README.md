@@ -21,3 +21,9 @@ As per the survey, here is a list of feauters to come
 - [ ] Create a settings
 - [ ] Create connection to DataBase
 - [ ] Fix bugs
+
+# Before editing
+Please read [Rules of project](https://github.com/Anready/SplitCost/blob/master/RULES.md)
+
+# License
+Before forking/editing view [LICENSE](https://github.com/Anready/SplitCost/blob/master/LICENSE) file
