@@ -310,18 +310,6 @@
                 app:layout_constraintTop_toTopOf="@+id/balans_background" />
 
 
-            <TextView
-                android:id="@+id/currentDB"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="@+id/top_background"
-                app:layout_constraintEnd_toEndOf="@+id/top_background"
-                app:layout_constraintStart_toStartOf="@+id/top_background"
-                app:layout_constraintTop_toTopOf="@+id/top_background" />
-
-
             <ImageButton
                 android:id="@+id/settings"
                 android:layout_width="42dp"
@@ -336,6 +324,16 @@
                 app:layout_constraintVertical_bias="0.466"
                 app:srcCompat="@drawable/sbutton"
                 tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
+            <Spinner
+                android:id="@+id/currentDb"
+                android:layout_width="wrap_content"
+                android:layout_height="41dp"
+                app:layout_constraintBottom_toBottomOf="@+id/top_background"
+                app:layout_constraintEnd_toEndOf="@+id/top_background"
+                app:layout_constraintStart_toStartOf="@+id/top_background"
+                app:layout_constraintTop_toTopOf="@+id/top_background"
+                tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

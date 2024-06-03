@@ -13,6 +13,9 @@
         android:theme="@style/Theme.SplitCost"
         tools:targetApi="31">
         <activity
+            android:name=".Settings"
+            android:exported="false" />
+        <activity
             android:name=".view.chart.Chart"
             android:exported="false" />
         <activity

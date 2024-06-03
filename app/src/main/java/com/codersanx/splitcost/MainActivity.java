@@ -1,12 +1,18 @@
 package com.codersanx.splitcost;
 
+import static com.codersanx.splitcost.utils.Constants.CURRENT_DB;
 import static com.codersanx.splitcost.utils.Constants.EXPENSES;
 import static com.codersanx.splitcost.utils.Constants.INCOMES;
+import static com.codersanx.splitcost.utils.Constants.MAIN_SETTINGS;
 import static com.codersanx.splitcost.utils.Utils.currentDb;
+import static com.codersanx.splitcost.utils.Utils.getAllDb;
 import static com.codersanx.splitcost.utils.Utils.initApp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -31,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
     private String currentDb;
-    private Databases expenses, incomes;
+    private Databases expenses, incomes, db;
     private String expensesPerAll, incomesPerAll;
 
     @Override
@@ -48,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void initVariables() {
         currentDb = currentDb(this);
+        db = new Databases(this, MAIN_SETTINGS);
         expenses = new Databases(this, currentDb + EXPENSES);
         incomes = new Databases(this, currentDb + INCOMES);
         expensesPerAll = perAll(true);
@@ -61,8 +68,7 @@ public class MainActivity extends AppCompatActivity {
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {
                     if (result.getResultCode() == RESULT_OK) {
-                        expensesPerAll = perAll(true);
-                        incomesPerAll = perAll(false);
+                        initVariables();
                         setText();
                     }
                 }
@@ -72,11 +78,31 @@ public class MainActivity extends AppCompatActivity {
         binding.incomeAdd.setOnClickListener(v -> addLauncher.launch(new Intent(this, Income.class)));
         binding.expenesView.setOnClickListener(v -> addLauncher.launch(new Intent(this, ExpenseView.class)));
         binding.incomesView.setOnClickListener(v -> addLauncher.launch(new Intent(this, IncomeView.class)));
+        binding.settings.setOnClickListener(v -> addLauncher.launch(new Intent(this, Settings.class)));
 
+        binding.currentDb.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                db.set(CURRENT_DB, binding.currentDb.getSelectedItem().toString());
+                initVariables();
+                setText();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
     }
 
     private void setText() {
-        binding.currentDB.setText(currentDb);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, getAllDb(this));
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        binding.currentDb.setAdapter(adapter);
+
+        int id = getAllDb(this).indexOf(currentDb);
+        if (id == -1) id = 0;
+
+        binding.currentDb.setSelection(id);
         binding.perAllDayMinusE.setText(perDay(true));
         binding.perAllDayAddE.setText(perDay(false));
         binding.perAllHistoryAddE.setText(incomesPerAll);

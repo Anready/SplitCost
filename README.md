@@ -18,7 +18,10 @@ As per the survey, here is a list of feauters to come
 - [x] Create activities which save new data
 - [x] Create activities which can view data
 - [x] Create beautiful chart
-- [ ] Create a settings
+- [x] Create a settings
+- [ ] Create themes
+- [ ] Create calculator
+- [ ] Create many databases
 - [ ] Create connection to DataBase
 - [ ] Fix bugs
 

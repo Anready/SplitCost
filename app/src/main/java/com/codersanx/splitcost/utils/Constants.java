@@ -8,4 +8,6 @@ public class Constants {
     public static final String TRUE = "1";
     public static final String FALSE = "0";
     public static final String LAST_CATEGORY = "LastCategory";
+    public static final String ALL_DATABASES = "AllDatabases";
+    public static final String CURRENT_DB = "currentDb";
 }
