@@ -4,6 +4,7 @@ import static android.app.Activity.RESULT_OK;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
@@ -21,6 +22,7 @@ import androidx.appcompat.app.AlertDialog;
 import com.codersanx.splitcost.R;
 import com.codersanx.splitcost.utils.Databases;
 import com.codersanx.splitcost.utils.SortItems;
+import com.codersanx.splitcost.view.chart.Chart;
 
 import java.math.BigDecimal;
 import java.text.DateFormat;
@@ -38,13 +40,13 @@ public class DuplicateMethods {
     private final Activity context;
     private final Databases db;
     private final Spinner modeOfSort;
-    private final Button backB;
+    private final Button backB, chart;
     private final TextView date, startDate, endDate, total;
     private final ListView list;
     private boolean click = true;
 
     public DuplicateMethods(Activity context, Databases db, Spinner modeOfSort,
-                            ListView list, Button backB, TextView total,
+                            ListView list, Button backB, Button chart, TextView total,
                             TextView date, TextView startDate, TextView endDate
 
     ) {
@@ -53,6 +55,7 @@ public class DuplicateMethods {
         this.modeOfSort = modeOfSort;
         this.list = list;
         this.backB = backB;
+        this.chart = chart;
         this.total = total;
         this.date = date;
         this.startDate = startDate;
@@ -72,6 +75,20 @@ public class DuplicateMethods {
         modeOfSort.setAdapter(adapter);
 
         backB.setOnClickListener(view -> context.finish());
+
+        chart.setOnClickListener( v -> {
+            ArrayAdapter<String> getAdapter = (ArrayAdapter<String>) list.getAdapter();
+
+            int count = getAdapter.getCount();
+            String[] itemsFromList = new String[count];
+            for (int i = 0; i < count; i++) {
+                itemsFromList[i] = getAdapter.getItem(i);
+            }
+
+            Intent intent = new Intent(context, Chart.class);
+            intent.putExtra("list_items", itemsFromList);
+            context.startActivity(intent);
+        });
 
         modeOfSort.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override

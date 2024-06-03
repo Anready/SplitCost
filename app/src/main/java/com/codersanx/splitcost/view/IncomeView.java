@@ -23,7 +23,7 @@ public class IncomeView extends AppCompatActivity {
         initVariables();
 
         DuplicateMethods dm = new DuplicateMethods(this, db, binding.modeOfSort,
-                binding.list, binding.backB, binding.total,
+                binding.list, binding.backB, binding.chart, binding.total,
                 binding.date, binding.startDate, binding.endDate
         );
 

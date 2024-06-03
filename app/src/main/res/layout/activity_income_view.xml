@@ -37,17 +37,17 @@
         app:layout_constraintTop_toTopOf="@+id/my_rectangle4"
         tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
 
-    <!--    <Button-->
-    <!--        android:id="@+id/chart"-->
-    <!--        android:layout_width="45dp"-->
-    <!--        android:layout_height="45dp"-->
-    <!--        android:background="@drawable/button"-->
-    <!--        app:backgroundTint="@drawable/button"-->
-    <!--        android:text="@string/Graphic"-->
-    <!--        app:layout_constraintBottom_toBottomOf="@+id/my_rectangle4"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent"-->
-    <!--        app:layout_constraintTop_toTopOf="@+id/my_rectangle4"-->
-    <!--        tools:ignore="TouchTargetSizeCheck" />-->
+    <Button
+        android:id="@+id/chart"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:background="@drawable/button"
+        app:backgroundTint="#13AF6F"
+        android:text="@string/Graphic"
+        app:layout_constraintBottom_toBottomOf="@+id/my_rectangle4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/my_rectangle4"
+        tools:ignore="TouchTargetSizeCheck" />
 
     <ListView
         android:id="@+id/list"
