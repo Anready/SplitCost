@@ -16,6 +16,8 @@ import com.codersanx.splitcost.add.Expense;
 import com.codersanx.splitcost.add.Income;
 import com.codersanx.splitcost.databinding.ActivityMainBinding;
 import com.codersanx.splitcost.utils.Databases;
+import com.codersanx.splitcost.view.ExpenseView;
+import com.codersanx.splitcost.view.IncomeView;
 
 import java.math.BigDecimal;
 import java.text.ParseException;
@@ -68,6 +70,9 @@ public class MainActivity extends AppCompatActivity {
 
         binding.expenseAdd.setOnClickListener(v -> addLauncher.launch(new Intent(this, Expense.class)));
         binding.incomeAdd.setOnClickListener(v -> addLauncher.launch(new Intent(this, Income.class)));
+        binding.expenesView.setOnClickListener(v -> addLauncher.launch(new Intent(this, ExpenseView.class)));
+        binding.incomesView.setOnClickListener(v -> addLauncher.launch(new Intent(this, IncomeView.class)));
+
     }
 
     private void setText() {

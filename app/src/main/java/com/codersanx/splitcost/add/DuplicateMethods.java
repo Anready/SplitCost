@@ -265,7 +265,7 @@ public class DuplicateMethods extends Expense {
         builder.setPositiveButton(context.getResources().getString(R.string.create), (dialog, which) -> {
             String inputText = input.getText().toString();
             if (Arrays.asList(getCategories()).contains(inputText)) {
-                Toast.makeText(context, context.getResources().getText(R.string.categotyAlreadyExist), Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, context.getResources().getText(R.string.categoryAlreadyExist), Toast.LENGTH_SHORT).show();
                 return;
             }
 

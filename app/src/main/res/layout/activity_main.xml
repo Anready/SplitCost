@@ -108,7 +108,7 @@
                 app:layout_constraintTop_toTopOf="@+id/balans_background" />
 
             <Button
-                android:id="@+id/expens_view"
+                android:id="@+id/expenes_view"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:layout_marginStart="36dp"
@@ -125,7 +125,7 @@
                 tools:ignore="TouchTargetSizeCheck" />
 
             <Button
-                android:id="@+id/income_view"
+                android:id="@+id/incomes_view"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:layout_marginTop="40dp"
@@ -163,7 +163,7 @@
                 android:text="@string/perAlHistory"
                 app:layout_constraintStart_toStartOf="@+id/incomes_background"
                 app:layout_constraintTop_toBottomOf="@+id/perAllDayAdd_v"
-                android:layout_marginLeft="8dp" />
+                />
 
             <TextView
                 android:id="@+id/perAllDayAdd_v"
@@ -174,7 +174,7 @@
                 android:text="@string/perDay"
                 app:layout_constraintStart_toStartOf="@+id/incomes_background"
                 app:layout_constraintTop_toTopOf="@+id/incomes_background"
-                android:layout_marginLeft="8dp" />
+                />
 
 
             <TextView
@@ -185,7 +185,7 @@
                 android:layout_marginEnd="4dp"
                 app:layout_constraintEnd_toEndOf="@+id/incomes_background"
                 app:layout_constraintTop_toBottomOf="@+id/perAllDayAdd_e"
-                android:layout_marginRight="4dp" />
+                />
 
             <TextView
                 android:id="@+id/perAllDayAdd_e"
@@ -195,7 +195,7 @@
                 android:layout_marginEnd="4dp"
                 app:layout_constraintEnd_toEndOf="@+id/incomes_background"
                 app:layout_constraintTop_toTopOf="@+id/incomes_background"
-                android:layout_marginRight="4dp" />
+                />
 
             <TextView
                 android:id="@+id/textView8"
@@ -211,8 +211,7 @@
                 app:layout_constraintStart_toStartOf="@+id/incomes_v_background"
                 app:layout_constraintTop_toTopOf="@+id/incomes_v_background"
                 app:layout_constraintVertical_bias="0.0"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="16dp" />
+                />
 
             <TextView
                 android:id="@+id/textView14"
@@ -229,8 +228,7 @@
                 app:layout_constraintStart_toStartOf="@+id/expenses_v_background"
                 app:layout_constraintTop_toTopOf="@+id/expenses_v_background"
                 app:layout_constraintVertical_bias="1.0"
-                android:layout_marginLeft="7dp"
-                android:layout_marginRight="17dp" />
+                />
 
             <TextView
                 android:id="@+id/perAllHistoryMinus_v"
@@ -241,14 +239,13 @@
                 android:text="@string/perAlHistory"
                 app:layout_constraintStart_toStartOf="@+id/expense_background"
                 app:layout_constraintTop_toBottomOf="@+id/perAllDayMinus_v"
-                android:layout_marginLeft="8dp" />
+                />
 
             <TextView
                 android:id="@+id/perAllDayMinus_v"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"
                 android:layout_marginTop="52dp"
                 android:text="@string/perDay"
                 app:layout_constraintStart_toStartOf="@+id/expense_background"
@@ -276,7 +273,7 @@
                 android:layout_marginEnd="4dp"
                 app:layout_constraintEnd_toEndOf="@+id/expense_background"
                 app:layout_constraintTop_toTopOf="@+id/expense_background"
-                android:layout_marginRight="4dp" />
+                />
 
             <TextView
                 android:id="@+id/perAllHistoryMinus_e"
@@ -286,7 +283,7 @@
                 android:layout_marginEnd="4dp"
                 app:layout_constraintEnd_toEndOf="@+id/expense_background"
                 app:layout_constraintTop_toBottomOf="@+id/perAllDayMinus_e"
-                android:layout_marginRight="4dp" />
+                />
 
 
             <TextView
@@ -329,7 +326,7 @@
                 android:id="@+id/settings"
                 android:layout_width="42dp"
                 android:layout_height="42dp"
-                android:layout_marginRight="4dp"
+                android:layout_marginEnd="4dp"
                 android:backgroundTint="#00000000"
                 app:layout_constraintBottom_toBottomOf="@+id/top_background"
                 app:layout_constraintEnd_toEndOf="parent"

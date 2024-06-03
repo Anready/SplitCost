@@ -21,9 +21,19 @@
     <string name="descriptionOfNewCategory">Enter the name of category (Without Spaces and Symbol \'@\')</string>
     <string name="create">Create</string>
     <string name="cancel">Cancel</string>
-    <string name="categotyAlreadyExist">Category already exist!</string>
+    <string name="categoryAlreadyExist">Category already exist!</string>
     <string name="delete">Delete</string>
     <string name="AddPlus">Add Income</string>
     <string name="deleteCategory">Delete category</string>
     <string name="descriptionOfDeleteCategory">After deleting you will not be able to write data to this category, but all current data in this category will be saved</string>
+    <string name="total">"Total: "</string>
+    <string name="Graphic">※</string>
+    <string name="perAll">All</string>
+    <string name="perDays">Day</string>
+    <string name="perMonths">Month</string>
+    <string name="perYear">Year</string>
+    <string name="perPeriod">Period</string>
+    <string name="changeData">Change data</string>
+    <string name="enterNewData">Enter new value:</string>
+    <string name="change">Change</string>
 </resources>
