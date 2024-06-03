@@ -3,15 +3,12 @@ package com.codersanx.splitcost.view;
 import static com.codersanx.splitcost.utils.Constants.EXPENSES;
 import static com.codersanx.splitcost.utils.Utils.currentDb;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.widget.ArrayAdapter;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.codersanx.splitcost.databinding.ActivityExpenseViewBinding;
 import com.codersanx.splitcost.utils.Databases;
-import com.codersanx.splitcost.view.chart.Chart;
 
 public class ExpenseView extends AppCompatActivity {
     private Databases db;
