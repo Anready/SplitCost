@@ -49,19 +49,15 @@ public class MainActivity extends AppCompatActivity {
 
         initApp(this);
         initVariables();
-        initObjects();
-    }
 
-    private void initVariables() {
-        currentDb = currentDb(this);
-        db = new Databases(this, MAIN_SETTINGS);
-        expenses = new Databases(this, currentDb + EXPENSES);
-        incomes = new Databases(this, currentDb + INCOMES);
-        expensesPerAll = perAll(true);
-        incomesPerAll = perAll(false);
-    }
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, getAllDb(this));
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        binding.currentDb.setAdapter(adapter);
 
-    private void initObjects() {
+        int id = getAllDb(this).indexOf(currentDb);
+        if (id == -1) id = 0;
+        binding.currentDb.setSelection(id);
+
         setText();
 
         ActivityResultLauncher<Intent> addLauncher = registerForActivityResult(
@@ -78,14 +74,17 @@ public class MainActivity extends AppCompatActivity {
         binding.incomeAdd.setOnClickListener(v -> addLauncher.launch(new Intent(this, Income.class)));
         binding.expenesView.setOnClickListener(v -> addLauncher.launch(new Intent(this, ExpenseView.class)));
         binding.incomesView.setOnClickListener(v -> addLauncher.launch(new Intent(this, IncomeView.class)));
-        binding.settings.setOnClickListener(v -> addLauncher.launch(new Intent(this, Settings.class)));
+        binding.settings.setOnClickListener(v -> {
+            startActivity(new Intent(this, Settings.class));
+            finish();
+        });
 
         binding.currentDb.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 db.set(CURRENT_DB, binding.currentDb.getSelectedItem().toString());
                 initVariables();
-                setText();
+                runOnUiThread(() -> setText()); // Update UI on the main thread
             }
 
             @Override
@@ -94,15 +93,16 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    private void initVariables() {
+        currentDb = currentDb(this);
+        db = new Databases(this, MAIN_SETTINGS);
+        expenses = new Databases(this, currentDb + EXPENSES);
+        incomes = new Databases(this, currentDb + INCOMES);
+        expensesPerAll = perAll(true);
+        incomesPerAll = perAll(false);
+    }
+
     private void setText() {
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, getAllDb(this));
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        binding.currentDb.setAdapter(adapter);
-
-        int id = getAllDb(this).indexOf(currentDb);
-        if (id == -1) id = 0;
-
-        binding.currentDb.setSelection(id);
         binding.perAllDayMinusE.setText(perDay(true));
         binding.perAllDayAddE.setText(perDay(false));
         binding.perAllHistoryAddE.setText(incomesPerAll);

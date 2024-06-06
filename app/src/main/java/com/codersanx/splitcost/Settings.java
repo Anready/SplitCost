@@ -9,6 +9,7 @@ import static com.codersanx.splitcost.utils.Constants.TRUE;
 import static com.codersanx.splitcost.utils.Utils.currentDb;
 import static com.codersanx.splitcost.utils.Utils.getAllDb;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
@@ -19,6 +20,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -137,7 +139,18 @@ public class Settings extends AppCompatActivity {
             alertDialog.show();
         });
 
-        binding.backB.setOnClickListener( v -> finish());
+        binding.backB.setOnClickListener( v -> {
+            startActivity(new Intent(this, MainActivity.class));
+            finish();
+        });
+
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                startActivity(new Intent(Settings.this, MainActivity.class));
+                finish();
+            }
+        });
     }
 
     private void deleteAll(String s) {
