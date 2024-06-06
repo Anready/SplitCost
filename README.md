@@ -19,7 +19,8 @@ As per the survey, here is a list of futures to come
 - [x] Create a settings
 - [ ] Create themes
 - [x] Create calculator
-- [ ] Create many databases
+- [x] Create many databases
+- [ ] Create import/export of databases
 - [ ] Create connection to DataBase
 - [ ] Fix bugs
 
