@@ -9,14 +9,19 @@ import static com.codersanx.splitcost.utils.Constants.TRUE;
 import static com.codersanx.splitcost.utils.Utils.currentDb;
 import static com.codersanx.splitcost.utils.Utils.getAllDb;
 import static com.codersanx.splitcost.utils.Utils.renameFile;
+import static com.codersanx.splitcost.utils.Zip.extractZip;
 import static com.codersanx.splitcost.utils.Zip.packFile;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
+import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextWatcher;
@@ -25,14 +30,23 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
 import com.codersanx.splitcost.databinding.ActivitySettingsBinding;
 import com.codersanx.splitcost.utils.Databases;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 
 public class Settings extends AppCompatActivity {
@@ -40,6 +54,8 @@ public class Settings extends AppCompatActivity {
     ActivitySettingsBinding binding;
     private Databases allDb;
     private boolean clickAllow = true;
+    private ActivityResultLauncher<Intent> sendFileLauncher, getFile;
+    private String newName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,11 +64,31 @@ public class Settings extends AppCompatActivity {
         binding = ActivitySettingsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        sendFileLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    File fileToDelete = new File(getFilesDir(), newName);
+                    if (fileToDelete.exists()) {
+                        fileToDelete.delete();
+                    }
+                });
+
+        getFile = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == RESULT_OK) {
+                        Uri selectedFileUri = result.getData().getData();
+                        copyFile(selectedFileUri);
+                    }
+                });
+
+
         initVariables();
         initObjects();
     }
 
     private void initObjects() {
+        binding.importDb.setOnClickListener( v -> importDb());
         binding.listOfDb.setOnItemClickListener((parent, view, position, id) -> {
             String selectedItem = (String) parent.getItemAtPosition(position);
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
@@ -137,12 +173,16 @@ public class Settings extends AppCompatActivity {
             alertDialogBuilder.setPositiveButton(getResources().getString(R.string.create), (dialog, which) -> {
                 String userInput = input.getText().toString();
                 if (!userInput.isEmpty()) {
+                    if (allDb.get(userInput) != null) {
+                        Toast.makeText(this, getResources().getString(R.string.dbAlreadyExist), Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
                     allDb.set(userInput, TRUE);
                     new Databases(this, userInput + CATEGORY + EXPENSES).set("Products", TRUE);
                     new Databases(this, userInput + CATEGORY + INCOMES).set("Salary", TRUE);
 
                     initVariables();
-                    setResult(RESULT_OK);
                     dialog.cancel();
                 }
             });
@@ -165,7 +205,33 @@ public class Settings extends AppCompatActivity {
                 finish();
             }
         });
+
+
     }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            if(requestCode == APP_STORAGE_ACCESS_REQUEST_CODE && Environment.isExternalStorageManager()){
+                Intent intent = new Intent();
+                intent.setType("*/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                getFile.launch(Intent.createChooser(intent, "Choose SCE file"));
+            }
+        } else {
+            if(requestCode == APP_STORAGE_ACCESS_REQUEST_CODE && ContextCompat.checkSelfPermission(this,
+                    android.Manifest.permission.READ_EXTERNAL_STORAGE
+            ) == PackageManager.PERMISSION_GRANTED) {
+                Intent intent = new Intent();
+                intent.setType("*/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                getFile.launch(Intent.createChooser(intent, "Choose SCE file"));
+            }
+        }
+    }
+
 
     private void deleteAll(String s) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -186,11 +252,13 @@ public class Settings extends AppCompatActivity {
 
     private void exportDb(String database) {
         packFile(this, database);
-        String filePath = database + "Export.zip";
-        String newName = database + "Export.sce";
+        String filePath = database + ".zip";
+        String newName = database + ".sce";
 
         File oldFile = new File(getFilesDir(), filePath);
         renameFile(oldFile, newName);
+
+        this.newName = newName;
 
         File file = new File(getFilesDir(), newName);
         Uri fileUri = FileProvider.getUriForFile(this, "com.codersanx.splitcost.fileprovider", file);
@@ -200,7 +268,19 @@ public class Settings extends AppCompatActivity {
         intent.putExtra(Intent.EXTRA_STREAM, fileUri);
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
-        startActivity(Intent.createChooser(intent, "Send file"));
+        sendFileLauncher.launch(Intent.createChooser(intent, "Send file"));
+    }
+    final static int APP_STORAGE_ACCESS_REQUEST_CODE = 501; // Any value
+    private void importDb() {
+        if (!checkPermission()) {
+            requestPermission();
+            return;
+        }
+
+        Intent intent = new Intent();
+        intent.setType("*/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        getFile.launch(Intent.createChooser(intent, "Choose SCE file"));
     }
 
     private void initVariables() {
@@ -208,5 +288,83 @@ public class Settings extends AppCompatActivity {
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, getAllDb(this));
         binding.listOfDb.setAdapter(adapter);
+    }
+
+    private String getRealPathFromURI(Uri contentUri) {
+        String[] proj = {MediaStore.Images.Media.DATA};
+        Cursor cursor = getContentResolver().query(contentUri, proj, null, null, null);
+        if (cursor == null) return null;
+        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+        cursor.moveToFirst();
+        String path = cursor.getString(column_index);
+        cursor.close();
+        return path;
+    }
+
+    private void copyFileToAppDirectory(String selectedFilePath, String fileName) throws IOException {
+        if (selectedFilePath == null) {
+            throw new IOException("Selected file path is null");
+        }
+
+        File selectedFile = new File(selectedFilePath);
+        InputStream inputStream = new FileInputStream(selectedFile);
+
+        File appDirectory = getFilesDir();
+        File copiedFile = new File(appDirectory, fileName);
+
+        OutputStream outputStream = new FileOutputStream(copiedFile);
+
+        byte[] buffer = new byte[1024];
+        int length;
+        while ((length = inputStream.read(buffer)) > 0) {
+            outputStream.write(buffer, 0, length);
+        }
+
+        inputStream.close();
+        outputStream.close();
+    }
+
+    public boolean checkPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            return Environment.isExternalStorageManager();
+        } else {
+            return ContextCompat.checkSelfPermission(this,
+                    android.Manifest.permission.READ_EXTERNAL_STORAGE
+            ) == PackageManager.PERMISSION_GRANTED;
+        }
+    }
+
+
+    public void requestPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            Intent intent = new Intent();
+            intent.setAction(android.provider.Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
+            Uri uri = Uri.fromParts("package", this.getPackageName(), null);
+            intent.setData(uri);
+            startActivityForResult(intent, APP_STORAGE_ACCESS_REQUEST_CODE);
+        } else {
+            ActivityCompat.requestPermissions(
+                    this,
+                    new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE}, APP_STORAGE_ACCESS_REQUEST_CODE
+            );
+        }
+    }
+
+    private void copyFile(Uri selectedFileUri) {
+        String selectedFilePath = getRealPathFromURI(selectedFileUri);
+        if (selectedFilePath == null) {
+            Toast.makeText(this, "Unable to get file path", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        try {
+            copyFileToAppDirectory(selectedFilePath, selectedFileUri.getLastPathSegment());
+
+            Toast.makeText(this, getResources().getString(R.string.pleaseWait), Toast.LENGTH_SHORT).show();
+            extractZip(this, selectedFileUri.getLastPathSegment());
+            initVariables();
+            Toast.makeText(this, getResources().getString(R.string.success), Toast.LENGTH_SHORT).show();
+        } catch (IOException ignore) {
+        }
     }
 }

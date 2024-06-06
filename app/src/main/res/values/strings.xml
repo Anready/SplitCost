@@ -38,7 +38,7 @@
     <string name="change">Change</string>
     <string name="Chart">Chart</string>
     <string name="deleteDb">Delete/Export database</string>
-    <string name="deleteDbDescription">You can delete or export your database</string>
+    <string name="deleteDbDescription">You can delete or export your database. After exporting you cannot rename file, after renaming, you cannot import it</string>
     <string name="changeDbBeforeDelete">Error! Change database before deleting it</string>
     <string name="createDb">Create new database</string>
     <string name="descriptionCreateDb">Enter the name of category (Without Spaces and Symbol \'@\'). You won\'t be able to rename the database later!</string>
@@ -68,4 +68,10 @@
     <string name="toLargeOrSmall">Value is too high or too low</string>
     <string name="exportDb">Export</string>
     <string name="pleaseWait">Please, wait...</string>
+    <string name="incorrectFile">Invalid file!</string>
+    <string name="dbAlreadyExist">Database already exist!</string>
+    <string name="success">Success</string>
+    <string name="selectDb">Select Database</string>
+    <string name="selectDbDescription">Are you sure to import this database?</string>
+    <string name="import_db">Import</string>
 </resources>

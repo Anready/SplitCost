@@ -25,10 +25,9 @@
                 android:id="@+id/addNew"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:background="#FF8000"
-                app:backgroundTint="#FF8000"
                 android:text="@string/add_new"
                 android:textAllCaps="false"
+                app:backgroundTint="#FF8000"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/listOfDb" />
@@ -74,9 +73,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
                 android:layout_marginTop="5dp"
-                android:layout_marginBottom="10dp"
                 android:background="#000000"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
@@ -114,6 +111,21 @@
                 app:layout_constraintEnd_toEndOf="@+id/my_rectangle4"
                 app:layout_constraintStart_toStartOf="@+id/my_rectangle4"
                 app:layout_constraintTop_toTopOf="@+id/my_rectangle4" />
+
+            <Button
+                android:id="@+id/import_db"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:backgroundTint="#FF8000"
+                android:text="@string/import_db"
+                android:textAllCaps="false"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.498"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/my_rectangle11" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
