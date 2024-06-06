@@ -63,7 +63,7 @@
     <string name="done_calc">✔</string>
     <string name="cancel_calc">X</string>
     <string name="clear_all_calc">AC</string>
-    <string name="standart_text_calc">0</string>
-    <string name="dote">.</string>
+    <string name="default_text_calc">0</string>
+    <string name="dot">.</string>
     <string name="toLargeOrSmall">Value is too high or too low</string>
 </resources>
