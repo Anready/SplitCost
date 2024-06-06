@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".add.calculator.Calculator">
+
+    <Button
+        android:id="@+id/zero"
+        android:layout_width="100dp"
+        android:layout_height="75dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginEnd="1dp"
+        android:background="#00FFFFFF"
+        android:text="@string/btn01"
+        android:textColor="@color/calcButtonText"
+        android:textSize="40sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/dot"
+        app:layout_constraintStart_toEndOf="@+id/Clean" />
+
+    <Button
+        android:id="@+id/nine"
+        android:layout_width="100dp"
+        android:layout_height="75dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="1dp"
+        android:background="#00FFFFFF"
+        android:text="@string/btn91"
+        android:textColor="@color/calcButtonText"
+        android:textSize="40sp"
+        app:layout_constraintBottom_toTopOf="@+id/dot"
+        app:layout_constraintEnd_toStartOf="@+id/divide"
+        tools:ignore="UsingOnClickInXml" />
+
+    <Button
+        android:id="@+id/one"
+        android:layout_width="100dp"
+        android:layout_height="75dp"
+        android:layout_marginStart="1dp"
+        android:background="#00FFFFFF"
+        android:text="@string/btn11"
+        android:textColor="@color/calcButtonText"
+        android:textSize="40sp"
+        app:layout_constraintBottom_toTopOf="@+id/four"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="TextSizeCheck" />
+
+    <Button
+        android:id="@+id/two"
+        android:layout_width="100dp"
+        android:layout_height="75dp"
+        android:layout_marginEnd="1dp"
+        android:background="#00FFFFFF"
+        android:text="@string/btn21"
+        android:textColor="@color/calcButtonText"
+        android:textSize="40sp"
+        app:layout_constraintBottom_toTopOf="@+id/five"
+        app:layout_constraintEnd_toStartOf="@+id/three"
+        app:layout_constraintStart_toEndOf="@+id/one" />
+
+    <Button
+        android:id="@+id/three"
+        android:layout_width="100dp"
+        android:layout_height="75dp"
+        android:layout_marginEnd="5dp"
+        android:background="#00FFFFFF"
+        android:text="@string/btn31"
+        android:textColor="@color/calcButtonText"
+        android:textSize="40sp"
+        app:layout_constraintBottom_toTopOf="@+id/six"
+        app:layout_constraintEnd_toStartOf="@+id/plus" />
+
+    <Button
+        android:id="@+id/plus"
+        android:layout_width="75dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="11dp"
+        android:background="#00FFFFFF"
+        android:text="@string/plus"
+        android:textColor="@color/calcButtonText"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toTopOf="@+id/equals"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/minus"
+        android:layout_width="75dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="11dp"
+        android:background="#00FFFFFF"
+        android:text="@string/minus"
+        android:textColor="@color/calcButtonText"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toTopOf="@+id/plus"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/multiply"
+        android:layout_width="75dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="11dp"
+        android:background="#00FFFFFF"
+        android:text="@string/multiply"
+        android:textColor="@color/calcButtonText"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toTopOf="@+id/divide"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/divide"
+        android:layout_width="75dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="11dp"
+        android:layout_marginBottom="1dp"
+        android:background="#00FFFFFF"
+        android:text="@string/divide"
+        android:textColor="@color/calcButtonText"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toTopOf="@+id/minus"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/dot"
+        android:layout_width="100dp"
+        android:layout_height="75dp"
+        android:layout_marginEnd="5dp"
+        android:background="#00FFFFFF"
+        android:text="@string/dote"
+        android:textColor="@color/calcButtonText"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/divide" />
+
+    <Button
+        android:id="@+id/equals"
+        android:layout_width="75dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="11dp"
+        android:text="@string/equals"
+        android:textColor="@color/calcButtonText"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/four"
+        android:layout_width="100dp"
+        android:layout_height="75dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginBottom="1dp"
+        android:background="#00FFFFFF"
+        android:text="@string/btn41"
+        android:textColor="@color/calcButtonText"
+        android:textSize="40sp"
+        app:layout_constraintBottom_toTopOf="@+id/seven"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/five"
+        android:layout_width="100dp"
+        android:layout_height="75dp"
+        android:layout_marginBottom="1dp"
+        android:background="#00FFFFFF"
+        android:text="@string/btn51"
+        android:textColor="@color/calcButtonText"
+        android:textSize="40sp"
+        app:layout_constraintBottom_toTopOf="@+id/eight"
+        app:layout_constraintEnd_toStartOf="@+id/six"
+        app:layout_constraintStart_toEndOf="@+id/four" />
+
+    <Button
+        android:id="@+id/six"
+        android:layout_width="100dp"
+        android:layout_height="75dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="1dp"
+        android:background="#00FFFFFF"
+        android:text="@string/btn61"
+        android:textColor="@color/calcButtonText"
+        android:textSize="40sp"
+        app:layout_constraintBottom_toTopOf="@+id/nine"
+        app:layout_constraintEnd_toStartOf="@+id/minus" />
+
+    <Button
+        android:id="@+id/seven"
+        android:layout_width="100dp"
+        android:layout_height="75dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginBottom="1dp"
+        android:background="#00FFFFFF"
+        android:text="@string/btn71"
+        android:textColor="@color/calcButtonText"
+        android:textSize="40sp"
+        app:layout_constraintBottom_toTopOf="@+id/Clean"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/eight"
+        android:layout_width="100dp"
+        android:layout_height="75dp"
+        android:layout_marginBottom="1dp"
+        android:background="#00FFFFFF"
+        android:text="@string/btn81"
+        android:textSize="40sp"
+        android:textColor="@color/calcButtonText"
+        app:layout_constraintBottom_toTopOf="@+id/zero"
+        app:layout_constraintEnd_toStartOf="@+id/nine"
+        app:layout_constraintStart_toEndOf="@+id/seven"
+        tools:ignore="RtlCompat" />
+
+
+    <TextView
+        android:id="@+id/enter"
+        android:layout_width="0dp"
+        android:layout_height="300dp"
+        android:gravity="bottom | right"
+        android:maxLength="100"
+        android:text="@string/standart_text_calc"
+        android:textColor="@color/calcButtonText"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toTopOf="@+id/two"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/done"
+        app:layout_constraintVertical_bias="1.0"
+        tools:ignore="SpeakableTextPresentCheck" />
+
+    <Button
+        android:id="@+id/AC"
+        android:layout_width="75dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="11dp"
+        android:background="#00FFFFFF"
+        android:text="@string/clear_all_calc"
+        android:textColor="@color/calcButtonText"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toTopOf="@+id/multiply"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/Clean"
+        android:layout_width="100dp"
+        android:layout_height="75dp"
+        android:layout_marginStart="1dp"
+        android:background="#00FFFFFF"
+        android:text="@string/Clean"
+        android:textColor="@color/calcButtonText"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/cancel"
+        android:layout_width="56dp"
+        android:layout_height="60dp"
+        android:background="#00FFFFFF"
+        android:text="@string/cancel_calc"
+        android:textColor="@color/calcButtonText"
+        android:textSize="30sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/done"
+        android:layout_width="63dp"
+        android:layout_height="55dp"
+        android:background="#00FFFFFF"
+        android:text="@string/done_calc"
+        android:textColor="@color/calcButtonText"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

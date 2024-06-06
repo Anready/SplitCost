@@ -147,7 +147,7 @@
                 app:layout_constraintEnd_toEndOf="@+id/my_rectangle2"
                 app:layout_constraintHorizontal_bias="0.498"
                 app:layout_constraintStart_toStartOf="@+id/my_rectangle2"
-                app:layout_constraintTop_toBottomOf="@+id/amount_e" />
+                app:layout_constraintTop_toBottomOf="@+id/calculator" />
 
             <TextView
                 android:id="@+id/textView27"
@@ -200,18 +200,18 @@
                 app:layout_constraintStart_toStartOf="@+id/my_rectangle5"
                 app:layout_constraintTop_toTopOf="@+id/my_rectangle5" />
 
-            <!--            <Button-->
-            <!--                android:id="@+id/calculator"-->
-            <!--                android:layout_width="wrap_content"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:layout_marginTop="20dp"-->
-            <!--                android:text="@string/calculator"-->
-            <!--                android:textAllCaps="false"-->
-            <!--                app:backgroundTint="#ffffff"-->
-            <!--                android:textColor="#000000"-->
-            <!--                app:layout_constraintEnd_toEndOf="@+id/my_rectangle2"-->
-            <!--                app:layout_constraintStart_toStartOf="@+id/my_rectangle2"-->
-            <!--                app:layout_constraintTop_toBottomOf="@+id/amount_e" />-->
+            <Button
+                android:id="@+id/calculator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/calculator"
+                android:textAllCaps="false"
+                app:backgroundTint="#ffffff"
+                android:textColor="#000000"
+                app:layout_constraintEnd_toEndOf="@+id/my_rectangle2"
+                app:layout_constraintStart_toStartOf="@+id/my_rectangle2"
+                app:layout_constraintTop_toBottomOf="@+id/amount_e" />
 
             <Button
                 android:id="@+id/back"
