@@ -37,8 +37,8 @@
     <string name="enterNewData">Enter new value:</string>
     <string name="change">Change</string>
     <string name="Chart">Chart</string>
-    <string name="deleteDb">Delete database</string>
-    <string name="deleteDbDescription">Are you sure?</string>
+    <string name="deleteDb">Delete/Export database</string>
+    <string name="deleteDbDescription">You can delete or export your database</string>
     <string name="changeDbBeforeDelete">Error! Change database before deleting it</string>
     <string name="createDb">Create new database</string>
     <string name="descriptionCreateDb">Enter the name of category (Without Spaces and Symbol \'@\'). You won\'t be able to rename the database later!</string>
@@ -66,4 +66,6 @@
     <string name="default_text_calc">0</string>
     <string name="dot">.</string>
     <string name="toLargeOrSmall">Value is too high or too low</string>
+    <string name="exportDb">Export</string>
+    <string name="pleaseWait">Please, wait...</string>
 </resources>

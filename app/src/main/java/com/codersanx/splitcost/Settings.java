@@ -8,11 +8,15 @@ import static com.codersanx.splitcost.utils.Constants.MAIN_SETTINGS;
 import static com.codersanx.splitcost.utils.Constants.TRUE;
 import static com.codersanx.splitcost.utils.Utils.currentDb;
 import static com.codersanx.splitcost.utils.Utils.getAllDb;
+import static com.codersanx.splitcost.utils.Utils.renameFile;
+import static com.codersanx.splitcost.utils.Zip.packFile;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextWatcher;
@@ -23,6 +27,7 @@ import android.widget.Toast;
 import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
 
 import com.codersanx.splitcost.databinding.ActivitySettingsBinding;
 import com.codersanx.splitcost.utils.Databases;
@@ -34,6 +39,7 @@ public class Settings extends AppCompatActivity {
 
     ActivitySettingsBinding binding;
     private Databases allDb;
+    private boolean clickAllow = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +59,7 @@ public class Settings extends AppCompatActivity {
             alertDialogBuilder.setTitle(getResources().getString(R.string.deleteDb));
             alertDialogBuilder.setMessage(getResources().getString(R.string.deleteDbDescription));
 
-            alertDialogBuilder.setPositiveButton(getResources().getString(R.string.delete), (dialog, which) -> {
+            alertDialogBuilder.setNegativeButton(getResources().getString(R.string.delete), (dialog, which) -> {
                 if(allDb.readAll().size() < 2) {
                     Toast.makeText(this, "Error!", Toast.LENGTH_SHORT).show();
                     return;
@@ -76,10 +82,18 @@ public class Settings extends AppCompatActivity {
                 initVariables();
             });
 
-            alertDialogBuilder.setNegativeButton(getResources().getString(R.string.cancel), (dialog, which) -> dialog.dismiss());
+            alertDialogBuilder.setPositiveButton(getResources().getString(R.string.exportDb), (dialog, which) -> {
+                clickAllow = false;
+                Toast.makeText(this, getResources().getString(R.string.pleaseWait), Toast.LENGTH_SHORT).show();
+                exportDb(selectedItem);
 
-            AlertDialog alertDialog = alertDialogBuilder.create();
-            alertDialog.show();
+                new Handler().postDelayed(() -> clickAllow = true, 10000);
+            });
+
+            if (clickAllow) {
+                AlertDialog alertDialog = alertDialogBuilder.create();
+                alertDialog.show();
+            }
         });
 
         binding.addNew.setOnClickListener( v -> {
@@ -168,6 +182,25 @@ public class Settings extends AppCompatActivity {
                 file.delete();
             }
         }
+    }
+
+    private void exportDb(String database) {
+        packFile(this, database);
+        String filePath = database + "Export.zip";
+        String newName = database + "Export.sce";
+
+        File oldFile = new File(getFilesDir(), filePath);
+        renameFile(oldFile, newName);
+
+        File file = new File(getFilesDir(), newName);
+        Uri fileUri = FileProvider.getUriForFile(this, "com.codersanx.splitcost.fileprovider", file);
+
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("text/plain");
+        intent.putExtra(Intent.EXTRA_STREAM, fileUri);
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+        startActivity(Intent.createChooser(intent, "Send file"));
     }
 
     private void initVariables() {

@@ -14,6 +14,7 @@ import android.widget.ArrayAdapter;
 
 import com.codersanx.splitcost.R;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -61,5 +62,12 @@ public class Utils {
         Collections.sort(items);
 
         return items;
+    }
+
+    public static boolean renameFile(File oldFile, String newFileName) {
+        File directory = oldFile.getParentFile();
+        File newFile = new File(directory, newFileName);
+
+        return oldFile.renameTo(newFile);
     }
 }
