@@ -15,13 +15,11 @@ import static com.codersanx.splitcost.utils.Zip.packFile;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
-import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextWatcher;
@@ -42,7 +40,6 @@ import com.codersanx.splitcost.databinding.ActivitySettingsBinding;
 import com.codersanx.splitcost.utils.Databases;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -77,8 +74,7 @@ public class Settings extends AppCompatActivity {
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {
                     if (result.getResultCode() == RESULT_OK) {
-                        Uri selectedFileUri = result.getData().getData();
-                        copyFile(selectedFileUri);
+                        copyFile(result.getData().getData());
                     }
                 });
 
@@ -270,7 +266,7 @@ public class Settings extends AppCompatActivity {
 
         sendFileLauncher.launch(Intent.createChooser(intent, "Send file"));
     }
-    final static int APP_STORAGE_ACCESS_REQUEST_CODE = 501; // Any value
+    final static int APP_STORAGE_ACCESS_REQUEST_CODE = 501;
     private void importDb() {
         if (!checkPermission()) {
             requestPermission();
@@ -290,38 +286,55 @@ public class Settings extends AppCompatActivity {
         binding.listOfDb.setAdapter(adapter);
     }
 
-    private String getRealPathFromURI(Uri contentUri) {
-        String[] proj = {MediaStore.Images.Media.DATA};
-        Cursor cursor = getContentResolver().query(contentUri, proj, null, null, null);
-        if (cursor == null) return null;
-        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-        cursor.moveToFirst();
-        String path = cursor.getString(column_index);
-        cursor.close();
-        return path;
+    private void copyFileToInternalStorage(Uri uri) {
+        InputStream inputStream = null;
+        OutputStream outputStream = null;
+        try {
+            // Открываем InputStream для чтения данных из URI
+            inputStream = getContentResolver().openInputStream(uri);
+            if (inputStream == null) {
+                return;
+            }
+
+            // Получаем имя файла из URI
+            String fileName = getFileNameFromUri(uri);
+            if (fileName == null) {
+                return;
+            }
+
+            File outputFile = new File(getFilesDir(), fileName);
+            outputStream = new FileOutputStream(outputFile);
+
+            byte[] buffer = new byte[1024];
+            int bytesRead;
+            while ((bytesRead = inputStream.read(buffer)) != -1) {
+                outputStream.write(buffer, 0, bytesRead);
+            }
+            outputStream.flush();
+        } catch (IOException ignored) {
+        } finally {
+            try {
+                if (inputStream != null) {
+                    inputStream.close();
+                }
+                if (outputStream != null) {
+                    outputStream.close();
+                }
+            } catch (IOException ignored) {
+            }
+        }
     }
 
-    private void copyFileToAppDirectory(String selectedFilePath, String fileName) throws IOException {
-        if (selectedFilePath == null) {
-            throw new IOException("Selected file path is null");
+    private String getFileNameFromUri(Uri uri) {
+        String path = uri.getLastPathSegment();
+        if (path != null) {
+            int index = path.lastIndexOf('/');
+            if (index != -1) {
+                return path.substring(index + 1);
+            }
+            return path;
         }
-
-        File selectedFile = new File(selectedFilePath);
-        InputStream inputStream = new FileInputStream(selectedFile);
-
-        File appDirectory = getFilesDir();
-        File copiedFile = new File(appDirectory, fileName);
-
-        OutputStream outputStream = new FileOutputStream(copiedFile);
-
-        byte[] buffer = new byte[1024];
-        int length;
-        while ((length = inputStream.read(buffer)) > 0) {
-            outputStream.write(buffer, 0, length);
-        }
-
-        inputStream.close();
-        outputStream.close();
+        return null;
     }
 
     public boolean checkPermission() {
@@ -351,20 +364,11 @@ public class Settings extends AppCompatActivity {
     }
 
     private void copyFile(Uri selectedFileUri) {
-        String selectedFilePath = getRealPathFromURI(selectedFileUri);
-        if (selectedFilePath == null) {
-            Toast.makeText(this, "Unable to get file path", Toast.LENGTH_SHORT).show();
-            return;
-        }
+        copyFileToInternalStorage(selectedFileUri);
 
-        try {
-            copyFileToAppDirectory(selectedFilePath, selectedFileUri.getLastPathSegment());
-
-            Toast.makeText(this, getResources().getString(R.string.pleaseWait), Toast.LENGTH_SHORT).show();
-            extractZip(this, selectedFileUri.getLastPathSegment());
-            initVariables();
-            Toast.makeText(this, getResources().getString(R.string.success), Toast.LENGTH_SHORT).show();
-        } catch (IOException ignore) {
-        }
+        Toast.makeText(this, getResources().getString(R.string.pleaseWait), Toast.LENGTH_SHORT).show();
+        extractZip(this, getFileNameFromUri(selectedFileUri));
+        initVariables();
+        Toast.makeText(this, getResources().getString(R.string.success), Toast.LENGTH_SHORT).show();
     }
 }
