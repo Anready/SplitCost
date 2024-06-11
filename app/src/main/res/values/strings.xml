@@ -41,7 +41,7 @@
     <string name="deleteDbDescription">You can delete or export your database. After exporting you cannot rename file, after renaming, you cannot import it</string>
     <string name="changeDbBeforeDelete">Error! Change database before deleting it</string>
     <string name="createDb">Create new database</string>
-    <string name="descriptionCreateDb">Enter the name of category (Without Spaces and Symbol \'@\'). You won\'t be able to rename the database later!</string>
+    <string name="descriptionCreateDb">Enter the name of category (Without Spaces and Symbols: \'@\', \':\'). You won\'t be able to rename the database later!</string>
     <string name="settings">Settings</string>
     <string name="databases">Databases</string>
     <string name="add_new">Add New</string>

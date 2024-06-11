@@ -158,6 +158,11 @@ public class Settings extends AppCompatActivity {
                         String newText = text.substring(0, commaIndex) + text.substring(commaIndex + 1);
                         input.setText(newText);
                         input.setSelection(commaIndex);
+                    } else if (text.contains(":")) {
+                        int commaIndex = text.indexOf(':');
+                        String newText = text.substring(0, commaIndex) + text.substring(commaIndex + 1);
+                        input.setText(newText);
+                        input.setSelection(commaIndex);
                     }
                 }
             });
@@ -326,8 +331,11 @@ public class Settings extends AppCompatActivity {
         String path = uri.getLastPathSegment();
         if (path != null) {
             int index = path.lastIndexOf('/');
+            int index2 = path.lastIndexOf(':');
             if (index != -1) {
                 return path.substring(index + 1);
+            } else if (index2 != -1) {
+                return path.substring(index2 + 1);
             }
             return path;
         }
