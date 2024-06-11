@@ -9,6 +9,7 @@ import static com.codersanx.splitcost.utils.Utils.getAllDb;
 import static com.codersanx.splitcost.utils.Utils.initApp;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -16,16 +17,17 @@ import android.widget.ArrayAdapter;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.codersanx.splitcost.add.Expense;
 import com.codersanx.splitcost.add.Income;
 import com.codersanx.splitcost.databinding.ActivityMainBinding;
 import com.codersanx.splitcost.utils.Databases;
+import com.codersanx.splitcost.utils.GetUpdate;
 import com.codersanx.splitcost.view.ExpenseView;
 import com.codersanx.splitcost.view.IncomeView;
 
-import java.io.File;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -34,7 +36,7 @@ import java.util.Locale;
 import java.util.Map;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements GetUpdate.UpdateCallback {
 
     private ActivityMainBinding binding;
     private String currentDb;
@@ -47,6 +49,9 @@ public class MainActivity extends AppCompatActivity {
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        GetUpdate fetchData = new GetUpdate("YOUR_URL", this, this);
+        fetchData.execute();
 
         initApp(this);
         initVariables();
@@ -156,5 +161,19 @@ public class MainActivity extends AppCompatActivity {
         BigDecimal expenses = new BigDecimal(expensesPerAll);
 
         return incomes.subtract(expenses).toString();
+    }
+
+    @Override
+    public void onUpdateReceived(String[] update) {
+        String description = update[0];
+        String link = update[1];
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setCancelable(false);
+        builder.setTitle(getResources().getString(R.string.updateTitle));
+        builder.setMessage(getResources().getString(R.string.updateText) + description);
+        builder.setPositiveButton("Update", (dialogInterface, i) -> startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(link))));
+
+        runOnUiThread(builder::show);
     }
 }

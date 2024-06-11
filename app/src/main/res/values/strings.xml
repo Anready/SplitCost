@@ -74,4 +74,6 @@
     <string name="selectDb">Select Database</string>
     <string name="selectDbDescription">Are you sure to import this database?</string>
     <string name="import_db">Import</string>
+    <string name="updateTitle">Update</string>
+    <string name="updateText">New version of SpliCost available, please update it now:\nIn this update:\n</string>
 </resources>
