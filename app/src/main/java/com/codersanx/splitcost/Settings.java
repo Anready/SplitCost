@@ -78,7 +78,6 @@ public class Settings extends AppCompatActivity {
                     }
                 });
 
-
         initVariables();
         initObjects();
     }
@@ -290,13 +289,11 @@ public class Settings extends AppCompatActivity {
         InputStream inputStream = null;
         OutputStream outputStream = null;
         try {
-            // Открываем InputStream для чтения данных из URI
             inputStream = getContentResolver().openInputStream(uri);
             if (inputStream == null) {
                 return;
             }
 
-            // Получаем имя файла из URI
             String fileName = getFileNameFromUri(uri);
             if (fileName == null) {
                 return;
