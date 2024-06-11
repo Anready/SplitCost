@@ -2,6 +2,8 @@
 
 SplitCost is an Android application designed for convenient and efficient expense tracking for shared use. This app helps you manage shared expenses among friends, family, or colleagues by allowing you to create and track multiple projects, visualize spending, and maintain a detailed record of all transactions.
 
+![Logo](https://raw.githubusercontent.com/Anready/SplitCost/master/app/src/main/res/mipmap-xxxhdpi/ic_launcher.webp)
+
 ## Features
 
 ### Project Management
