@@ -5,7 +5,7 @@ SplitCost is an Android application designed for convenient and efficient expens
 ## Features
 
 ### Project Management
--	[x] **Create New Projects:** Start new expense tracking projects for different groups or events.
+- [x] **Create New Projects:** Start new expense tracking projects for different groups or events.
 - [x] **Edit and Delete Projects:** Modify existing projects or remove them when no longer needed.
 
 ### Data Entry and Management
@@ -23,7 +23,7 @@ SplitCost is an Android application designed for convenient and efficient expens
 
 ### Database Management
 - [x] **Multiple Databases:** Manage multiple databases for different purposes.
-- [ ] **Import/Export:** Import existing data from external sources or export your data for backup.
+- [x] **Import/Export:** Import existing data from external sources or export your data for backup.
 
 ### Connectivity
 - [ ] **Database Connection:** Seamlessly connect to and interact with your databases.
