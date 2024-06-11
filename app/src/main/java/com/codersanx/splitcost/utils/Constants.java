@@ -11,5 +11,4 @@ public class Constants {
     public static final String ALL_DATABASES = "AllDatabases";
     public static final String CURRENT_DB = "currentDb";
     public static final String PASS_FROM_ZIP = "pass";
-    public static final String ALLOWED_FOLDER = "AllowedFolder";
 }
