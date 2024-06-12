@@ -113,7 +113,7 @@ public class DuplicateMethods extends Expense {
                 if (charSequence.length() > 1 && charSequence.charAt(0) == '0' && charSequence.charAt(1) != '.') {
                     String text = String.valueOf(charSequence);
                     amountE.setText(text.substring(1));
-                    amountE.setSelection(0);
+                    amountE.setSelection(1);
                 }
 
                 if (charSequence.length() > 0 && charSequence.charAt(0) == '.') {

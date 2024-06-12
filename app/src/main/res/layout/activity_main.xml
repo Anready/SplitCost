@@ -292,7 +292,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:layout_marginEnd="12dp"
-                android:text="@string/balans"
+                android:text="@string/balanse"
                 android:textColor="#FFF9FF"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@+id/balans_v_background"

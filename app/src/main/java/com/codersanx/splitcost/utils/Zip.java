@@ -67,7 +67,7 @@ public class Zip {
             return;
         }
 
-        if (name.contains("@") || name.contains(" ")) {
+        if (name.contains("@") || name.contains(" ") || name.contains(":")) {
             Toast.makeText(c, c.getResources().getString(R.string.incorrectFile), Toast.LENGTH_SHORT).show();
             return;
         }

@@ -5,7 +5,7 @@
     <string name="plus">+</string>
     <string name="perAlHistory">Per all history:</string>
     <string name="perDay">Per day:</string>
-    <string name="balans">Balans</string>
+    <string name="balanse">Balanse</string>
     <string name="Date">Date</string>
     <string name="Time">Time</string>
     <string name="Sum">Sum</string>
@@ -75,5 +75,5 @@
     <string name="selectDbDescription">Are you sure to import this database?</string>
     <string name="import_db">Import</string>
     <string name="updateTitle">Update</string>
-    <string name="updateText">New version of SpliCost available, please update it now:\nIn this update:\n</string>
+    <string name="updateText">New version of SplitCost available, please update it now:\nIn this update:\n</string>
 </resources>
