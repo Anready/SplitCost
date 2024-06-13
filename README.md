@@ -45,11 +45,36 @@ SplitCost is an Android application designed for convenient and efficient expens
 2. **Open the project in Android Studio:**
    Launch Android Studio and select 'Open an existing Android Studio project', then navigate to the cloned repository.
 3. **Set Variables:**
-4. In file ```local.properties``` add this strings: 
+   In file ```local.properties``` add this strings: 
    ```bash
    PASS.FOR.ZIP=YOUR_PASS
    URL.WITH.UPDATES=YOUR_URL
    ```
+4. **Set-up an update system:**
+   You need to create a file which can be accessed with a GET request without authentication (As example on GitHub), after that you should add this to this file:
+   ```json
+   {
+      "com.codersanx.splitcost": {
+        "name": "SplitCost",
+        "version": "YOUR_VERSION",
+        "version_code": "YOUR_VERSION_CODE",
+        "description": "YOUR_DESCRIPTION",
+        "stores": {
+          "YOUR_LINK": ""
+        }
+      }
+   }
+   ```
+   In this code:
+   
+   ```version```: you need to put actual version of your modified app (in build.gradle)
+   
+   ```version_code```: you need to put actual version code of your modified app (in build.gradle)
+   
+   ```description```: you need to put description what's new in new update
+   
+   ```stores```: you need to put link on your new github update - AS KEY, NOT AS VALUE
+    
 5. **Build the project:**
    Click on 'Build' in the top menu and select 'Rebuild Project'.
 6. **Run the app:**
