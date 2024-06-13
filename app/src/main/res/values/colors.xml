@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="calcButtonText">#000000</color>
+    <color name="mainPageTextHead">#1F2937</color>
+    <color name="mainPageTextTitle">#6B7280</color>
     <color name="welcomeText">#333</color>
     <color name="background">#f2f2f2</color>
     <color name="mainBack">#EDE9DE</color>

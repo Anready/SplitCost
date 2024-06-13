@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/mainBack"
     tools:context=".MainActivity">
 
     <ScrollView
@@ -12,329 +11,322 @@
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0">
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <View
-                android:id="@+id/top_background"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:background="#E07821"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <View
-                android:id="@+id/expense_background"
-                android:layout_width="match_parent"
-                android:layout_height="120dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="20dp"
-                android:background="@drawable/baks"
-                android:backgroundTint="@color/backTint"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/top_background" />
-
-            <View
-                android:id="@+id/incomes_background"
-                android:layout_width="match_parent"
-                android:layout_height="120dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="20dp"
-                android:background="@drawable/baks"
-                android:backgroundTint="@color/backTint"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.512"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/expense_background" />
-
-            <View
-                android:id="@+id/balans_background"
-                android:layout_width="match_parent"
-                android:layout_height="84dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="20dp"
-                android:background="@drawable/baks"
-                android:backgroundTint="@color/backTint"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.512"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/incomes_background" />
-
-            <View
-                android:id="@+id/expenses_v_background"
-                android:layout_width="82dp"
-                android:layout_height="19dp"
-                android:layout_marginTop="5dp"
-                android:background="@drawable/rounded_corners"
-                android:backgroundTint="#D19A3D"
-                app:layout_constraintEnd_toEndOf="@+id/expense_background"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/expense_background"
-                app:layout_constraintTop_toTopOf="@+id/expense_background" />
-
-            <View
-                android:id="@+id/incomes_v_background"
-                android:layout_width="82dp"
-                android:layout_height="19dp"
-                android:layout_marginTop="5dp"
-                android:background="@drawable/rounded_corners"
-                android:backgroundTint="#35B753"
-                app:layout_constraintEnd_toEndOf="@+id/incomes_background"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/incomes_background"
-                app:layout_constraintTop_toTopOf="@+id/incomes_background" />
-
-            <View
-                android:id="@+id/balans_v_background"
-                android:layout_width="82dp"
-                android:layout_height="19dp"
-                android:layout_marginTop="5dp"
-                android:background="@drawable/rounded_corners"
-                app:layout_constraintEnd_toEndOf="@+id/balans_background"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/balans_background"
-                app:layout_constraintTop_toTopOf="@+id/balans_background" />
-
-            <Button
-                android:id="@+id/expenes_view"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_marginStart="36dp"
-                android:layout_marginTop="40dp"
-                android:layout_marginBottom="40dp"
-                android:background="@drawable/button"
-                android:text="@string/expenses"
-                android:textSize="8sp"
-                app:backgroundTint="#DF7F1B"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/balans_background"
-                app:layout_constraintVertical_bias="0.0"
-                tools:ignore="TouchTargetSizeCheck" />
-
-            <Button
-                android:id="@+id/incomes_view"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_marginTop="40dp"
-                android:layout_marginEnd="40dp"
-                android:layout_marginBottom="40dp"
-                android:background="@drawable/button"
-                android:text="@string/incomes"
-                android:textSize="8sp"
-                app:backgroundTint="#35B753"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/balans_background"
-                tools:ignore="TouchTargetSizeCheck" />
-
-            <Button
-                android:id="@+id/income_add"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginTop="4dp"
-                android:layout_marginEnd="4dp"
-                android:background="@drawable/button"
-                android:text="@string/plus"
-                android:textSize="15sp"
-                app:backgroundTint="#35B753"
-                app:layout_constraintEnd_toEndOf="@+id/incomes_background"
-                app:layout_constraintTop_toTopOf="@+id/incomes_background"
-                tools:ignore="TouchTargetSizeCheck" />
-
-            <TextView
-                android:id="@+id/perAllHistoryAdd_v"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="12dp"
-                android:text="@string/perAlHistory"
-                app:layout_constraintStart_toStartOf="@+id/incomes_background"
-                app:layout_constraintTop_toBottomOf="@+id/perAllDayAdd_v"
-                />
-
-            <TextView
-                android:id="@+id/perAllDayAdd_v"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="64dp"
-                android:text="@string/perDay"
-                app:layout_constraintStart_toStartOf="@+id/incomes_background"
-                app:layout_constraintTop_toTopOf="@+id/incomes_background"
-                />
-
-
-            <TextView
-                android:id="@+id/perAllHistoryAdd_e"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:layout_marginEnd="4dp"
-                app:layout_constraintEnd_toEndOf="@+id/incomes_background"
-                app:layout_constraintTop_toBottomOf="@+id/perAllDayAdd_e"
-                />
-
-            <TextView
-                android:id="@+id/perAllDayAdd_e"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="64dp"
-                android:layout_marginEnd="4dp"
-                app:layout_constraintEnd_toEndOf="@+id/incomes_background"
-                app:layout_constraintTop_toTopOf="@+id/incomes_background"
-                />
-
-            <TextView
-                android:id="@+id/textView8"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="16dp"
-                android:text="@string/incomes"
-                android:textColor="#FFF9FF"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="@+id/incomes_v_background"
-                app:layout_constraintEnd_toEndOf="@+id/incomes_v_background"
-                app:layout_constraintStart_toStartOf="@+id/incomes_v_background"
-                app:layout_constraintTop_toTopOf="@+id/incomes_v_background"
-                app:layout_constraintVertical_bias="0.0"
-                />
-
-            <TextView
-                android:id="@+id/textView14"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="7dp"
-                android:layout_marginEnd="17dp"
-                android:text="@string/expenses"
-                android:textColor="#FFF9FF"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="@+id/expenses_v_background"
-                app:layout_constraintEnd_toEndOf="@+id/expenses_v_background"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/expenses_v_background"
-                app:layout_constraintTop_toTopOf="@+id/expenses_v_background"
-                app:layout_constraintVertical_bias="1.0"
-                />
-
-            <TextView
-                android:id="@+id/perAllHistoryMinus_v"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="12dp"
-                android:text="@string/perAlHistory"
-                app:layout_constraintStart_toStartOf="@+id/expense_background"
-                app:layout_constraintTop_toBottomOf="@+id/perAllDayMinus_v"
-                />
-
-            <TextView
-                android:id="@+id/perAllDayMinus_v"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="52dp"
-                android:text="@string/perDay"
-                app:layout_constraintStart_toStartOf="@+id/expense_background"
-                app:layout_constraintTop_toTopOf="@+id/expense_background" />
-
-            <Button
-                android:id="@+id/expense_add"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginTop="4dp"
-                android:layout_marginEnd="4dp"
-                android:background="@drawable/button"
-                android:text="@string/plus"
-                android:textSize="15sp"
-                app:backgroundTint="#E4A028"
-                app:layout_constraintEnd_toEndOf="@+id/expense_background"
-                app:layout_constraintTop_toTopOf="@+id/expense_background"
-                tools:ignore="TouchTargetSizeCheck" />
-
-            <TextView
-                android:id="@+id/perAllDayMinus_e"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="53dp"
-                android:layout_marginEnd="4dp"
-                app:layout_constraintEnd_toEndOf="@+id/expense_background"
-                app:layout_constraintTop_toTopOf="@+id/expense_background"
-                />
-
-            <TextView
-                android:id="@+id/perAllHistoryMinus_e"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:layout_marginEnd="4dp"
-                app:layout_constraintEnd_toEndOf="@+id/expense_background"
-                app:layout_constraintTop_toBottomOf="@+id/perAllDayMinus_e"
-                />
-
-
-            <TextView
-                android:id="@+id/textView19"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                android:layout_marginEnd="12dp"
-                android:text="@string/balanse"
-                android:textColor="#FFF9FF"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="@+id/balans_v_background"
-                app:layout_constraintEnd_toEndOf="@+id/balans_v_background"
-                app:layout_constraintStart_toStartOf="@+id/balans_v_background"
-                app:layout_constraintTop_toTopOf="@+id/balans_v_background" />
-
-            <TextView
-                android:id="@+id/balans"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="@+id/balans_background"
-                app:layout_constraintEnd_toEndOf="@+id/balans_background"
-                app:layout_constraintStart_toStartOf="@+id/balans_background"
-                app:layout_constraintTop_toTopOf="@+id/balans_background" />
-
-
-            <ImageButton
-                android:id="@+id/settings"
-                android:layout_width="42dp"
-                android:layout_height="42dp"
-                android:layout_marginEnd="4dp"
-                android:backgroundTint="#00000000"
-                app:layout_constraintBottom_toBottomOf="@+id/top_background"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toStartOf="@+id/top_background"
-                app:layout_constraintTop_toTopOf="@+id/top_background"
-                app:layout_constraintVertical_bias="0.466"
-                app:srcCompat="@drawable/sbutton"
-                tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
-
             <Spinner
                 android:id="@+id/currentDb"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="41dp"
-                app:layout_constraintBottom_toBottomOf="@+id/top_background"
-                app:layout_constraintEnd_toEndOf="@+id/top_background"
-                app:layout_constraintStart_toStartOf="@+id/top_background"
-                app:layout_constraintTop_toTopOf="@+id/top_background"
+                android:layout_marginStart="55dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="55dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
 
+            <ImageView
+                android:id="@+id/settings"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:contentDescription="@string/settings"
+                android:src="@drawable/ic_settings"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/current_balance_card"
+                android:layout_width="0dp"
+                android:layout_height="120dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="4dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/currentDb">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginHorizontal="24.5dp"
+                    android:layout_marginTop="19dp">
+
+                    <TextView
+                        android:id="@+id/current_balance_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/current_balance"
+                        android:textColor="@color/mainPageTextHead"
+                        android:textSize="20sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/balans"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:textColor="#22C55E"
+                        android:textSize="36sp"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/current_balance_title" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/total_expenses_card"
+                android:layout_width="0dp"
+                android:layout_height="104dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="4dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/current_balance_card">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginHorizontal="24.5dp"
+                    android:layout_marginTop="24dp">
+
+                    <TextView
+                        android:id="@+id/total_expenses_title"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/total_expenses"
+                        android:textColor="@color/mainPageTextHead"
+                        android:textSize="18sp"
+                        app:layout_constraintEnd_toStartOf="@id/perAllHistoryMinusE"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/perAllHistoryMinusE"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="-5dp"
+                        android:textColor="#EF4444"
+                        android:textSize="24sp"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/expenses_per_day_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:text="@string/expenses_per_day"
+                        android:textColor="@color/mainPageTextTitle"
+                        android:textSize="14sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/total_expenses_title" />
+
+                    <TextView
+                        android:id="@+id/perAllDayMinusE"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:textColor="@color/mainPageTextTitle"
+                        android:textSize="14sp"
+                        app:layout_constraintBaseline_toBaselineOf="@id/expenses_per_day_title"
+                        app:layout_constraintStart_toEndOf="@id/expenses_per_day_title" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/total_incomes_card"
+                android:layout_width="0dp"
+                android:layout_height="104dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="4dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/total_expenses_card">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginHorizontal="24.5dp"
+                    android:layout_marginTop="24dp">
+
+                    <TextView
+                        android:id="@+id/total_incomes_title"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/total_incomes"
+                        android:textColor="@color/mainPageTextHead"
+                        android:textSize="18sp"
+                        app:layout_constraintEnd_toStartOf="@id/perAllHistoryAddE"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/perAllHistoryAddE"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="-5dp"
+                        android:textColor="#22C55E"
+                        android:textSize="24sp"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/incomes_per_day_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:text="@string/incomes_per_day"
+                        android:textColor="@color/mainPageTextTitle"
+                        android:textSize="14sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/total_incomes_title" />
+
+                    <TextView
+                        android:id="@+id/perAllDayAddE"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:textColor="@color/mainPageTextTitle"
+                        android:textSize="14sp"
+                        app:layout_constraintBaseline_toBaselineOf="@id/incomes_per_day_title"
+                        app:layout_constraintStart_toEndOf="@id/incomes_per_day_title" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/buttons_section"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/total_incomes_card">
+
+                <Button
+                    android:id="@+id/incomeAdd"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/button_green_gradient"
+                    android:drawableStart="@drawable/ic_add"
+                    android:drawablePadding="10dp"
+                    android:elevation="4dp"
+                    android:paddingLeft="24dp"
+                    android:paddingTop="12dp"
+                    android:paddingRight="24dp"
+                    android:paddingBottom="12dp"
+                    android:text="@string/add_income"
+                    android:textColor="#FFFFFF"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/expenseAdd"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <Button
+                    android:id="@+id/expenseAdd"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/button_red_gradient"
+                    android:drawableStart="@drawable/ic_minus"
+                    android:drawablePadding="10dp"
+                    android:elevation="4dp"
+                    android:paddingLeft="24dp"
+                    android:paddingTop="12dp"
+                    android:paddingRight="24dp"
+                    android:paddingBottom="12dp"
+                    android:text="@string/add_expense"
+                    android:textColor="#FFFFFF"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/incomeAdd"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="20dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/buttons_section">
+
+                <Button
+                    android:id="@+id/incomesView"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="8dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/button_blue_gradient"
+                    android:drawableStart="@drawable/ic_view"
+                    android:drawablePadding="10dp"
+                    android:elevation="4dp"
+                    android:paddingLeft="24dp"
+                    android:paddingTop="12dp"
+                    android:paddingRight="24dp"
+                    android:paddingBottom="12dp"
+                    android:text="@string/view_income"
+                    android:textColor="#FFFFFF"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/expenseView"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <Button
+                    android:id="@+id/expenseView"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/button_yellow_gradient"
+                    android:drawableStart="@drawable/ic_view"
+                    android:drawablePadding="10dp"
+                    android:elevation="4dp"
+                    android:paddingLeft="24dp"
+                    android:paddingTop="12dp"
+                    android:paddingRight="24dp"
+                    android:paddingBottom="12dp"
+                    android:text="@string/view_expense"
+                    android:textColor="#FFFFFF"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/incomesView"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
+
     </ScrollView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

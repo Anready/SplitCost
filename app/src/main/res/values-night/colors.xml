@@ -6,4 +6,6 @@
     <color name="calcButtonText">#FFFFFF</color>
     <color name="welcomeText">#D1D1D1</color>
     <color name="background">#0d0d0d</color>
+    <color name="mainPageTextHead">#F3F4F6</color>
+    <color name="mainPageTextTitle">#9CA3AF</color>
 </resources>
