@@ -73,6 +73,7 @@ public class MainActivity extends AppCompatActivity implements GetUpdate.UpdateC
                 result -> {
                     if (result.getResultCode() == RESULT_OK) {
                         initVariables();
+                        binding.balans.setTextColor(Color.parseColor("#22C55E"));
                         setText();
                     }
                 }
@@ -92,6 +93,7 @@ public class MainActivity extends AppCompatActivity implements GetUpdate.UpdateC
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 db.set(CURRENT_DB, binding.currentDb.getSelectedItem().toString());
                 initVariables();
+                binding.balans.setTextColor(Color.parseColor("#22C55E"));
                 runOnUiThread(() -> setText()); // Update UI on the main thread
             }
 
@@ -174,7 +176,7 @@ public class MainActivity extends AppCompatActivity implements GetUpdate.UpdateC
         BigDecimal incomes = new BigDecimal(incomesPerAll);
         BigDecimal expenses = new BigDecimal(expensesPerAll);
 
-        return !incomes.subtract(expenses).toString().contains("-");
+        return incomes.subtract(expenses).toString().contains("-");
     }
 
     @Override
