@@ -4,11 +4,13 @@ import static com.codersanx.splitcost.utils.Constants.CURRENT_DB;
 import static com.codersanx.splitcost.utils.Constants.EXPENSES;
 import static com.codersanx.splitcost.utils.Constants.INCOMES;
 import static com.codersanx.splitcost.utils.Constants.MAIN_SETTINGS;
+import static com.codersanx.splitcost.utils.Constants.PREFIX;
 import static com.codersanx.splitcost.utils.Utils.currentDb;
 import static com.codersanx.splitcost.utils.Utils.getAllDb;
 import static com.codersanx.splitcost.utils.Utils.initApp;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -39,7 +41,7 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity implements GetUpdate.UpdateCallback {
 
     private ActivityMainBinding binding;
-    private String currentDb;
+    private String currentDb, prefix;
     private Databases expenses, incomes, db;
     private String expensesPerAll, incomesPerAll;
 
@@ -50,7 +52,7 @@ public class MainActivity extends AppCompatActivity implements GetUpdate.UpdateC
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        GetUpdate fetchData = new GetUpdate("YOUR_URL", this, this);
+        GetUpdate fetchData = new GetUpdate(getResources().getString(R.string.URL_WITH_UPDATES), this, this);
         fetchData.execute();
 
         initApp(this);
@@ -78,7 +80,7 @@ public class MainActivity extends AppCompatActivity implements GetUpdate.UpdateC
 
         binding.expenseAdd.setOnClickListener(v -> addLauncher.launch(new Intent(this, Expense.class)));
         binding.incomeAdd.setOnClickListener(v -> addLauncher.launch(new Intent(this, Income.class)));
-        binding.expenesView.setOnClickListener(v -> addLauncher.launch(new Intent(this, ExpenseView.class)));
+        binding.expenseView.setOnClickListener(v -> addLauncher.launch(new Intent(this, ExpenseView.class)));
         binding.incomesView.setOnClickListener(v -> addLauncher.launch(new Intent(this, IncomeView.class)));
         binding.settings.setOnClickListener(v -> {
             startActivity(new Intent(this, Settings.class));
@@ -106,14 +108,19 @@ public class MainActivity extends AppCompatActivity implements GetUpdate.UpdateC
         incomes = new Databases(this, currentDb + INCOMES);
         expensesPerAll = perAll(true);
         incomesPerAll = perAll(false);
+
+        String tempPrefix = new Databases(this, currentDb + MAIN_SETTINGS).get(PREFIX);
+        prefix = (tempPrefix != null) ? tempPrefix : "$";
     }
 
     private void setText() {
-        binding.perAllDayMinusE.setText(perDay(true));
-        binding.perAllDayAddE.setText(perDay(false));
-        binding.perAllHistoryAddE.setText(incomesPerAll);
-        binding.perAllHistoryMinusE.setText(expensesPerAll);
-        binding.balans.setText(getBalance());
+        binding.perAllDayMinusE.setText(String.format("%s%s", prefix, perDay(true)));
+        binding.perAllDayAddE.setText(String.format("%s%s", prefix, perDay(false)));
+        binding.perAllHistoryAddE.setText(String.format("%s%s", prefix, incomesPerAll));
+        binding.perAllHistoryMinusE.setText(String.format("%s%s", prefix, expensesPerAll));
+        binding.balans.setText(String.format("%s%s", prefix, getBalance()));
+
+        if(isMinus()) binding.balans.setTextColor(Color.parseColor("#EF4444"));
     }
 
     private String perDay(boolean isExpenses) {
@@ -161,6 +168,13 @@ public class MainActivity extends AppCompatActivity implements GetUpdate.UpdateC
         BigDecimal expenses = new BigDecimal(expensesPerAll);
 
         return incomes.subtract(expenses).toString();
+    }
+
+    private boolean isMinus() {
+        BigDecimal incomes = new BigDecimal(incomesPerAll);
+        BigDecimal expenses = new BigDecimal(expensesPerAll);
+
+        return !incomes.subtract(expenses).toString().contains("-");
     }
 
     @Override

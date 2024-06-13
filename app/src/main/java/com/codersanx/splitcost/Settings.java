@@ -37,6 +37,7 @@ import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
 import com.codersanx.splitcost.databinding.ActivitySettingsBinding;
+import com.codersanx.splitcost.settings.ChangePrefix;
 import com.codersanx.splitcost.utils.Databases;
 
 import java.io.File;
@@ -83,6 +84,8 @@ public class Settings extends AppCompatActivity {
     }
 
     private void initObjects() {
+        binding.changePrefix.setOnClickListener( v -> startActivity(new Intent(this, ChangePrefix.class)));
+
         binding.importDb.setOnClickListener( v -> importDb());
         binding.listOfDb.setOnItemClickListener((parent, view, position, id) -> {
             String selectedItem = (String) parent.getItemAtPosition(position);
