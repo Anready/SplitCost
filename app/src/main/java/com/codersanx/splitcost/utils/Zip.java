@@ -39,7 +39,7 @@ public class Zip {
             parameters.setEncryptFiles(true);
             parameters.setEncryptionMethod(Zip4jConstants.ENC_METHOD_AES);
             parameters.setAesKeyStrength(Zip4jConstants.AES_STRENGTH_256);
-            parameters.setPassword(PASS_FROM_ZIP);
+            parameters.setPassword(PASS_FROM_ZIP(c));
 
             ZipFile zipFile = new ZipFile(zipFileName);
 
@@ -92,7 +92,7 @@ public class Zip {
             return;
         }
 
-        ZipArchive.unzip(c.getFilesDir() + "/" + newName, c.getFilesDir().getParent() + "/shared_prefs/", PASS_FROM_ZIP);
+        ZipArchive.unzip(c.getFilesDir() + "/" + newName, c.getFilesDir().getParent() + "/shared_prefs/", PASS_FROM_ZIP(c));
         db.set(getBaseName(name), TRUE);
 
         new File(c.getFilesDir() + "/" + newName).delete();
@@ -122,7 +122,7 @@ public class Zip {
     }
 
     private static boolean containsFile(Context c, String newName, String fileName) {
-        ZipArchive.unzip(c.getFilesDir() + "/" + newName, c.getFilesDir().getParent() + "/temp/", PASS_FROM_ZIP);
+        ZipArchive.unzip(c.getFilesDir() + "/" + newName, c.getFilesDir().getParent() + "/temp/", PASS_FROM_ZIP(c));
         if(new File(c.getFilesDir().getParent() + "/temp/" + fileName).exists()) {
             File folder = new File(c.getFilesDir().getParent() + "/temp");
             deleteFolder(folder);

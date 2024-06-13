@@ -44,9 +44,15 @@ SplitCost is an Android application designed for convenient and efficient expens
    ```
 2. **Open the project in Android Studio:**
    Launch Android Studio and select 'Open an existing Android Studio project', then navigate to the cloned repository.
-3. **Build the project:**
+3. **Set Variables:**
+4. In file ```local.properties``` add this strings: 
+   ```bash
+   PASS.FOR.ZIP=YOUR_PASS
+   URL.WITH.UPDATES=YOUR_URL
+   ```
+5. **Build the project:**
    Click on 'Build' in the top menu and select 'Rebuild Project'.
-4. **Run the app:**
+6. **Run the app:**
    Connect an Android device or use an emulator, then click 'Run' to launch the application.
 
 ## Contributing

@@ -2,6 +2,10 @@ plugins {
     alias(libs.plugins.android.application)
 }
 
+def Properties properties = new Properties()
+properties.load(project.rootProject.file("local.properties").newDataInputStream())
+
+
 android {
     namespace 'com.codersanx.splitcost'
     compileSdk 34
@@ -14,6 +18,9 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        resValue "string", "PASS_FOR_ZIP", properties.getProperty("PASS.FOR.ZIP", "")
+        resValue "string", "URL_WITH_UPDATES", properties.getProperty("URL.WITH.UPDATES", "")
     }
 
     buildTypes {

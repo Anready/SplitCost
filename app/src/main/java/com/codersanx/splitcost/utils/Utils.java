@@ -7,12 +7,10 @@ import static com.codersanx.splitcost.utils.Constants.EXPENSES;
 import static com.codersanx.splitcost.utils.Constants.FALSE;
 import static com.codersanx.splitcost.utils.Constants.INCOMES;
 import static com.codersanx.splitcost.utils.Constants.MAIN_SETTINGS;
+import static com.codersanx.splitcost.utils.Constants.PREFIX;
 import static com.codersanx.splitcost.utils.Constants.TRUE;
 
 import android.content.Context;
-import android.widget.ArrayAdapter;
-
-import com.codersanx.splitcost.R;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -24,7 +22,6 @@ public class Utils {
     // 0 = False, 1 = True
     public static void initApp(Context c) {
         Databases db = new Databases(c, MAIN_SETTINGS);
-
 
         if (db.get("isInitComplete") != null)
             return;
@@ -38,6 +35,9 @@ public class Utils {
 
         Databases incomesCategory = new Databases(c, currentDb(c) + CATEGORY + INCOMES);
         incomesCategory.set("Salary", TRUE);
+
+        Databases settings = new Databases(c, currentDb(c) + MAIN_SETTINGS);
+        settings.set(PREFIX, "$");
 
         db.set("language", "en");
         db.set("theme", "white");
