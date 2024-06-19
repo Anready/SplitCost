@@ -14,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,14 +39,15 @@ public class DuplicateMethods extends Expense {
     private final Activity context;
     private final Databases category, db, settings;
     private final Spinner categoryE;
-    private final Button back, deleteCategory, save;
-    private final TextView dateE, timeE;
+    private final ImageView back, deleteCategory;
+    private final Button save;
+    private final TextView dateE;
     private final EditText amountE;
 
     public DuplicateMethods(Activity context, Databases category, Databases db,
-                            Databases settings, Spinner categoryE, Button back,
-                            Button deleteCategory, Button save, TextView dateE,
-                            TextView timeE, EditText amountE
+                            Databases settings, Spinner categoryE, ImageView back,
+                            ImageView deleteCategory, Button save, TextView dateE,
+                            EditText amountE
     ) {
         this.context = context;
         this.category = category;
@@ -56,7 +58,6 @@ public class DuplicateMethods extends Expense {
         this.deleteCategory = deleteCategory;
         this.save = save;
         this.dateE = dateE;
-        this.timeE = timeE;
         this.amountE = amountE;
     }
 
@@ -68,8 +69,10 @@ public class DuplicateMethods extends Expense {
             context.finish();
         });
 
-        dateE.setText(new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date()));
-        timeE.setText(new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(new Date()));
+        dateE.setFocusable(false);
+        dateE.setFocusableInTouchMode(false);
+
+        dateE.setText(new SimpleDateFormat("dd-MM-yyyy HH:mm", Locale.getDefault()).format(new Date()));
 
         dateE.setOnClickListener(v -> {
             Calendar calendar = Calendar.getInstance();
@@ -79,28 +82,28 @@ public class DuplicateMethods extends Expense {
 
             DatePickerDialog datePickerDialog = new DatePickerDialog(context,
                     (view, selectedYear, selectedMonth, selectedDay) -> {
-                        String selectedDate = String.format(Locale.getDefault(), "%02d-%02d-%d",
-                                selectedDay, selectedMonth + 1, selectedYear);
-                        dateE.setText(selectedDate);
+                        // After selecting date, initiate TimePickerDialog
+                        Calendar selectedDate = Calendar.getInstance();
+                        selectedDate.set(selectedYear, selectedMonth, selectedDay);
+
+                        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+                        int minute = calendar.get(Calendar.MINUTE);
+
+                        TimePickerDialog timePickerDialog = new TimePickerDialog(context,
+                                (view1, selectedHour, selectedMinute) -> {
+                                    // Combine selected date and time
+                                    selectedDate.set(Calendar.HOUR_OF_DAY, selectedHour);
+                                    selectedDate.set(Calendar.MINUTE, selectedMinute);
+
+                                    SimpleDateFormat combinedFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm", Locale.getDefault());
+                                    dateE.setText(combinedFormat.format(selectedDate.getTime()));
+                                }, hour, minute, true);
+
+                        timePickerDialog.show();
                     }, year, month, dayOfMonth);
 
             datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
             datePickerDialog.show();
-        });
-
-        timeE.setOnClickListener(v -> {
-            Calendar calendar = Calendar.getInstance();
-            int hour = calendar.get(Calendar.HOUR_OF_DAY);
-            int minute = calendar.get(Calendar.MINUTE);
-
-            TimePickerDialog timePickerDialog = new TimePickerDialog(context,
-                    (view, selectedHour, selectedMinute) -> {
-                        String selectedTime = String.format(Locale.getDefault(), "%02d:%02d",
-                                selectedHour, selectedMinute);
-                        timeE.setText(selectedTime);
-                    }, hour, minute, true);
-
-            timePickerDialog.show();
         });
 
         amountE.addTextChangedListener(new TextWatcher() {
@@ -187,7 +190,7 @@ public class DuplicateMethods extends Expense {
                 seconds = "0" + seconds;
             }
 
-            db.set(dateE.getText().toString() + " " + timeE.getText().toString() + ":" + seconds + "@" + categoryE.getSelectedItem().toString(), userInput);
+            db.set(dateE.getText().toString() + ":" + seconds + "@" + categoryE.getSelectedItem().toString(), userInput);
             settings.set(LAST_CATEGORY, categoryE.getSelectedItem().toString());
             context.setResult(RESULT_OK);
             context.finish();

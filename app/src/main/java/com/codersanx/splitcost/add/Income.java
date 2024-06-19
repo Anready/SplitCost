@@ -35,8 +35,8 @@ public class Income extends AppCompatActivity implements AdapterView.OnItemSelec
 
         initVariables();
         dm = new DuplicateMethods(this, category, db, settings,
-                binding.categoryE, binding.back, binding.deleteCategory,
-                binding.save, binding.dateE, binding.timeE, binding.amountE
+                binding.categoryE, binding.back, binding.delete,
+                binding.save, binding.dateTimeE, binding.amountE
         );
 
         dm.setObjects();
