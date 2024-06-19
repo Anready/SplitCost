@@ -78,8 +78,8 @@
     <string name="updateText">New version of SplitCost available, please update it now:\nIn this update:\n</string>
     <string name="total_expenses">Total Expenses</string>
     <string name="expenses_per_day">Expenses per day:</string>
-    <string name="total_incomes">Total Incomes</string>
-    <string name="incomes_per_day">Incomes per day:</string>
+    <string name="total_incomes">Total Income</string>
+    <string name="incomes_per_day">Income per day:</string>
     <string name="add_income">Add Income</string>
     <string name="add_expense">Add Expense</string>
     <string name="view_income">View Income</string>
