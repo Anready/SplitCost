@@ -37,7 +37,7 @@ public class Chart extends AppCompatActivity {
         String[] items = intent.getStringArrayExtra("list_items");
         PieChart pieChart = binding.chart;
 
-        findViewById(R.id.button28).setOnClickListener(view -> finish());
+        findViewById(R.id.back).setOnClickListener(view -> finish());
 
         Map<String, Float> dictionary = new HashMap<>();
 
@@ -72,6 +72,7 @@ public class Chart extends AppCompatActivity {
         legend.setFormSize(12f);
         legend.setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
         legend.setHorizontalAlignment(Legend.LegendHorizontalAlignment.LEFT);
+        legend.setTextColor(getResources().getColor(R.color.calcButtonText));
 
         ArrayList<LegendEntry> legendEntries = new ArrayList<>();
         for (int i = 0; i < entries.size(); i++) {
@@ -89,18 +90,18 @@ public class Chart extends AppCompatActivity {
     }
 
     @NonNull
-    private static PieDataSet getPieDataSet(ArrayList<PieEntry> entries) {
+    private PieDataSet getPieDataSet(ArrayList<PieEntry> entries) {
         PieDataSet dataSet = new PieDataSet(entries, "");
         dataSet.setColors(ColorTemplate.COLORFUL_COLORS);
         dataSet.setDrawValues(true);
-        dataSet.setValueTextColor(Color.BLACK);
+        dataSet.setValueTextColor(getResources().getColor(R.color.calcButtonText));
         dataSet.setValueTextSize(12f);
 
         dataSet.setYValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);
         dataSet.setValueLinePart1OffsetPercentage(20.f);
         dataSet.setValueLinePart1Length(1.3f);
         dataSet.setValueLinePart2Length(.3f);
-        dataSet.setValueTextColor(Color.BLACK);
+        dataSet.setValueTextColor(getResources().getColor(R.color.calcButtonText));
         DecimalValueFormatter formatter = new DecimalValueFormatter();
         dataSet.setValueFormatter(formatter);
         dataSet.setXValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);

@@ -5,7 +5,6 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/back"
     tools:context=".view.chart.Chart">
 
     <ScrollView
@@ -22,51 +21,42 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <View
-                android:id="@+id/my_rectangle"
-                android:layout_width="match_parent"
-                android:layout_height="66dp"
-                android:background="#13AF6F"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
 
             <com.github.mikephil.charting.charts.PieChart
                 android:id="@+id/chart"
                 android:layout_width="0dp"
                 android:layout_height="400dp"
-                android:layout_marginTop="100dp"
-                android:layout_marginBottom="10dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/my_rectangle" />
+                app:layout_constraintTop_toBottomOf="@+id/textView10" />
 
             <TextView
                 android:id="@+id/textView10"
                 android:layout_width="wrap_content"
                 android:layout_height="47dp"
+                android:layout_marginTop="4dp"
                 android:text="@string/Chart"
+                android:textColor="@color/calcButtonText"
                 android:textSize="34sp"
-                app:layout_constraintBottom_toBottomOf="@+id/my_rectangle"
-                app:layout_constraintEnd_toEndOf="@+id/my_rectangle"
-                app:layout_constraintStart_toStartOf="@+id/my_rectangle"
-                app:layout_constraintTop_toTopOf="@+id/my_rectangle"
-                app:layout_constraintVertical_bias="0.842" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-            <Button
-                android:id="@+id/button28"
-                android:layout_width="45dp"
-                android:layout_height="45dp"
+            <ImageButton
+                android:id="@+id/back"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:layout_marginStart="2dp"
-                android:background="@drawable/button"
-                app:backgroundTint="#FF8000"
-                android:text="@string/back"
-                app:layout_constraintBottom_toBottomOf="@+id/my_rectangle"
-                app:layout_constraintStart_toStartOf="@+id/my_rectangle"
-                app:layout_constraintTop_toTopOf="@+id/my_rectangle"
-                tools:ignore="TouchTargetSizeCheck" />
+                android:layout_marginTop="2dp"
+                android:background="?attr/selectableItemBackground"
+                android:contentDescription="@string/back"
+                android:src="@drawable/ic_back"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
