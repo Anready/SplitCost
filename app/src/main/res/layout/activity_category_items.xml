@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.ExpenseView">
+    tools:context=".view.CategoryItems">
 
     <View
         android:id="@+id/my_rectangle6"
@@ -50,6 +50,7 @@
         android:background="?attr/selectableItemBackground"
         android:contentDescription="@string/back"
         android:src="@drawable/ic_pie_chart"
+        android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

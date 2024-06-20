@@ -33,8 +33,8 @@ public class Zip {
 
         try {
             ZipParameters parameters = new ZipParameters();
-            parameters.setCompressionMethod(Zip4jConstants.COMP_DEFLATE);
-            parameters.setCompressionLevel(Zip4jConstants.DEFLATE_LEVEL_NORMAL);
+            parameters.setCompressionMethod(Zip4jConstants.COMP_STORE);
+            parameters.setCompressionLevel(Zip4jConstants.DEFLATE_LEVEL_FASTEST);
 
             parameters.setEncryptFiles(true);
             parameters.setEncryptionMethod(Zip4jConstants.ENC_METHOD_AES);

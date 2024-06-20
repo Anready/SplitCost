@@ -10,11 +10,13 @@ import java.util.Map;
 
 public class Databases {
     Context context;
+    String databaseName;
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
 
     public Databases(Context context, String database) {
         this.context = context;
+        this.databaseName = database;
 
         sharedPreferences = this.context.getSharedPreferences(database, MODE_PRIVATE);
         editor = sharedPreferences.edit();
@@ -26,6 +28,10 @@ public class Databases {
 
     public String get(String key) {
         return sharedPreferences.getString(key, null);
+    }
+
+    public String getCurrentDbName() {
+        return databaseName;
     }
 
     public Map<String, String> readAll() {

@@ -19,6 +19,9 @@
         android:theme="@style/Theme.SplitCost"
         tools:targetApi="31">
         <activity
+            android:name=".view.CategoryItems"
+            android:exported="false" />
+        <activity
             android:name=".settings.ChangePrefix"
             android:exported="false" />
         <activity

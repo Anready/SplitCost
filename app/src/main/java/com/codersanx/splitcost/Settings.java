@@ -218,19 +218,13 @@ public class Settings extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             if(requestCode == APP_STORAGE_ACCESS_REQUEST_CODE && Environment.isExternalStorageManager()){
-                Intent intent = new Intent();
-                intent.setType("*/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                getFile.launch(Intent.createChooser(intent, "Choose SCE file"));
+                Toast.makeText(this, "You give permission, import db again", Toast.LENGTH_SHORT).show();
             }
         } else {
             if(requestCode == APP_STORAGE_ACCESS_REQUEST_CODE && ContextCompat.checkSelfPermission(this,
                     android.Manifest.permission.READ_EXTERNAL_STORAGE
             ) == PackageManager.PERMISSION_GRANTED) {
-                Intent intent = new Intent();
-                intent.setType("*/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                getFile.launch(Intent.createChooser(intent, "Choose SCE file"));
+                Toast.makeText(this, "You give permission, import db again", Toast.LENGTH_SHORT).show();
             }
         }
     }

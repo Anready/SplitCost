@@ -2,26 +2,32 @@ package com.codersanx.splitcost.view;
 
 import static android.app.Activity.RESULT_OK;
 
+import static com.codersanx.splitcost.utils.Constants.EXPENSES;
+
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import androidx.activity.result.ActivityResultLauncher;
 import androidx.appcompat.app.AlertDialog;
 
 import com.codersanx.splitcost.R;
 import com.codersanx.splitcost.utils.Databases;
 import com.codersanx.splitcost.utils.SortItems;
+import com.codersanx.splitcost.utils.adapters.Category;
+import com.codersanx.splitcost.utils.adapters.ViewCategoriesAdapter;
 import com.codersanx.splitcost.view.chart.Chart;
 
 import java.math.BigDecimal;
@@ -32,6 +38,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -40,14 +47,16 @@ public class DuplicateMethods {
     private final Activity context;
     private final Databases db;
     private final Spinner modeOfSort;
-    private final Button backB, chart;
+    private final ImageView backB, chart;
     private final TextView date, startDate, endDate, total;
     private final ListView list;
+    private final String nameOfCategory;
+    private ActivityResultLauncher<Intent> addLauncher;
     private boolean click = true;
 
     public DuplicateMethods(Activity context, Databases db, Spinner modeOfSort,
-                            ListView list, Button backB, Button chart, TextView total,
-                            TextView date, TextView startDate, TextView endDate
+                            ListView list, ImageView backB, ImageView chart, TextView total,
+                            TextView date, TextView startDate, TextView endDate, String nameOfCategory
 
     ) {
         this.context = context;
@@ -60,6 +69,8 @@ public class DuplicateMethods {
         this.date = date;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.nameOfCategory = nameOfCategory;
+        this.addLauncher = null;
     }
 
     void initObjects() {
@@ -70,25 +81,43 @@ public class DuplicateMethods {
         items.add(context.getResources().getString(R.string.perYear));
         items.add(context.getResources().getString(R.string.perPeriod));
 
+        if (nameOfCategory == null) {
+            items.add(context.getResources().getString(R.string.category));
+        }
+
         ArrayAdapter<String> adapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item, items);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         modeOfSort.setAdapter(adapter);
 
         backB.setOnClickListener(view -> context.finish());
 
-        chart.setOnClickListener( v -> {
+        chart.setOnClickListener(v -> {
             ArrayAdapter<String> getAdapter = (ArrayAdapter<String>) list.getAdapter();
-
             int count = getAdapter.getCount();
-            String[] itemsFromList = new String[count];
+
+            // Создаем массив для хранения заголовков каждого элемента списка
+            String[] titles = new String[count];
+
+            // Получаем заголовок для каждого элемента списка
             for (int i = 0; i < count; i++) {
-                itemsFromList[i] = getAdapter.getItem(i);
+                View itemView = getAdapter.getView(i, null, list);
+                TextView titleTextView = itemView.findViewById(R.id.textViewTitle);
+                TextView description = itemView.findViewById(R.id.textViewDescription);
+                TextView expense = itemView.findViewById(R.id.textViewExpense);
+
+                if (description.getText().toString().isEmpty()) {
+                    titles[i] = titleTextView.getText().toString() + ", " + titleTextView.getText().toString() + ", " + expense.getText().toString();
+                    continue;
+                }
+
+                titles[i] = titleTextView.getText().toString() + ", " + description.getText().toString().replace("Category: ", "") + ", " + expense.getText().toString();
             }
 
             Intent intent = new Intent(context, Chart.class);
-            intent.putExtra("list_items", itemsFromList);
+            intent.putExtra("list_items", titles);
             context.startActivity(intent);
         });
+
 
         modeOfSort.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -130,16 +159,37 @@ public class DuplicateMethods {
         });
 
         list.setOnItemClickListener((parent, view, position, id) -> {
-            String selectedItem = (String) parent.getItemAtPosition(position);
+            //String selectedItem = (String) parent.getItemAtPosition(position);
+
+            View listItem = view;
+            if (listItem == null)
+                listItem = LayoutInflater.from(context).inflate(R.layout.category_item_layout, parent, false);
+
+            TextView title = listItem.findViewById(R.id.textViewTitle);
+            String titleText = title.getText().toString();
+
+            if (modeOfSort.getSelectedItem().toString().equals(context.getResources().getString(R.string.category))) {
+                Intent intent = new Intent(context, CategoryItems.class);
+                intent.putExtra("nameOfCategory", titleText);
+                intent.putExtra("isExpense", db.getCurrentDbName().contains(EXPENSES));
+                addLauncher.launch(intent);
+                return;
+            }
+
+            TextView description = listItem.findViewById(R.id.textViewDescription);
+            String descriptionText = description.getText().toString();
+
+            TextView expense = listItem.findViewById(R.id.textViewExpense);
+            String expenseText = expense.getText().toString();
+
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
             alertDialogBuilder.setTitle(context.getResources().getString(R.string.changeData));
             alertDialogBuilder.setMessage(context.getResources().getString(R.string.enterNewData));
 
             final EditText input = new EditText(context);
 
-            String[] count = selectedItem.split(", ");
-            input.setText(count[2]);
-            input.setSelection(count[2].length());
+            input.setText(expenseText);
+            input.setSelection(expenseText.length());
             alertDialogBuilder.setView(input);
 
             input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
@@ -195,8 +245,7 @@ public class DuplicateMethods {
                         }
                     }
 
-                    String[] splitOsSI = selectedItem.split(", ");
-                    db.set(splitOsSI[0] + "@" + splitOsSI[1], userInput);
+                    db.set(titleText + "@" + descriptionText.replace("Category: ", ""), userInput);
 
                     setSort(false);
 
@@ -207,9 +256,7 @@ public class DuplicateMethods {
             });
 
             alertDialogBuilder.setNegativeButton(context.getResources().getString(R.string.delete), (dialog, which) -> {
-                String[] splitOsSI = selectedItem.split(", ");
-
-                db.delete(splitOsSI[0] + "@" + splitOsSI[1]);
+                db.delete(titleText + "@" + descriptionText.replace("Category: ", ""));
                 context.setResult(RESULT_OK);
 
                 setSort(false);
@@ -246,7 +293,15 @@ public class DuplicateMethods {
         datePickerDialog.show();
     }
 
+    public void setAddLauncher(ActivityResultLauncher<Intent> launcher) {
+        this.addLauncher = launcher;
+    }
+
     private String total(String[] finalData) {
+        return context.getResources().getString(R.string.total) + " " + totalResult(finalData).toString();
+    }
+
+    private BigDecimal totalResult(String[] finalData) {
         BigDecimal result = new BigDecimal("0");
 
         for (String data : finalData) {
@@ -257,7 +312,7 @@ public class DuplicateMethods {
             result = result.add(bd1);
         }
 
-        return context.getResources().getString(R.string.total) + " " + result.toString();
+        return result;
     }
 
     public void setSort(boolean isUpdateNeeded) {
@@ -277,10 +332,8 @@ public class DuplicateMethods {
 
             SortItems comparator = new SortItems();
             Arrays.sort(finalData, comparator);
-            ArrayAdapter<String> adapter = new ArrayAdapter<>(context, android.R.layout.simple_list_item_1, finalData);
 
-            total.setText(total(finalData));
-            list.setAdapter(adapter);
+            setItems(finalData);
         } else if (selectedItem.equals(context.getResources().getString(R.string.perPeriod))) {
             Date currentDate = new Date();
             SimpleDateFormat dateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
@@ -294,6 +347,17 @@ public class DuplicateMethods {
             }
 
             sortByDate();
+        } else if (selectedItem.equals(context.getResources().getString(R.string.category))) {
+            String[] finalData = getAllData();
+
+            startDate.setText("");
+            endDate.setText("");
+            date.setText("");
+
+            SortItems comparator = new SortItems();
+            Arrays.sort(finalData, comparator);
+
+            setCategories(finalData);
         }
     }
 
@@ -324,14 +388,7 @@ public class DuplicateMethods {
             }
         }
 
-        String[] selectedDatesArray = selectedDates.toArray(new String[0]);
-
-        SortItems comparator = new SortItems();
-        Arrays.sort(selectedDatesArray, comparator);
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(context, android.R.layout.simple_list_item_1, selectedDatesArray);
-
-        total.setText(total(selectedDatesArray));
-        list.setAdapter(adapter);
+        setItems(selectedDates.toArray(new String[0]));
     }
 
 
@@ -339,6 +396,15 @@ public class DuplicateMethods {
         List<String> itemList = new ArrayList<>();
 
         for (Map.Entry<String, String> entry : db.readAll().entrySet()) {
+            if (nameOfCategory != null && entry.getKey().contains(nameOfCategory)){
+                itemList.add(entry.getKey().replace("@", ", ") + ", " + entry.getValue());
+                continue;
+            }
+
+            if (nameOfCategory != null) {
+                continue;
+            }
+
             itemList.add(entry.getKey().replace("@", ", ") + ", " + entry.getValue());
         }
 
@@ -376,9 +442,51 @@ public class DuplicateMethods {
             }
         }
 
+        setItems(finalData);
+    }
+
+    private Map<String, BigDecimal> getSumOfCategories(String[] items) {
+        Map<String, BigDecimal> dictionary = new HashMap<>();
+
+        for (String item : items) {
+            String[] splitItem = item.split(", ");
+
+            if (dictionary.containsKey(splitItem[1])) {
+                BigDecimal value = dictionary.get(splitItem[1]);
+                dictionary.put(splitItem[1], new BigDecimal(splitItem[2]).add(value));
+            } else {
+                dictionary.put(splitItem[1], new BigDecimal(splitItem[2]));
+            }
+        }
+
+        return dictionary;
+    }
+
+    private void setCategories(String[] finalData) {
+        List<Category> items = new ArrayList<>();
+        BigDecimal totalV = totalResult(finalData);
+
+        for (Map.Entry<String, BigDecimal> item : getSumOfCategories(finalData).entrySet()) {
+            items.add(new Category(item.getKey(), "", item.getValue(), totalV));
+        }
+
+        ViewCategoriesAdapter adapter = new ViewCategoriesAdapter(context, items);
+        list.setAdapter(adapter);
+    }
+
+    private void setItems(String[] finalData) {
         SortItems comparator = new SortItems();
         Arrays.sort(finalData, comparator);
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(context, android.R.layout.simple_list_item_1, finalData);
+
+        List<Category> items = new ArrayList<>();
+        BigDecimal totalV = totalResult(finalData);
+
+        for (String item : finalData) {
+            String[] itemSplit = item.split(", ");
+            items.add(new Category(itemSplit[0], "Category: " + itemSplit[1], new BigDecimal(itemSplit[2]), totalV));
+        }
+
+        ViewCategoriesAdapter adapter = new ViewCategoriesAdapter(context, items);
 
         total.setText(total(finalData));
         list.setAdapter(adapter);
