@@ -22,8 +22,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.codersanx.splitcost.add.Expense;
-import com.codersanx.splitcost.add.Income;
+import com.codersanx.splitcost.add.Add;
 import com.codersanx.splitcost.databinding.ActivityMainBinding;
 import com.codersanx.splitcost.utils.Databases;
 import com.codersanx.splitcost.utils.GetUpdate;
@@ -79,8 +78,18 @@ public class MainActivity extends AppCompatActivity implements GetUpdate.UpdateC
                 }
         );
 
-        binding.expenseAdd.setOnClickListener(v -> addLauncher.launch(new Intent(this, Expense.class)));
-        binding.incomeAdd.setOnClickListener(v -> addLauncher.launch(new Intent(this, Income.class)));
+        binding.expenseAdd.setOnClickListener(v -> {
+            Intent intent = new Intent(this, Add.class);
+            intent.putExtra("isExpense", true);
+            addLauncher.launch(intent);
+        });
+
+        binding.incomeAdd.setOnClickListener(v -> {
+            Intent intent = new Intent(this, Add.class);
+            intent.putExtra("isExpense", false);
+            addLauncher.launch(intent);
+        });
+
         binding.expenseView.setOnClickListener(v -> addLauncher.launch(new Intent(this, ExpenseView.class)));
         binding.incomesView.setOnClickListener(v -> addLauncher.launch(new Intent(this, IncomeView.class)));
         binding.settings.setOnClickListener(v -> {

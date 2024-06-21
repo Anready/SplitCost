@@ -40,10 +40,7 @@
             android:name=".view.ExpenseView"
             android:exported="false" />
         <activity
-            android:name=".add.Income"
-            android:exported="false" />
-        <activity
-            android:name=".add.Expense"
+            android:name=".add.Add"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

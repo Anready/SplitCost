@@ -95,10 +95,8 @@ public class DuplicateMethods {
             ArrayAdapter<String> getAdapter = (ArrayAdapter<String>) list.getAdapter();
             int count = getAdapter.getCount();
 
-            // Создаем массив для хранения заголовков каждого элемента списка
             String[] titles = new String[count];
 
-            // Получаем заголовок для каждого элемента списка
             for (int i = 0; i < count; i++) {
                 View itemView = getAdapter.getView(i, null, list);
                 TextView titleTextView = itemView.findViewById(R.id.textViewTitle);
