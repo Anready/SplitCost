@@ -5,7 +5,7 @@
     <string name="plus">+</string>
     <string name="perAlHistory">Per all history:</string>
     <string name="perDay">Per day:</string>
-    <string name="balanse">Balanse</string>
+    <string name="balanse">Balance</string>
     <string name="Date">Date</string>
     <string name="Time">Time</string>
     <string name="Sum">Sum</string>
@@ -68,7 +68,7 @@
     <string name="toLargeOrSmall">Value is too high or too low</string>
     <string name="exportDb">Export</string>
     <string name="pleaseWait">Please, wait...</string>
-    <string name="incorrectFile">Invalid file!</string>
+    <string name="incorrectFile">Invalid file or Database already exist!</string>
     <string name="dbAlreadyExist">Database already exist!</string>
     <string name="success">Success</string>
     <string name="selectDb">Select Database</string>

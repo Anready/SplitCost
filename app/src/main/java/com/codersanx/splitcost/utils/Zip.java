@@ -56,20 +56,17 @@ public class Zip {
         }
     }
 
-    public static void extractZip(Context c, String name) {
+    public static boolean extractZip(Context c, String name) {
         if (!getFileExtension(name).equals("sce")) {
-            Toast.makeText(c, c.getResources().getString(R.string.incorrectFile), Toast.LENGTH_SHORT).show();
-            return;
+            return false;
         }
 
         if (getBaseName(name).length() < 2 || getBaseName(name).length() > 17) {
-            Toast.makeText(c, c.getResources().getString(R.string.incorrectFile), Toast.LENGTH_SHORT).show();
-            return;
+            return false;
         }
 
         if (name.contains("@") || name.contains(" ") || name.contains(":")) {
-            Toast.makeText(c, c.getResources().getString(R.string.incorrectFile), Toast.LENGTH_SHORT).show();
-            return;
+            return false;
         }
 
         File oldFile = new File(c.getFilesDir(), name);
@@ -77,25 +74,23 @@ public class Zip {
         renameFile(oldFile, newName);
 
         if (!isProtected(c.getFilesDir() + "/" + newName)){
-            Toast.makeText(c, c.getResources().getString(R.string.incorrectFile), Toast.LENGTH_SHORT).show();
-            return;
+            return false;
         }
 
         if (!containsFile(c, newName, getBaseName(name) + "CategoryExpenses.xml")) {
-            Toast.makeText(c, c.getResources().getString(R.string.incorrectFile), Toast.LENGTH_SHORT).show();
-            return;
+            return false;
         }
 
         Databases db = new Databases(c, ALL_DATABASES);
         if (db.get(getBaseName(name)) != null) {
-            Toast.makeText(c, c.getResources().getString(R.string.dbAlreadyExist), Toast.LENGTH_SHORT).show();
-            return;
+            return false;
         }
 
         ZipArchive.unzip(c.getFilesDir() + "/" + newName, c.getFilesDir().getParent() + "/shared_prefs/", PASS_FROM_ZIP(c));
         db.set(getBaseName(name), TRUE);
 
         new File(c.getFilesDir() + "/" + newName).delete();
+        return true;
     }
 
     private static boolean isProtected(String zipFilePath) {

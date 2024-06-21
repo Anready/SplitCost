@@ -267,7 +267,9 @@ public class Settings extends AppCompatActivity {
 
         sendFileLauncher.launch(Intent.createChooser(intent, "Send file"));
     }
+
     final static int APP_STORAGE_ACCESS_REQUEST_CODE = 501;
+
     private void importDb() {
         if (!checkPermission()) {
             requestPermission();
@@ -369,7 +371,12 @@ public class Settings extends AppCompatActivity {
         copyFileToInternalStorage(selectedFileUri);
 
         Toast.makeText(this, getResources().getString(R.string.pleaseWait), Toast.LENGTH_SHORT).show();
-        extractZip(this, getFileNameFromUri(selectedFileUri));
+
+        if (!extractZip(this, getFileNameFromUri(selectedFileUri))) {
+            Toast.makeText(this, getResources().getString(R.string.incorrectFile), Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         initVariables();
         Toast.makeText(this, getResources().getString(R.string.success), Toast.LENGTH_SHORT).show();
     }

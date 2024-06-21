@@ -101,6 +101,7 @@ public class Chart extends AppCompatActivity {
         dataSet.setValueLinePart1OffsetPercentage(20.f);
         dataSet.setValueLinePart1Length(1.3f);
         dataSet.setValueLinePart2Length(.3f);
+        dataSet.setValueLineColor(getResources().getColor(R.color.calcButtonText));
         dataSet.setValueTextColor(getResources().getColor(R.color.calcButtonText));
         DecimalValueFormatter formatter = new DecimalValueFormatter();
         dataSet.setValueFormatter(formatter);
