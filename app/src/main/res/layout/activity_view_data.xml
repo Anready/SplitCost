@@ -36,6 +36,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="2dp"
         android:layout_marginEnd="16dp"
+        android:background="@drawable/spinner"
         app:layout_constraintEnd_toStartOf="@+id/chart"
         app:layout_constraintStart_toEndOf="@+id/back_b"
         app:layout_constraintTop_toTopOf="parent"
