@@ -2,6 +2,8 @@ package com.codersanx.splitcost.view;
 
 import static com.codersanx.splitcost.utils.Constants.EXPENSES;
 import static com.codersanx.splitcost.utils.Constants.INCOMES;
+import static com.codersanx.splitcost.utils.Constants.MAIN_SETTINGS;
+import static com.codersanx.splitcost.utils.Constants.PREFIX;
 import static com.codersanx.splitcost.utils.Utils.currentDb;
 
 import android.app.DatePickerDialog;
@@ -47,7 +49,7 @@ public class ViewData extends AppCompatActivity {
 
     private ActivityViewDataBinding binding;
     private boolean isExpense;
-    private String nameOfCategory;
+    private String nameOfCategory, prefix;
     private Databases db;
     private boolean click = true;
 
@@ -106,11 +108,11 @@ public class ViewData extends AppCompatActivity {
                 TextView expense = itemView.findViewById(R.id.textViewExpense);
 
                 if (description.getText().toString().isEmpty()) {
-                    titles[i] = titleTextView.getText().toString() + ", " + titleTextView.getText().toString() + ", " + expense.getText().toString();
+                    titles[i] = titleTextView.getText().toString() + ", " + titleTextView.getText().toString() + ", " + expense.getText().toString().replace(prefix, "");
                     continue;
                 }
 
-                titles[i] = titleTextView.getText().toString() + ", " + description.getText().toString().replace("Category: ", "") + ", " + expense.getText().toString();
+                titles[i] = titleTextView.getText().toString() + ", " + description.getText().toString().replace("Category: ", "") + ", " + expense.getText().toString().replace(prefix, "");
             }
 
             Intent intent = new Intent(this, Chart.class);
@@ -159,8 +161,6 @@ public class ViewData extends AppCompatActivity {
         });
 
         binding.list.setOnItemClickListener((parent, view, position, id) -> {
-            //String selectedItem = (String) parent.getItemAtPosition(position);
-
             View listItem = view;
             if (listItem == null)
                 listItem = LayoutInflater.from(this).inflate(R.layout.category_item_layout, parent, false);
@@ -180,7 +180,7 @@ public class ViewData extends AppCompatActivity {
             String descriptionText = description.getText().toString();
 
             TextView expense = listItem.findViewById(R.id.textViewExpense);
-            String expenseText = expense.getText().toString();
+            String expenseText = expense.getText().toString().replace(prefix, "");
 
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
             alertDialogBuilder.setTitle(getResources().getString(R.string.changeData));
@@ -277,6 +277,9 @@ public class ViewData extends AppCompatActivity {
         } else {
             db = new Databases(this, currentDb(this) + INCOMES);
         }
+
+        String tempPrefix = new Databases(this, currentDb(this) + MAIN_SETTINGS).get(PREFIX);
+        prefix = (tempPrefix != null) ? tempPrefix : "$";
     }
 
     private void setDate(boolean isEnd) {
@@ -474,7 +477,7 @@ public class ViewData extends AppCompatActivity {
             items.add(new Category(item.getKey(), "", item.getValue(), totalV));
         }
 
-        ViewCategoriesAdapter adapter = new ViewCategoriesAdapter(this, items);
+        ViewCategoriesAdapter adapter = new ViewCategoriesAdapter(this, items, prefix);
         binding.list.setAdapter(adapter);
     }
 
@@ -490,7 +493,7 @@ public class ViewData extends AppCompatActivity {
             items.add(new Category(itemSplit[0], "Category: " + itemSplit[1], new BigDecimal(itemSplit[2]), totalV));
         }
 
-        ViewCategoriesAdapter adapter = new ViewCategoriesAdapter(this, items);
+        ViewCategoriesAdapter adapter = new ViewCategoriesAdapter(this, items, prefix);
 
         binding.total.setText(total(finalData));
         binding.list.setAdapter(adapter);

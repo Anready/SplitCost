@@ -19,11 +19,13 @@ import java.util.List;
 
 public class ViewCategoriesAdapter extends ArrayAdapter<Category> {
     private final Context context;
+    private final String prefix;
     private final List<Category> items;
 
-    public ViewCategoriesAdapter(Context context, List<Category> items) {
+    public ViewCategoriesAdapter(Context context, List<Category> items, String prefix) {
         super(context, R.layout.category_item_layout, items);
         this.context = context;
+        this.prefix = prefix;
         this.items = items;
     }
 
@@ -43,7 +45,7 @@ public class ViewCategoriesAdapter extends ArrayAdapter<Category> {
         description.setText(currentItem.getDescription());
 
         TextView expense = listItem.findViewById(R.id.textViewExpense);
-        expense.setText(String.valueOf(currentItem.getCategoryValue()));
+        expense.setText(String.format("%s%s", prefix, currentItem.getCategoryValue()));
 
         BigDecimal totalValue = currentItem.getTotalValue();
         BigDecimal categoryValue = currentItem.getCategoryValue();
