@@ -26,8 +26,7 @@ import com.codersanx.splitcost.add.Add;
 import com.codersanx.splitcost.databinding.ActivityMainBinding;
 import com.codersanx.splitcost.utils.Databases;
 import com.codersanx.splitcost.utils.GetUpdate;
-import com.codersanx.splitcost.view.ExpenseView;
-import com.codersanx.splitcost.view.IncomeView;
+import com.codersanx.splitcost.view.ViewData;
 
 import java.math.BigDecimal;
 import java.text.ParseException;
@@ -90,8 +89,18 @@ public class MainActivity extends AppCompatActivity implements GetUpdate.UpdateC
             addLauncher.launch(intent);
         });
 
-        binding.expenseView.setOnClickListener(v -> addLauncher.launch(new Intent(this, ExpenseView.class)));
-        binding.incomesView.setOnClickListener(v -> addLauncher.launch(new Intent(this, IncomeView.class)));
+        binding.expenseView.setOnClickListener(v -> {
+            Intent intent = new Intent(this, ViewData.class);
+            intent.putExtra("isExpense", true);
+            addLauncher.launch(intent);
+        });
+
+        binding.incomesView.setOnClickListener(v -> {
+            Intent intent = new Intent(this, ViewData.class);
+            intent.putExtra("isExpense", false);
+            addLauncher.launch(intent);
+        });
+
         binding.settings.setOnClickListener(v -> {
             startActivity(new Intent(this, Settings.class));
             finish();
