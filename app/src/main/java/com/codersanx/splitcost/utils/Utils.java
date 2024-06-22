@@ -39,9 +39,9 @@ public class Utils {
         Databases settings = new Databases(c, currentDb(c) + MAIN_SETTINGS);
         settings.set(PREFIX, "$");
 
-        db.set("language", "en");
-        db.set("theme", "white");
-        db.set("isOnline", FALSE);
+        settings.set("language", "en");
+        settings.set("theme", "white");
+        settings.set("isOnline", FALSE);
         db.set("isInitComplete", FALSE);
     }
 

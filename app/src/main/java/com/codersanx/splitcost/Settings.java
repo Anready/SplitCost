@@ -42,10 +42,10 @@ import com.codersanx.splitcost.settings.ChangePrefix;
 import com.codersanx.splitcost.utils.Databases;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.nio.file.Files;
 
 
 public class Settings extends AppCompatActivity {
@@ -313,7 +313,7 @@ public class Settings extends AppCompatActivity {
             }
 
             File outputFile = new File(getFilesDir(), fileName);
-            outputStream = Files.newOutputStream(outputFile.toPath());
+            outputStream = new FileOutputStream(outputFile);
 
             byte[] buffer = new byte[1024];
             int bytesRead;
