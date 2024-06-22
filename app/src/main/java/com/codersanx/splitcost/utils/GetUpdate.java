@@ -3,7 +3,6 @@ package com.codersanx.splitcost.utils;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.os.AsyncTask;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -15,28 +14,41 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Iterator;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
-public class GetUpdate extends AsyncTask<Void, Void, String> {
+public class GetUpdate {
 
     public interface UpdateCallback {
         void onUpdateReceived(String[] version);
     }
 
-    private String urlString;
-    private UpdateCallback callback;
-    private Context context;
+    private final String urlString;
+    private final UpdateCallback callback;
+    private final Context context;
+    private final ExecutorService executorService;
 
     public GetUpdate(String url, UpdateCallback callback, Context context) {
         this.urlString = url;
         this.callback = callback;
         this.context = context;
+        this.executorService = Executors.newSingleThreadExecutor();
     }
 
-    @Override
-    protected String doInBackground(Void... voids) {
+    public void getUpdateInformation() {
+        Future<String> future = executorService.submit(this::receiveInfo);
+        try {
+            String result = future.get();
+            processResult(result);
+        } catch (Exception ignored) {
+        }
+    }
+
+    private String receiveInfo() {
         HttpURLConnection urlConnection = null;
         BufferedReader reader = null;
-        String result;
+        String result = null;
 
         try {
             URL url = new URL(urlString);
@@ -60,8 +72,7 @@ public class GetUpdate extends AsyncTask<Void, Void, String> {
                 return null;
             }
             result = buffer.toString();
-        } catch (IOException e) {
-            return null;
+        } catch (IOException ignored) {
         } finally {
             if (urlConnection != null) {
                 urlConnection.disconnect();
@@ -76,8 +87,7 @@ public class GetUpdate extends AsyncTask<Void, Void, String> {
         return result;
     }
 
-    @Override
-    protected void onPostExecute(String result) {
+    protected void processResult(String result) {
         if (result != null) {
             try {
                 JSONObject jsonObject = new JSONObject(result);
@@ -93,7 +103,7 @@ public class GetUpdate extends AsyncTask<Void, Void, String> {
                 try {
                     PackageInfo packageInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
                     versionName = packageInfo.versionName;
-                    versionCode = String.valueOf(packageInfo.versionCode);
+                    versionCode = String.valueOf(packageInfo.getLongVersionCode());
                 } catch (PackageManager.NameNotFoundException ignored) {
                 }
 
@@ -113,7 +123,9 @@ public class GetUpdate extends AsyncTask<Void, Void, String> {
 
                         try {
                             packageManager.getPackageInfo(key, PackageManager.GET_ACTIVITIES);
-                        } catch (PackageManager.NameNotFoundException e) {continue;}
+                        } catch (PackageManager.NameNotFoundException e) {
+                            continue;
+                        }
 
                         link = storesArray.getString(key);
                         break;

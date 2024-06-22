@@ -20,6 +20,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.os.Looper;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextWatcher;
@@ -41,10 +42,10 @@ import com.codersanx.splitcost.settings.ChangePrefix;
 import com.codersanx.splitcost.utils.Databases;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.file.Files;
 
 
 public class Settings extends AppCompatActivity {
@@ -52,7 +53,7 @@ public class Settings extends AppCompatActivity {
     ActivitySettingsBinding binding;
     private Databases allDb;
     private boolean clickAllow = true;
-    private ActivityResultLauncher<Intent> sendFileLauncher, getFile;
+    private ActivityResultLauncher<Intent> sendFileLauncher, getFile, getPermission;
     private String newName;
 
     @Override
@@ -72,6 +73,14 @@ public class Settings extends AppCompatActivity {
                 });
 
         getFile = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == RESULT_OK) {
+                        copyFile(result.getData().getData());
+                    }
+                });
+
+        getPermission = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {
                     if (result.getResultCode() == RESULT_OK) {
@@ -121,7 +130,7 @@ public class Settings extends AppCompatActivity {
                 Toast.makeText(this, getResources().getString(R.string.pleaseWait), Toast.LENGTH_SHORT).show();
                 exportDb(selectedItem);
 
-                new Handler().postDelayed(() -> clickAllow = true, 10000);
+                new Handler(Looper.getMainLooper()).postDelayed(() -> clickAllow = true, 10000);
             });
 
             if (clickAllow) {
@@ -304,7 +313,7 @@ public class Settings extends AppCompatActivity {
             }
 
             File outputFile = new File(getFilesDir(), fileName);
-            outputStream = new FileOutputStream(outputFile);
+            outputStream = Files.newOutputStream(outputFile.toPath());
 
             byte[] buffer = new byte[1024];
             int bytesRead;
@@ -358,7 +367,7 @@ public class Settings extends AppCompatActivity {
             intent.setAction(android.provider.Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
             Uri uri = Uri.fromParts("package", this.getPackageName(), null);
             intent.setData(uri);
-            startActivityForResult(intent, APP_STORAGE_ACCESS_REQUEST_CODE);
+            getPermission.launch(intent);
         } else {
             ActivityCompat.requestPermissions(
                     this,

@@ -10,9 +10,6 @@ import static com.codersanx.splitcost.utils.Constants.TRUE;
 import static com.codersanx.splitcost.utils.Utils.renameFile;
 
 import android.content.Context;
-import android.widget.Toast;
-
-import com.codersanx.splitcost.R;
 
 import net.lingala.zip4j.core.ZipFile;
 import net.lingala.zip4j.exception.ZipException;

@@ -7,6 +7,7 @@ import android.text.Html;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.codersanx.splitcost.R;
 import com.codersanx.splitcost.databinding.ActivityChartBinding;
@@ -72,14 +73,14 @@ public class Chart extends AppCompatActivity {
         legend.setFormSize(12f);
         legend.setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
         legend.setHorizontalAlignment(Legend.LegendHorizontalAlignment.LEFT);
-        legend.setTextColor(getResources().getColor(R.color.calcButtonText));
+        legend.setTextColor(ContextCompat.getColor(this, R.color.calcButtonText));
 
         ArrayList<LegendEntry> legendEntries = new ArrayList<>();
         for (int i = 0; i < entries.size(); i++) {
             PieEntry entry = entries.get(i);
             String label = String.format(Locale.getDefault(), "<br> %s - %.2f (%.1f%%)", entry.getLabel(), entry.getValue(), entry.getY() / data.getYValueSum() * 100);
             LegendEntry legendEntry = new LegendEntry();
-            legendEntry.label = Html.fromHtml(label).toString();
+            legendEntry.label = Html.fromHtml(label, Html.FROM_HTML_MODE_LEGACY).toString();
             legendEntries.add(legendEntry);
         }
 
@@ -94,15 +95,15 @@ public class Chart extends AppCompatActivity {
         PieDataSet dataSet = new PieDataSet(entries, "");
         dataSet.setColors(ColorTemplate.COLORFUL_COLORS);
         dataSet.setDrawValues(true);
-        dataSet.setValueTextColor(getResources().getColor(R.color.calcButtonText));
+        dataSet.setValueTextColor(ContextCompat.getColor(this, R.color.calcButtonText));
         dataSet.setValueTextSize(12f);
 
         dataSet.setYValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);
         dataSet.setValueLinePart1OffsetPercentage(20.f);
         dataSet.setValueLinePart1Length(1.3f);
         dataSet.setValueLinePart2Length(.3f);
-        dataSet.setValueLineColor(getResources().getColor(R.color.calcButtonText));
-        dataSet.setValueTextColor(getResources().getColor(R.color.calcButtonText));
+        dataSet.setValueLineColor(ContextCompat.getColor(this, R.color.calcButtonText));
+        dataSet.setValueTextColor(ContextCompat.getColor(this, R.color.calcButtonText));
         DecimalValueFormatter formatter = new DecimalValueFormatter();
         dataSet.setValueFormatter(formatter);
         dataSet.setXValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);

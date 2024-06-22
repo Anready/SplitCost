@@ -1,38 +1,28 @@
 <resources>
     <string name="app_name">SplitCost</string>
-    <string name="expenses">Expenses</string>
-    <string name="incomes">Incomes</string>
     <string name="plus">+</string>
-    <string name="perAlHistory">Per all history:</string>
-    <string name="perDay">Per day:</string>
-    <string name="balanse">Balance</string>
     <string name="Date">Date</string>
-    <string name="Time">Time</string>
-    <string name="Sum">Sum</string>
     <string name="Category">Category</string>
     <string name="amount">Amount</string>
     <string name="Save">Save</string>
-    <string name="AddMinus">Add Expense</string>
-    <string name="Change">Delete</string>
     <string name="error">Error!</string>
     <string name="calculator">Calculator</string>
     <string name="back"><![CDATA[<]]></string>
     <string name="newCategory">New Category</string>
-    <string name="descriptionOfNewCategory">Enter the name of category (Without Spaces and Symbol \'@\')</string>
+    <string name="descriptionOfNewCategory">Enter the name of category (Without Spaces and Symbols: \'@\')</string>
     <string name="create">Create</string>
     <string name="cancel">Cancel</string>
     <string name="categoryAlreadyExist">Category already exist!</string>
     <string name="delete">Delete</string>
-    <string name="AddPlus">Add Income</string>
     <string name="deleteCategory">Delete category</string>
     <string name="descriptionOfDeleteCategory">After deleting you will not be able to write data to this category, but all current data in this category will be saved</string>
     <string name="total">"Total: "</string>
-    <string name="Graphic">※</string>
     <string name="perAll">All</string>
     <string name="perDays">Day</string>
     <string name="perMonths">Month</string>
     <string name="perYear">Year</string>
     <string name="perPeriod">Period</string>
+    <string name="category">Categories</string>
     <string name="changeData">Change data</string>
     <string name="enterNewData">Enter new value:</string>
     <string name="change">Change</string>
@@ -51,7 +41,7 @@
     <string name="btn21">2</string>
     <string name="btn31">3</string>
     <string name="minus">-</string>
-    <string name="multiply">X</string>
+    <string name="multiply">*</string>
     <string name="divide">/</string>
     <string name="equals">=</string>
     <string name="btn41">4</string>
@@ -86,5 +76,5 @@
     <string name="view_expense">View Expense</string>
     <string name="current_balance">Current Balance</string>
     <string name="change_prefix">Change Prefix</string>
-    <string name="category">Categories</string>
+    <string name="back_description">Back</string>
 </resources>

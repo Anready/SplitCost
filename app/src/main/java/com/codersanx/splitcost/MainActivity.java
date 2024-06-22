@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements GetUpdate.UpdateC
         setContentView(binding.getRoot());
 
         GetUpdate fetchData = new GetUpdate(getResources().getString(R.string.URL_WITH_UPDATES), this, this);
-        fetchData.execute();
+        fetchData.getUpdateInformation();
 
         initApp(this);
         initVariables();

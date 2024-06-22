@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ListAdapter;
 import android.widget.TextView;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -96,7 +97,7 @@ public class ViewData extends AppCompatActivity {
         }
 
         binding.chart.setOnClickListener(v -> {
-            ArrayAdapter<String> getAdapter = (ArrayAdapter<String>) binding.list.getAdapter();
+            ListAdapter getAdapter = binding.list.getAdapter();
             int count = getAdapter.getCount();
 
             String[] titles = new String[count];
