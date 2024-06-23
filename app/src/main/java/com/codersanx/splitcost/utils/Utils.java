@@ -76,7 +76,7 @@ public class Utils {
     }
 
     public static void applyTheme(Databases settings){
-        if (settings.get("theme").equals("dark")) {
+        if (settings.get("theme") != null && settings.get("theme").equals("dark")) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);

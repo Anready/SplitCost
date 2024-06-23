@@ -113,7 +113,7 @@ public class Settings extends AppCompatActivity {
 
         Databases settings = new Databases(this, currentDb(this) + MAIN_SETTINGS);
 
-        if (settings.get("theme").equals("dark")) {
+        if (settings.get("theme") != null && settings.get("theme").equals("dark")) {
             binding.theme.setSelection(1);
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         } else {

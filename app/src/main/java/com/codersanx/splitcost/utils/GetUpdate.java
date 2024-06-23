@@ -3,6 +3,7 @@ package com.codersanx.splitcost.utils;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.os.Build;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -103,7 +104,11 @@ public class GetUpdate {
                 try {
                     PackageInfo packageInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
                     versionName = packageInfo.versionName;
-                    versionCode = String.valueOf(packageInfo.getLongVersionCode());
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                        versionCode = String.valueOf(packageInfo.getLongVersionCode());
+                    } else {
+                        versionCode = String.valueOf(packageInfo.versionCode);
+                    }
                 } catch (PackageManager.NameNotFoundException ignored) {
                 }
 
