@@ -6,6 +6,7 @@ import static com.codersanx.splitcost.utils.Constants.EXPENSES;
 import static com.codersanx.splitcost.utils.Constants.INCOMES;
 import static com.codersanx.splitcost.utils.Constants.MAIN_SETTINGS;
 import static com.codersanx.splitcost.utils.Constants.TRUE;
+import static com.codersanx.splitcost.utils.Utils.applyTheme;
 import static com.codersanx.splitcost.utils.Utils.currentDb;
 import static com.codersanx.splitcost.utils.Utils.getAllDb;
 import static com.codersanx.splitcost.utils.Utils.renameFile;
@@ -24,6 +25,8 @@ import android.os.Looper;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextWatcher;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -33,6 +36,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
@@ -46,6 +50,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class Settings extends AppCompatActivity {
@@ -83,13 +89,55 @@ public class Settings extends AppCompatActivity {
         getPermission = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {
-                    if (result.getResultCode() == RESULT_OK) {
-                        copyFile(result.getData().getData());
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                        if (Environment.isExternalStorageManager()){
+                            Toast.makeText(this, "You give permission, import db again", Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        if(ContextCompat.checkSelfPermission(this,
+                                android.Manifest.permission.READ_EXTERNAL_STORAGE
+                        ) == PackageManager.PERMISSION_GRANTED) {
+                            Toast.makeText(this, "You give permission, import db again", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
 
         initVariables();
         initObjects();
+
+        List<String> items = getListOfThemes();
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, items);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        binding.theme.setAdapter(adapter);
+
+        Databases settings = new Databases(this, currentDb(this) + MAIN_SETTINGS);
+
+        if (settings.get("theme").equals("dark")) {
+            binding.theme.setSelection(1);
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
+
+        binding.theme.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                settings.set("theme", items.get(position).toLowerCase());
+                applyTheme(settings);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+    }
+
+    private List<String> getListOfThemes() {
+        List<String> themes = new ArrayList<>();
+        themes.add("White");
+        themes.add("Dark");
+        return themes;
     }
 
     private void initObjects() {
@@ -220,24 +268,6 @@ public class Settings extends AppCompatActivity {
 
 
     }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            if(requestCode == APP_STORAGE_ACCESS_REQUEST_CODE && Environment.isExternalStorageManager()){
-                Toast.makeText(this, "You give permission, import db again", Toast.LENGTH_SHORT).show();
-            }
-        } else {
-            if(requestCode == APP_STORAGE_ACCESS_REQUEST_CODE && ContextCompat.checkSelfPermission(this,
-                    android.Manifest.permission.READ_EXTERNAL_STORAGE
-            ) == PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(this, "You give permission, import db again", Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
-
 
     private void deleteAll(String s) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {

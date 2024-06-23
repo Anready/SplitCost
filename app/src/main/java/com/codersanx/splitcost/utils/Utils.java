@@ -12,6 +12,8 @@ import static com.codersanx.splitcost.utils.Constants.TRUE;
 
 import android.content.Context;
 
+import androidx.appcompat.app.AppCompatDelegate;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -22,9 +24,12 @@ public class Utils {
     // 0 = False, 1 = True
     public static void initApp(Context c) {
         Databases db = new Databases(c, MAIN_SETTINGS);
+        Databases settings = new Databases(c, currentDb(c) + MAIN_SETTINGS);
 
-        if (db.get("isInitComplete") != null)
+        if (db.get("isInitComplete") != null){
+            applyTheme(settings);
             return;
+        }
 
         Databases allDb = new Databases(c, ALL_DATABASES);
         allDb.set("LocalDatabase", TRUE);
@@ -36,7 +41,6 @@ public class Utils {
         Databases incomesCategory = new Databases(c, currentDb(c) + CATEGORY + INCOMES);
         incomesCategory.set("Salary", TRUE);
 
-        Databases settings = new Databases(c, currentDb(c) + MAIN_SETTINGS);
         settings.set(PREFIX, "$");
 
         settings.set("language", "en");
@@ -69,5 +73,13 @@ public class Utils {
         File newFile = new File(directory, newFileName);
 
         return oldFile.renameTo(newFile);
+    }
+
+    public static void applyTheme(Databases settings){
+        if (settings.get("theme").equals("dark")) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
     }
 }
