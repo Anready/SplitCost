@@ -41,6 +41,7 @@ import androidx.core.content.FileProvider;
 import com.codersanx.splitcost.databinding.ActivitySettingsBinding;
 import com.codersanx.splitcost.settings.ChangePrefix;
 import com.codersanx.splitcost.utils.Databases;
+import com.codersanx.splitcost.utils.adapters.DatabaseAdapter;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -303,7 +304,7 @@ public class Settings extends AppCompatActivity {
     private void initVariables() {
         allDb = new Databases(this, ALL_DATABASES);
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, getAllDb(this));
+        DatabaseAdapter adapter = new DatabaseAdapter(this, R.layout.database_settings, getAllDb(this));
         binding.listOfDb.setAdapter(adapter);
     }
 
