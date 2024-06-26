@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="trash_red">#FF1F1F</color>
     <color name="add_description">#E5E7EB</color>
     <color name="backTint">#000000</color>
     <color name="back">#232323</color>
@@ -12,4 +13,5 @@
     <color name="purple_200">#000000</color>
     <color name="purple_500">#000000</color>
     <color name="purple_700">#000000</color>
+    <color name="border_color">#c1c1c1</color>
 </resources>

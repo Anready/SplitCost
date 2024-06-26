@@ -40,12 +40,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="3dp"
-                        android:layout_marginTop="16dp"
+                        android:layout_marginTop="24dp"
                         android:text="@string/amount"
                         android:textColor="@color/add_description"
                         android:textSize="16sp"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/dateTimeE" />
+                        app:layout_constraintTop_toBottomOf="@+id/titleTextView" />
 
                     <ImageButton
                         android:id="@+id/back"
@@ -75,6 +75,7 @@
                         android:id="@+id/category_e"
                         android:layout_width="0dp"
                         android:layout_height="40dp"
+                        android:layout_marginStart="3dp"
                         android:layout_marginTop="8dp"
                         android:background="@drawable/spinner"
                         app:layout_constraintEnd_toStartOf="@+id/delete"
@@ -120,7 +121,7 @@
                         android:id="@+id/calculator"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
+                        android:layout_marginTop="16dp"
                         android:background="@drawable/sample_button"
                         android:backgroundTint="#6B7280"
                         android:drawableStart="@drawable/ic_calc"
@@ -134,7 +135,7 @@
                         android:textColor="#FFF"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/amountE" />
+                        app:layout_constraintTop_toBottomOf="@+id/dateTimeE" />
 
                     <Button
                         android:id="@+id/save"
@@ -145,7 +146,7 @@
                         android:backgroundTint="#16A34A"
                         android:drawableStart="@drawable/ic_add"
                         android:drawablePadding="10dp"
-                        android:paddingStart="26dp"
+                        android:paddingStart="22dp"
                         android:paddingTop="12dp"
                         android:paddingEnd="22dp"
                         android:paddingBottom="12dp"
@@ -161,12 +162,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="3dp"
-                        android:layout_marginTop="24dp"
+                        android:layout_marginTop="16dp"
                         android:text="@string/Category"
                         android:textColor="@color/add_description"
                         android:textSize="16sp"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/titleTextView" />
+                        app:layout_constraintTop_toBottomOf="@+id/amountE" />
 
                     <TextView
                         android:id="@+id/textView7"

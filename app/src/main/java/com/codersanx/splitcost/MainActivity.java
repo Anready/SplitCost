@@ -89,13 +89,13 @@ public class MainActivity extends AppCompatActivity implements GetUpdate.UpdateC
             addLauncher.launch(intent);
         });
 
-        binding.expenseView.setOnClickListener(v -> {
+        binding.totalExpensesCard.setOnClickListener(v -> {
             Intent intent = new Intent(this, ViewData.class);
             intent.putExtra("isExpense", true);
             addLauncher.launch(intent);
         });
 
-        binding.incomesView.setOnClickListener(v -> {
+        binding.totalIncomesCard.setOnClickListener(v -> {
             Intent intent = new Intent(this, ViewData.class);
             intent.putExtra("isExpense", false);
             addLauncher.launch(intent);

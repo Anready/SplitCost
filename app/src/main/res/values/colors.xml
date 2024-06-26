@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="trash_red">#C11818</color>
     <color name="add_description">#374151</color>
     <color name="calcButtonText">#000000</color>
     <color name="mainPageTextHead">#1F2937</color>
@@ -22,4 +23,5 @@
     <color name="light_blue_200">#FF81D4FA</color>
     <color name="light_blue_600">#FF039BE5</color>
     <color name="light_blue_900">#FF01579B</color>
+    <color name="border_color">#6c6c6c</color>
 </resources>

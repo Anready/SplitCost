@@ -2,9 +2,8 @@ package com.codersanx.splitcost.view;
 
 import static com.codersanx.splitcost.utils.Constants.EXPENSES;
 import static com.codersanx.splitcost.utils.Constants.INCOMES;
-import static com.codersanx.splitcost.utils.Constants.MAIN_SETTINGS;
-import static com.codersanx.splitcost.utils.Constants.PREFIX;
 import static com.codersanx.splitcost.utils.Utils.currentDb;
+import static com.codersanx.splitcost.utils.Utils.getPrefix;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
@@ -113,7 +112,7 @@ public class ViewData extends AppCompatActivity {
                     continue;
                 }
 
-                titles[i] = titleTextView.getText().toString() + ", " + description.getText().toString().replace("Category: ", "") + ", " + expense.getText().toString().replace(prefix, "");
+                titles[i] = description.getText().toString() + ", " + titleTextView.getText().toString() + ", " + expense.getText().toString().replace(prefix, "");
             }
 
             Intent intent = new Intent(this, Chart.class);
@@ -246,7 +245,7 @@ public class ViewData extends AppCompatActivity {
                         }
                     }
 
-                    db.set(titleText + "@" + descriptionText.replace("Category: ", ""), userInput);
+                    db.set(descriptionText + "@" + titleText, userInput);
 
                     setSort(false);
 
@@ -257,7 +256,7 @@ public class ViewData extends AppCompatActivity {
             });
 
             alertDialogBuilder.setNegativeButton(getResources().getString(R.string.delete), (dialog, which) -> {
-                db.delete(titleText + "@" + descriptionText.replace("Category: ", ""));
+                db.delete(descriptionText + "@" + titleText);
                 setResult(RESULT_OK);
 
                 setSort(false);
@@ -279,8 +278,7 @@ public class ViewData extends AppCompatActivity {
             db = new Databases(this, currentDb(this) + INCOMES);
         }
 
-        String tempPrefix = new Databases(this, currentDb(this) + MAIN_SETTINGS).get(PREFIX);
-        prefix = (tempPrefix != null) ? tempPrefix : "$";
+        prefix = getPrefix(this);
     }
 
     private void setDate(boolean isEnd) {
@@ -491,7 +489,7 @@ public class ViewData extends AppCompatActivity {
 
         for (String item : finalData) {
             String[] itemSplit = item.split(", ");
-            items.add(new Category(itemSplit[0], "Category: " + itemSplit[1], new BigDecimal(itemSplit[2]), totalV));
+            items.add(new Category(itemSplit[1], itemSplit[0], new BigDecimal(itemSplit[2]), totalV));
         }
 
         ViewCategoriesAdapter adapter = new ViewCategoriesAdapter(this, items, prefix);

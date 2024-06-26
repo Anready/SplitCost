@@ -82,4 +82,10 @@ public class Utils {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
     }
+
+    public static String getPrefix(Context c) {
+        String prefix = new Databases(c, currentDb(c) + MAIN_SETTINGS).get(PREFIX);
+        if (prefix == null) prefix = "$";
+        return prefix;
+    }
 }

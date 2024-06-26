@@ -1,9 +1,10 @@
 package com.codersanx.splitcost.view.chart;
 
+import static com.codersanx.splitcost.utils.Utils.getPrefix;
+
+import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.text.Html;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -62,7 +63,7 @@ public class Chart extends AppCompatActivity {
         pieChart.getDescription().setEnabled(false);
         pieChart.setHoleRadius(0f);
         pieChart.setTransparentCircleRadius(0f);
-        pieChart.setEntryLabelColor(Color.BLUE);
+        pieChart.setEntryLabelColor(getResources().getColor(R.color.light_blue_900));
         pieChart.setExtraOffsets(30, 30, 30, 30);
 
         PieData data = new PieData(dataSet);
@@ -78,9 +79,16 @@ public class Chart extends AppCompatActivity {
         ArrayList<LegendEntry> legendEntries = new ArrayList<>();
         for (int i = 0; i < entries.size(); i++) {
             PieEntry entry = entries.get(i);
-            String label = String.format(Locale.getDefault(), "<br> %s - %.2f (%.1f%%)", entry.getLabel(), entry.getValue(), entry.getY() / data.getYValueSum() * 100);
+            String label;
+            String chartValue = String.valueOf(entry.getValue());
+            if (chartValue.endsWith(".0")){
+                label = String.format(Locale.getDefault(), "%s - %s (%.1f%%)", entry.getLabel(), chartValue.replace(".0", "") +  getPrefix(this), entry.getY() / data.getYValueSum() * 100);
+            } else {
+                label = String.format(Locale.getDefault(), "%s - %.2f%s (%.1f%%)", entry.getLabel(), entry.getValue(), getPrefix(this), entry.getY() / data.getYValueSum() * 100);
+            }
+
             LegendEntry legendEntry = new LegendEntry();
-            legendEntry.label = Html.fromHtml(label, Html.FROM_HTML_MODE_LEGACY).toString();
+            legendEntry.label = label;
             legendEntries.add(legendEntry);
         }
 
@@ -104,7 +112,7 @@ public class Chart extends AppCompatActivity {
         dataSet.setValueLinePart2Length(.3f);
         dataSet.setValueLineColor(ContextCompat.getColor(this, R.color.calcButtonText));
         dataSet.setValueTextColor(ContextCompat.getColor(this, R.color.calcButtonText));
-        DecimalValueFormatter formatter = new DecimalValueFormatter();
+        DecimalValueFormatter formatter = new DecimalValueFormatter(this);
         dataSet.setValueFormatter(formatter);
         dataSet.setXValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);
         return dataSet;
@@ -113,8 +121,20 @@ public class Chart extends AppCompatActivity {
 
 class DecimalValueFormatter extends ValueFormatter {
 
+    private final Context context;
+
+    public DecimalValueFormatter(Context context) {
+        this.context = context;
+    }
+
     @Override
     public String getFormattedValue(float value) {
-        return String.format(Locale.getDefault(), "%.2f", value);
+        String item = String.format(Locale.getDefault(), "%.2f", value);
+
+        if (item.endsWith(",00")) {
+            return item.replace(",0", "") + getPrefix(context);
+        }
+
+        return String.format(Locale.getDefault(), "%.2f", value) + getPrefix(context);
     }
 }
