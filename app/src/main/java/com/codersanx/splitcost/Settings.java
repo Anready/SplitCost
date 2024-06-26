@@ -15,13 +15,12 @@ import static com.codersanx.splitcost.utils.Zip.packFile;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
+import android.provider.DocumentsContract;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextWatcher;
@@ -37,8 +36,6 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
 import com.codersanx.splitcost.databinding.ActivitySettingsBinding;
@@ -59,7 +56,7 @@ public class Settings extends AppCompatActivity {
     ActivitySettingsBinding binding;
     private Databases allDb;
     private boolean clickAllow = true;
-    private ActivityResultLauncher<Intent> sendFileLauncher, getFile, getPermission;
+    private ActivityResultLauncher<Intent> sendFileLauncher, getFile;
     private String newName;
 
     @Override
@@ -82,22 +79,8 @@ public class Settings extends AppCompatActivity {
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {
                     if (result.getResultCode() == RESULT_OK) {
-                        copyFile(result.getData().getData());
-                    }
-                });
-
-        getPermission = registerForActivityResult(
-                new ActivityResultContracts.StartActivityForResult(),
-                result -> {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                        if (Environment.isExternalStorageManager()){
-                            Toast.makeText(this, "You give permission, import db again", Toast.LENGTH_SHORT).show();
-                        }
-                    } else {
-                        if(ContextCompat.checkSelfPermission(this,
-                                android.Manifest.permission.READ_EXTERNAL_STORAGE
-                        ) == PackageManager.PERMISSION_GRANTED) {
-                            Toast.makeText(this, "You give permission, import db again", Toast.LENGTH_SHORT).show();
+                        if (result.getData() != null) {
+                            copyFile(result.getData().getData());
                         }
                     }
                 });
@@ -307,17 +290,13 @@ public class Settings extends AppCompatActivity {
         sendFileLauncher.launch(Intent.createChooser(intent, "Send file"));
     }
 
-    final static int APP_STORAGE_ACCESS_REQUEST_CODE = 501;
-
     private void importDb() {
-        if (!checkPermission()) {
-            requestPermission();
-            return;
-        }
-
-        Intent intent = new Intent();
+        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
         intent.setType("*/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            intent.putExtra(DocumentsContract.EXTRA_INITIAL_URI, (Uri) null);
+        }
         getFile.launch(Intent.createChooser(intent, "Choose SCE file"));
     }
 
@@ -378,32 +357,6 @@ public class Settings extends AppCompatActivity {
             return path;
         }
         return null;
-    }
-
-    public boolean checkPermission() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            return Environment.isExternalStorageManager();
-        } else {
-            return ContextCompat.checkSelfPermission(this,
-                    android.Manifest.permission.READ_EXTERNAL_STORAGE
-            ) == PackageManager.PERMISSION_GRANTED;
-        }
-    }
-
-
-    public void requestPermission() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            Intent intent = new Intent();
-            intent.setAction(android.provider.Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
-            Uri uri = Uri.fromParts("package", this.getPackageName(), null);
-            intent.setData(uri);
-            getPermission.launch(intent);
-        } else {
-            ActivityCompat.requestPermissions(
-                    this,
-                    new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE}, APP_STORAGE_ACCESS_REQUEST_CODE
-            );
-        }
     }
 
     private void copyFile(Uri selectedFileUri) {
