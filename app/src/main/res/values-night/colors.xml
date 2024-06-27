@@ -10,8 +10,8 @@
     <color name="background">#0d0d0d</color>
     <color name="mainPageTextHead">#F3F4F6</color>
     <color name="mainPageTextTitle">#9CA3AF</color>
-    <color name="purple_200">#000000</color>
-    <color name="purple_500">#000000</color>
-    <color name="purple_700">#000000</color>
+    <color name="purple_200">#3ACD7C</color>
+    <color name="purple_500">#3ACD7C</color>
+    <color name="purple_700">#3ACD7C</color>
     <color name="border_color">#c1c1c1</color>
 </resources>

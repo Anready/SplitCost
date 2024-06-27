@@ -63,7 +63,7 @@ public class Chart extends AppCompatActivity {
         pieChart.getDescription().setEnabled(false);
         pieChart.setHoleRadius(0f);
         pieChart.setTransparentCircleRadius(0f);
-        pieChart.setEntryLabelColor(getResources().getColor(R.color.light_blue_900));
+        pieChart.setEntryLabelColor(ContextCompat.getColor(this, R.color.light_blue_900));
         pieChart.setExtraOffsets(30, 30, 30, 30);
 
         PieData data = new PieData(dataSet);
@@ -132,7 +132,7 @@ class DecimalValueFormatter extends ValueFormatter {
         String item = String.format(Locale.getDefault(), "%.2f", value);
 
         if (item.endsWith(",00")) {
-            return item.replace(",0", "") + getPrefix(context);
+            return item.replace(",00", "") + getPrefix(context);
         }
 
         return String.format(Locale.getDefault(), "%.2f", value) + getPrefix(context);

@@ -17,8 +17,6 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextWatcher;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -45,7 +43,7 @@ import java.util.Locale;
 import java.util.Map;
 
 
-public class Add extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class Add extends AppCompatActivity {
 
     private ActivityAddBinding binding;
     private Databases category, db, settings;
@@ -78,15 +76,28 @@ public class Add extends AppCompatActivity implements AdapterView.OnItemSelected
         );
 
         setCategoryE();
-        binding.categoryE.setOnItemSelectedListener(this);
+
+        binding.categoryE.setOnItemClickListener((parent, view, position, id) -> {
+            String selectedItem = (String) parent.getItemAtPosition(position);
+
+            if (selectedItem.equals("New category")) {
+                getBuilder().show();
+                return;
+            }
+
+            setLastCategory(selectedItem);
+        });
 
         binding.back.setOnClickListener(v -> {
-            settings.set(LAST_CATEGORY, binding.categoryE.getSelectedItem().toString());
+            setLastCategory(binding.categoryE.getText().toString());
             finish();
         });
 
         binding.dateTimeE.setFocusable(false);
         binding.dateTimeE.setFocusableInTouchMode(false);
+
+        binding.categoryE.setFocusable(false);
+        binding.categoryE.setFocusableInTouchMode(false);
 
         binding.dateTimeE.setText(new SimpleDateFormat("dd-MM-yyyy HH:mm", Locale.getDefault()).format(new Date()));
 
@@ -165,16 +176,25 @@ public class Add extends AppCompatActivity implements AdapterView.OnItemSelected
             builder.setMessage(getResources().getString(R.string.descriptionOfDeleteCategory));
 
             builder.setPositiveButton(getResources().getString(R.string.delete), (dialog, which) -> {
-                String categoryToDelete = binding.categoryE.getSelectedItem().toString();
+                String categoryToDelete = binding.categoryE.getText().toString();
+
+                if (isTheLastCategory()) {
+                    Toast.makeText(this, "This is last category!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
                 for (Map.Entry<String, String> entry : db.readAll().entrySet()) {
                     if (entry.getKey().split("@")[1].equals(categoryToDelete)) {
-                        category.set(binding.categoryE.getSelectedItem().toString(), FALSE);
+                        category.set(categoryToDelete, FALSE);
+                        Toast.makeText(this, getResources().getText(R.string.success), Toast.LENGTH_SHORT).show();
+                        setCategoryE();
                         return;
                     }
                 }
 
                 category.delete(categoryToDelete);
+                Toast.makeText(this, getResources().getText(R.string.success), Toast.LENGTH_SHORT).show();
+
                 setCategoryE();
             });
 
@@ -185,7 +205,7 @@ public class Add extends AppCompatActivity implements AdapterView.OnItemSelected
 
         binding.save.setOnClickListener(v -> {
             String userInput = binding.amountE.getText().toString();
-            if (userInput.isEmpty() || userInput.equals("0.0") || userInput.equals("0.") || userInput.equals("0.00") || userInput.equals("0") || binding.categoryE.getSelectedItem().toString().equals("New Category") || userInput.endsWith(".")) {
+            if (userInput.isEmpty() || userInput.equals("0.0") || userInput.equals("0.") || userInput.equals("0.00") || userInput.equals("0") || binding.categoryE.getText().toString().equals("New Category") || userInput.endsWith(".")) {
                 Toast.makeText(this, "Error!", Toast.LENGTH_SHORT).show();
                 return;
             }
@@ -206,13 +226,34 @@ public class Add extends AppCompatActivity implements AdapterView.OnItemSelected
                 seconds = "0" + seconds;
             }
 
-            db.set(binding.dateTimeE.getText().toString() + ":" + seconds + "@" + binding.categoryE.getSelectedItem().toString(), userInput);
-            settings.set(LAST_CATEGORY, binding.categoryE.getSelectedItem().toString());
+            db.set(binding.dateTimeE.getText().toString() + ":" + seconds + "@" + binding.categoryE.getText().toString(), userInput);
+            setLastCategory(binding.categoryE.getText().toString());
             setResult(RESULT_OK);
             finish();
         });
 
         binding.calculator.setOnClickListener(v -> addLauncher.launch(new Intent(this, Calculator.class)));
+    }
+
+    private boolean isTheLastCategory() {
+        return getCategories().length == 2;
+    }
+
+    private void setLastCategory(String s) {
+        if (isExpenses) {
+            settings.set(LAST_CATEGORY + EXPENSES, s);
+            return;
+        }
+
+        settings.set(LAST_CATEGORY + INCOMES, s);
+    }
+
+    private String getLastCategory() {
+        if (isExpenses) {
+            return settings.get(LAST_CATEGORY + EXPENSES);
+        }
+
+        return settings.get(LAST_CATEGORY + INCOMES);
     }
 
     private void initVariables() {
@@ -236,14 +277,13 @@ public class Add extends AppCompatActivity implements AdapterView.OnItemSelected
     private void setCategoryE() {
         String[] categories = getCategories();
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, categories);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.dropdown_item, categories);
         binding.categoryE.setAdapter(adapter);
 
-        int id = Arrays.asList(getCategories()).indexOf(settings.get(LAST_CATEGORY));
+        int id = Arrays.asList(categories).indexOf(getLastCategory());
         if (id == -1) id = 0;
 
-        binding.categoryE.setSelection(id);
+        binding.categoryE.setText(categories[id], false);
     }
 
     private String[] getCategories() {
@@ -312,12 +352,12 @@ public class Add extends AppCompatActivity implements AdapterView.OnItemSelected
                 return;
             }
 
-            settings.set(LAST_CATEGORY, inputText);
+            setLastCategory(inputText);
             createNewCategory(inputText);
         });
 
         builder.setNegativeButton(getResources().getString(R.string.cancel), (dialog, which) -> {
-            binding.categoryE.setSelection(Arrays.asList(getCategories()).indexOf(settings.get(LAST_CATEGORY)));
+            binding.categoryE.setText(getCategories()[Arrays.asList(getCategories()).indexOf(getLastCategory())], false);
             dialog.cancel();
         });
 
@@ -332,18 +372,8 @@ public class Add extends AppCompatActivity implements AdapterView.OnItemSelected
     }
 
     @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        String selectedItem = (String) parent.getItemAtPosition(position);
-
-        if (selectedItem.equals("New category")) {
-            getBuilder().show();
-            return;
-        }
-
-        settings.set(LAST_CATEGORY, selectedItem);
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        binding.categoryE.setAdapter(new ArrayAdapter<>(this, R.layout.dropdown_item, getCategories()));
     }
 }

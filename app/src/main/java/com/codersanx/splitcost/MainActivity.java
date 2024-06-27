@@ -5,6 +5,7 @@ import static com.codersanx.splitcost.utils.Constants.EXPENSES;
 import static com.codersanx.splitcost.utils.Constants.INCOMES;
 import static com.codersanx.splitcost.utils.Constants.MAIN_SETTINGS;
 import static com.codersanx.splitcost.utils.Constants.PREFIX;
+import static com.codersanx.splitcost.utils.Utils.applyTheme;
 import static com.codersanx.splitcost.utils.Utils.currentDb;
 import static com.codersanx.splitcost.utils.Utils.getAllDb;
 import static com.codersanx.splitcost.utils.Utils.initApp;
@@ -13,12 +14,11 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -56,13 +56,14 @@ public class MainActivity extends AppCompatActivity implements GetUpdate.UpdateC
         initApp(this);
         initVariables();
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, getAllDb(this));
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.dropdown_item, getAllDb(this));
+        binding.currentDb.setFocusable(false);
+        binding.currentDb.setFocusableInTouchMode(false);
         binding.currentDb.setAdapter(adapter);
 
         int id = getAllDb(this).indexOf(currentDb);
         if (id == -1) id = 0;
-        binding.currentDb.setSelection(id);
+        binding.currentDb.setText(getAllDb(this).get(id), false);
 
         setText();
 
@@ -106,18 +107,12 @@ public class MainActivity extends AppCompatActivity implements GetUpdate.UpdateC
             finish();
         });
 
-        binding.currentDb.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                db.set(CURRENT_DB, binding.currentDb.getSelectedItem().toString());
-                initVariables();
-                binding.balans.setTextColor(Color.parseColor("#22C55E"));
-                runOnUiThread(() -> setText()); // Update UI on the main thread
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
+        binding.currentDb.setOnItemClickListener((parent, view, position, id1) -> {
+            db.set(CURRENT_DB, parent.getItemAtPosition(position).toString());
+            initVariables();
+            applyTheme(new Databases(this, currentDb + MAIN_SETTINGS));
+            binding.balans.setTextColor(Color.parseColor("#22C55E"));
+            runOnUiThread(this::setText); // Update UI on the main thread
         });
     }
 
@@ -208,6 +203,16 @@ public class MainActivity extends AppCompatActivity implements GetUpdate.UpdateC
         builder.setMessage(getResources().getString(R.string.updateText) + description);
         builder.setPositiveButton("Update", (dialogInterface, i) -> startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(link))));
 
+        if (Long.parseLong(update[3]) - Long.parseLong(update[2]) == 1) {
+            builder.setNegativeButton("Later", (dialogInterface, i) -> dialogInterface.dismiss());
+        }
+
         runOnUiThread(builder::show);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        binding.currentDb.setAdapter(new ArrayAdapter<>(this, R.layout.dropdown_item, getAllDb(this)));
     }
 }

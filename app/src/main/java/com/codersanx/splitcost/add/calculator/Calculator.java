@@ -80,6 +80,7 @@ public class Calculator extends AppCompatActivity {
 
         binding.equals.setOnClickListener( v -> {
             if(pov != 0){
+                if ($view.isEmpty()) return;
                 $view = $view.substring(0, $view.length() - 1);
             }
 
@@ -105,12 +106,12 @@ public class Calculator extends AppCompatActivity {
         });
 
         binding.Clean.setOnClickListener( v -> {
-            pov = 0;
-            u = 0;
-
             if($view.isEmpty()){
                 return;
             }
+
+            pov = 0;
+            u = 0;
 
             if($view.charAt($view.length() - 1) == '.'){
                 t = 0;
@@ -133,6 +134,8 @@ public class Calculator extends AppCompatActivity {
     }
 
     private void work(String s) {
+        if ($view.isEmpty()) return;
+
         if (pov != 0) {
             $view = $view.substring(0, $view.length() - 1);
         }

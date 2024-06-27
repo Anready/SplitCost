@@ -13,7 +13,6 @@ import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListAdapter;
@@ -21,6 +20,7 @@ import android.widget.TextView;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -49,8 +49,9 @@ public class ViewData extends AppCompatActivity {
 
     private ActivityViewDataBinding binding;
     private boolean isExpense;
-    private String nameOfCategory, prefix;
+    private String nameOfCategory, prefix, currentSelection;
     private Databases db;
+    private List<String> items;
     private boolean click = true;
 
     @Override
@@ -74,7 +75,7 @@ public class ViewData extends AppCompatActivity {
                 }
         );
 
-        List<String> items = new ArrayList<>();
+        items = new ArrayList<>();
         items.add(getResources().getString(R.string.perAll));
         items.add(getResources().getString(R.string.perDays));
         items.add(getResources().getString(R.string.perMonths));
@@ -85,9 +86,13 @@ public class ViewData extends AppCompatActivity {
             items.add(getResources().getString(R.string.category));
         }
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, items);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.dropdown_item, items);
+        binding.modeOfSort.setFocusable(false);
+        binding.modeOfSort.setFocusableInTouchMode(false);
         binding.modeOfSort.setAdapter(adapter);
+
+        binding.modeOfSort.setText(items.get(0), false);
+        currentSelection = items.get(0);
 
         binding.backB.setOnClickListener(view -> finish());
 
@@ -121,15 +126,9 @@ public class ViewData extends AppCompatActivity {
         });
 
 
-        binding.modeOfSort.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                setSort(true);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
+        binding.modeOfSort.setOnItemClickListener((parent, view, position, id) -> {
+            currentSelection = items.get(position);
+            setSort(true);
         });
 
         binding.startDate.setOnClickListener(view -> setDate(false));
@@ -142,7 +141,7 @@ public class ViewData extends AppCompatActivity {
             int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
 
             DatePickerDialog datePickerDialog = new DatePickerDialog(this, (datePicker, year13, monthOfYear, dayOfMonth13) -> {
-                String selectedItem = binding.modeOfSort.getSelectedItem().toString();
+                String selectedItem = binding.modeOfSort.getText().toString();
                 String date;
                 if (selectedItem.equals(getResources().getString(R.string.perDays))) {
                     date = String.format(Locale.getDefault(), "%02d-%02d-%04d", dayOfMonth13, monthOfYear + 1, year13);
@@ -168,7 +167,7 @@ public class ViewData extends AppCompatActivity {
             TextView title = listItem.findViewById(R.id.textViewTitle);
             String titleText = title.getText().toString();
 
-            if (binding.modeOfSort.getSelectedItem().toString().equals(getResources().getString(R.string.category))) {
+            if (binding.modeOfSort.getText().toString().equals(getResources().getString(R.string.category))) {
                 Intent intent = new Intent(this, ViewData.class);
                 intent.putExtra("nameOfCategory", titleText);
                 intent.putExtra("isExpense", db.getCurrentDbName().contains(EXPENSES));
@@ -269,6 +268,11 @@ public class ViewData extends AppCompatActivity {
                 alertDialog.show();
             }
         });
+
+        if (savedInstanceState != null) {
+            currentSelection = savedInstanceState.getString("N");
+        }
+        setSort(true);
     }
 
     private void initVariables() {
@@ -322,7 +326,7 @@ public class ViewData extends AppCompatActivity {
     }
 
     public void setSort(boolean isUpdateNeeded) {
-        String selectedItem = binding.modeOfSort.getSelectedItem().toString();
+        String selectedItem = currentSelection;
         if (selectedItem.equals(getResources().getString(R.string.perDays))) {
             setSortByDate("dd-MM-yyyy", isUpdateNeeded);
         } else if (selectedItem.equals(getResources().getString(R.string.perMonths))) {
@@ -496,5 +500,19 @@ public class ViewData extends AppCompatActivity {
 
         binding.total.setText(total(finalData));
         binding.list.setAdapter(adapter);
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("N", currentSelection);
+    }
+
+
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        binding.modeOfSort.setAdapter(new ArrayAdapter<>(this, R.layout.dropdown_item, items));
+        binding.modeOfSort.setText(currentSelection, false);
     }
 }

@@ -29,18 +29,26 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Spinner
-        android:id="@+id/mode_of_sort"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/mode_of_sort_holder"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
         android:layout_width="0dp"
-        android:layout_height="41dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="3dp"
         android:layout_marginEnd="16dp"
-        android:background="@drawable/spinner"
         app:layout_constraintEnd_toStartOf="@+id/chart"
         app:layout_constraintStart_toEndOf="@+id/back_b"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <AutoCompleteTextView
+            android:id="@+id/mode_of_sort"
+            android:layout_width="match_parent"
+            android:layout_height="41dp"
+            android:inputType="none"
+            android:padding="1dp" />
+
+    </com.google.android.material.textfield.TextInputLayout>
 
     <ImageButton
         android:id="@+id/chart"
@@ -71,14 +79,14 @@
         android:id="@+id/date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="13dp"
         android:gravity="center"
         android:maxLines="1"
         android:textColor="@color/calcButtonText"
         android:textSize="25sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mode_of_sort" />
+        app:layout_constraintTop_toBottomOf="@+id/mode_of_sort_holder" />
 
     <TextView
         android:id="@+id/start_date"

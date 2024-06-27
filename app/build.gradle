@@ -47,6 +47,7 @@ dependencies {
     implementation 'com.github.ghost1372:Mzip-Android:0.4.0'
     implementation 'net.objecthunter:exp4j:0.4.8'
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+    implementation 'com.google.android.material:material:1.9.0'
     implementation libs.appcompat
     implementation libs.material
     implementation libs.constraintlayout

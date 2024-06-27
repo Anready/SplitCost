@@ -24,8 +24,6 @@ import android.provider.DocumentsContract;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextWatcher;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -33,6 +31,7 @@ import android.widget.Toast;
 import androidx.activity.OnBackPressedCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -91,29 +90,24 @@ public class Settings extends AppCompatActivity {
 
         List<String> items = getListOfThemes();
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, items);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.dropdown_item, items);
+        binding.theme.setFocusable(false);
+        binding.theme.setFocusableInTouchMode(false);
         binding.theme.setAdapter(adapter);
 
         Databases settings = new Databases(this, currentDb(this) + MAIN_SETTINGS);
 
         if (settings.get("theme") != null && settings.get("theme").equals("dark")) {
-            binding.theme.setSelection(1);
+            binding.theme.setText(items.get(1), false);
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         } else {
+            binding.theme.setText(items.get(0), false);
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
 
-        binding.theme.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                settings.set("theme", items.get(position).toLowerCase());
-                applyTheme(settings);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
+        binding.theme.setOnItemClickListener((parent, view, position, id) -> {
+            settings.set("theme", items.get(position).toLowerCase());
+            applyTheme(settings);
         });
     }
 
@@ -372,5 +366,11 @@ public class Settings extends AppCompatActivity {
 
         initVariables();
         Toast.makeText(this, getResources().getString(R.string.success), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        binding.theme.setAdapter(new ArrayAdapter<>(this, R.layout.dropdown_item, getListOfThemes()));
     }
 }

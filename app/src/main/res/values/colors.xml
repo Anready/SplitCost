@@ -10,9 +10,9 @@
     <color name="mainBack">#EDE9DE</color>
     <color name="back">#CDCDCD</color>
     <color name="backTint">#FFFFFF</color>
-    <color name="purple_200">#FFFFFF</color>
-    <color name="purple_500">#FFFFFF</color>
-    <color name="purple_700">#FFFFFF</color>
+    <color name="purple_200">#3ACD7C</color>
+    <color name="purple_500">#3ACD7C</color>
+    <color name="purple_700">#3ACD7C</color>
     <color name="teal_200">#DA9203</color>
     <color name="teal_700">#DA9203</color>
     <color name="black">#FF000000</color>

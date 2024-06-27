@@ -136,7 +136,7 @@ public class GetUpdate {
                         break;
                     }
 
-                    String[] updateInfo = {description, link};
+                    String[] updateInfo = {description, link, versionCode, versionCodeApi};
                     if (callback != null) {
                         callback.onUpdateReceived(updateInfo);
                     }

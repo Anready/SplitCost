@@ -18,18 +18,26 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <Spinner
-                android:id="@+id/currentDb"
-                android:layout_width="0dp"
-                android:layout_height="41dp"
-                android:layout_marginStart="65dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="65dp"
-                android:background="@drawable/spinner"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/currentDb_holder"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:paddingStart="65dp"
+                android:paddingEnd="65dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <AutoCompleteTextView
+                    android:id="@+id/currentDb"
+                    android:layout_width="match_parent"
+                    android:layout_height="41dp"
+                    android:padding="1dp"
+                    android:inputType="none" />
+
+            </com.google.android.material.textfield.TextInputLayout>
 
             <ImageView
                 android:id="@+id/settings"
@@ -53,7 +61,7 @@
                 app:cardElevation="4dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/currentDb">
+                app:layout_constraintTop_toBottomOf="@id/currentDb_holder">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -229,7 +237,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/total_expenses_card">
 
-                <Button
+                <android.widget.Button
                     android:id="@+id/incomeAdd"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
@@ -245,12 +253,13 @@
                     android:paddingBottom="12dp"
                     android:text="@string/add_income"
                     android:textColor="#FFFFFF"
+                    android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/expenseAdd"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <Button
+                <android.widget.Button
                     android:id="@+id/expenseAdd"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -266,6 +275,7 @@
                     android:paddingBottom="12dp"
                     android:text="@string/add_expense"
                     android:textColor="#FFFFFF"
+                    android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/incomeAdd"
