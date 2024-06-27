@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
@@ -186,10 +187,20 @@ public class ViewData extends AppCompatActivity {
             alertDialogBuilder.setMessage(getResources().getString(R.string.enterNewData));
 
             final EditText input = new EditText(this);
-
             input.setText(expenseText);
             input.setSelection(expenseText.length());
-            alertDialogBuilder.setView(input);
+
+            int marginHorizontal = 40;
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+            );
+            params.setMargins(marginHorizontal, 10, marginHorizontal, 0);
+            input.setLayoutParams(params);
+
+            LinearLayout container = new LinearLayout(this);
+            container.setOrientation(LinearLayout.VERTICAL);
+            container.addView(input);
 
             input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
 
@@ -229,8 +240,10 @@ public class ViewData extends AppCompatActivity {
                 }
             });
 
+            alertDialogBuilder.setView(container);
+
             alertDialogBuilder.setPositiveButton(getResources().getString(R.string.change), (dialog, which) -> {
-                String userInput = input.getText().toString(); // Getting the entered value from the text field.
+                String userInput = input.getText().toString();
                 if (!userInput.isEmpty() && !userInput.equals("0.0") && !userInput.equals("0.") && !userInput.equals("0.00") && !userInput.equals("0") && !userInput.endsWith(".")) {
                     click = false;
                     if (userInput.indexOf('.') != -1) {

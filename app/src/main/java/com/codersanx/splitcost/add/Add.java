@@ -19,6 +19,7 @@ import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -175,7 +176,7 @@ public class Add extends AppCompatActivity {
             builder.setTitle(getResources().getString(R.string.deleteCategory));
             builder.setMessage(getResources().getString(R.string.descriptionOfDeleteCategory));
 
-            builder.setPositiveButton(getResources().getString(R.string.delete), (dialog, which) -> {
+            builder.setNegativeButton(getResources().getString(R.string.delete), (dialog, which) -> {
                 String categoryToDelete = binding.categoryE.getText().toString();
 
                 if (isTheLastCategory()) {
@@ -198,7 +199,7 @@ public class Add extends AppCompatActivity {
                 setCategoryE();
             });
 
-            builder.setNegativeButton(getResources().getString(R.string.cancel), (dialog, which) -> dialog.cancel());
+            builder.setPositiveButton(getResources().getString(R.string.cancel), (dialog, which) -> dialog.cancel());
 
             builder.show();
         });
@@ -305,9 +306,22 @@ public class Add extends AppCompatActivity {
     AlertDialog.Builder getBuilder() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.RoundedDialog);
         builder.setTitle(getResources().getString(R.string.newCategory));
-        builder.setMessage(getResources().getString(R.string.descriptionOfNewCategory));
 
         final EditText input = new EditText(this);
+        input.setHint(getResources().getString(R.string.descriptionOfNewCategory));
+
+        int marginHorizontal = 40;
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+        );
+        params.setMargins(marginHorizontal, 40, marginHorizontal, 0);
+        input.setLayoutParams(params);
+
+        LinearLayout container = new LinearLayout(this);
+        container.setOrientation(LinearLayout.VERTICAL);
+        container.addView(input);
+
         InputFilter[] filters = new InputFilter[1];
         filters[0] = new InputFilter.LengthFilter(17);
 
@@ -324,21 +338,21 @@ public class Add extends AppCompatActivity {
             public void afterTextChanged(Editable editable) {
                 String text = editable.toString();
                 if (text.contains(" ")) {
-                    int commaIndex = text.indexOf(' ');
-                    String newText = text.substring(0, commaIndex) + text.substring(commaIndex + 1);
+                    int spaceIndex = text.indexOf(' ');
+                    String newText = text.substring(0, spaceIndex) + text.substring(spaceIndex + 1);
                     input.setText(newText);
-                    input.setSelection(commaIndex);
+                    input.setSelection(spaceIndex);
                 } else if (text.contains("@")) {
-                    int commaIndex = text.indexOf('@');
-                    String newText = text.substring(0, commaIndex) + text.substring(commaIndex + 1);
+                    int atIndex = text.indexOf('@');
+                    String newText = text.substring(0, atIndex) + text.substring(atIndex + 1);
                     input.setText(newText);
-                    input.setSelection(commaIndex);
+                    input.setSelection(atIndex);
                 }
             }
         });
 
         input.setFilters(filters);
-        builder.setView(input);
+        builder.setView(container);
 
         builder.setPositiveButton(getResources().getString(R.string.create), (dialog, which) -> {
             String inputText = input.getText().toString();
@@ -357,7 +371,9 @@ public class Add extends AppCompatActivity {
         });
 
         builder.setNegativeButton(getResources().getString(R.string.cancel), (dialog, which) -> {
-            binding.categoryE.setText(getCategories()[Arrays.asList(getCategories()).indexOf(getLastCategory())], false);
+            int id = Arrays.asList(getCategories()).indexOf(getLastCategory());
+            if (id == -1) id = 0;
+            binding.categoryE.setText(getCategories()[id], false);
             dialog.cancel();
         });
 

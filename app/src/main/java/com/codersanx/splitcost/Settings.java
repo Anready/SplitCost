@@ -26,6 +26,7 @@ import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
@@ -171,6 +172,19 @@ public class Settings extends AppCompatActivity {
             alertDialogBuilder.setMessage(getResources().getString(R.string.descriptionCreateDb));
 
             final EditText input = new EditText(this);
+
+            int marginHorizontal = 40;
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+            );
+            params.setMargins(marginHorizontal, 20, marginHorizontal, 0);
+            input.setLayoutParams(params);
+
+            LinearLayout container = new LinearLayout(this);
+            container.setOrientation(LinearLayout.VERTICAL);
+            container.addView(input);
+
             InputFilter[] filters = new InputFilter[1];
             filters[0] = new InputFilter.LengthFilter(17);
 
@@ -206,7 +220,7 @@ public class Settings extends AppCompatActivity {
             });
 
             input.setFilters(filters);
-            alertDialogBuilder.setView(input);
+            alertDialogBuilder.setView(container);
 
             alertDialogBuilder.setPositiveButton(getResources().getString(R.string.create), (dialog, which) -> {
                 String userInput = input.getText().toString();

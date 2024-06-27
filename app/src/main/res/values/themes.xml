@@ -27,7 +27,7 @@
     </style>
 
     <style name="NegativeButtonStyle" parent="@style/Widget.AppCompat.Button.ButtonBar.AlertDialog">
-        <item name="android:textColor">@color/purple_200</item>
+        <item name="android:textColor">@color/trash_red</item>
     </style>
 
 
