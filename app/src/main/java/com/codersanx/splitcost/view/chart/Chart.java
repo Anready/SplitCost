@@ -133,6 +133,8 @@ class DecimalValueFormatter extends ValueFormatter {
 
         if (item.endsWith(",00")) {
             return item.replace(",00", "") + getPrefix(context);
+        } else if (item.endsWith(".00")) {
+            return item.replace(".00", "") + getPrefix(context);
         }
 
         return String.format(Locale.getDefault(), "%.2f", value) + getPrefix(context);

@@ -181,7 +181,7 @@ public class ViewData extends AppCompatActivity {
             TextView expense = listItem.findViewById(R.id.textViewExpense);
             String expenseText = expense.getText().toString().replace(prefix, "");
 
-            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this, R.style.RoundedDialog);
             alertDialogBuilder.setTitle(getResources().getString(R.string.changeData));
             alertDialogBuilder.setMessage(getResources().getString(R.string.enterNewData));
 

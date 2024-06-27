@@ -124,7 +124,7 @@ public class Settings extends AppCompatActivity {
         binding.importDb.setOnClickListener( v -> importDb());
         binding.listOfDb.setOnItemClickListener((parent, view, position, id) -> {
             String selectedItem = (String) parent.getItemAtPosition(position);
-            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this, R.style.RoundedDialog);
             alertDialogBuilder.setTitle(getResources().getString(R.string.deleteDb));
             alertDialogBuilder.setMessage(getResources().getString(R.string.deleteDbDescription));
 
@@ -166,7 +166,7 @@ public class Settings extends AppCompatActivity {
         });
 
         binding.addNew.setOnClickListener( v -> {
-            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this, R.style.RoundedDialog);
             alertDialogBuilder.setTitle(getResources().getString(R.string.createDb));
             alertDialogBuilder.setMessage(getResources().getString(R.string.descriptionCreateDb));
 

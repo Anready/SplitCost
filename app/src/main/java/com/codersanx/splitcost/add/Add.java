@@ -171,7 +171,7 @@ public class Add extends AppCompatActivity {
         });
 
         binding.delete.setOnClickListener(v -> {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.RoundedDialog);
             builder.setTitle(getResources().getString(R.string.deleteCategory));
             builder.setMessage(getResources().getString(R.string.descriptionOfDeleteCategory));
 
@@ -303,7 +303,7 @@ public class Add extends AppCompatActivity {
 
     @NonNull
     AlertDialog.Builder getBuilder() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.RoundedDialog);
         builder.setTitle(getResources().getString(R.string.newCategory));
         builder.setMessage(getResources().getString(R.string.descriptionOfNewCategory));
 
