@@ -38,6 +38,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.content.FileProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.codersanx.splitcost.databinding.ActivitySettingsBinding;
 import com.codersanx.splitcost.settings.ChangePrefix;
@@ -124,47 +125,10 @@ public class Settings extends AppCompatActivity {
         binding.changePrefix.setOnClickListener( v -> startActivity(new Intent(this, ChangePrefix.class)));
 
         binding.importDb.setOnClickListener( v -> importDb());
-        binding.listOfDb.setOnItemClickListener((parent, view, position, id) -> {
-            String selectedItem = (String) parent.getItemAtPosition(position);
-            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this, R.style.RoundedDialog);
-            alertDialogBuilder.setTitle(getResources().getString(R.string.deleteDb));
-            alertDialogBuilder.setMessage(getResources().getString(R.string.deleteDbDescription));
 
-            alertDialogBuilder.setNegativeButton(getResources().getString(R.string.delete), (dialog, which) -> {
-                if(allDb.readAll().size() < 2) {
-                    Toast.makeText(this, "Error!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                if (currentDb(this).equals(selectedItem)) {
-                    Toast.makeText(this, getResources().getText(R.string.changeDbBeforeDelete), Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                setResult(RESULT_OK);
-                allDb.delete(selectedItem);
-
-                deleteAll(selectedItem + INCOMES);
-                deleteAll(selectedItem + EXPENSES);
-                deleteAll(selectedItem + CATEGORY + INCOMES);
-                deleteAll(selectedItem + CATEGORY + EXPENSES);
-                deleteAll(selectedItem + MAIN_SETTINGS);
-
-                initVariables();
-            });
-
-            alertDialogBuilder.setPositiveButton(getResources().getString(R.string.exportDb), (dialog, which) -> {
-                clickAllow = false;
-                Toast.makeText(this, getResources().getString(R.string.pleaseWait), Toast.LENGTH_SHORT).show();
-                exportDb(selectedItem);
-
-                new Handler(Looper.getMainLooper()).postDelayed(() -> clickAllow = true, 10000);
-            });
-
-            if (clickAllow) {
-                AlertDialog alertDialog = alertDialogBuilder.create();
-                alertDialog.show();
-            }
+        binding.backB.setOnClickListener( v -> {
+            startActivity(new Intent(this, MainActivity.class));
+            finish();
         });
 
         binding.addNew.setOnClickListener( v -> {
@@ -244,11 +208,6 @@ public class Settings extends AppCompatActivity {
 
             AlertDialog alertDialog = alertDialogBuilder.create();
             alertDialog.show();
-        });
-
-        binding.backB.setOnClickListener( v -> {
-            startActivity(new Intent(this, MainActivity.class));
-            finish();
         });
 
         String isChangeTime = new Databases(this, MAIN_SETTINGS).get("time");
@@ -345,8 +304,51 @@ public class Settings extends AppCompatActivity {
     private void initVariables() {
         allDb = new Databases(this, ALL_DATABASES);
 
-        DatabaseAdapter adapter = new DatabaseAdapter(this, R.layout.database_settings, getAllDb(this));
+        DatabaseAdapter adapter = new DatabaseAdapter(getAllDb(this), item -> {
+            // Handle item click here
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this, R.style.RoundedDialog);
+            alertDialogBuilder.setTitle(getResources().getString(R.string.deleteDb));
+            alertDialogBuilder.setMessage(getResources().getString(R.string.deleteDbDescription));
+
+            alertDialogBuilder.setNegativeButton(getResources().getString(R.string.delete), (dialog, which) -> {
+                if(allDb.readAll().size() < 2) {
+                    Toast.makeText(this, "Error!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (currentDb(this).equals(item)) {
+                    Toast.makeText(this, getResources().getText(R.string.changeDbBeforeDelete), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                setResult(RESULT_OK);
+                allDb.delete(item);
+
+                deleteAll(item + INCOMES);
+                deleteAll(item + EXPENSES);
+                deleteAll(item + CATEGORY + INCOMES);
+                deleteAll(item + CATEGORY + EXPENSES);
+                deleteAll(item + MAIN_SETTINGS);
+
+                initVariables();
+            });
+
+            alertDialogBuilder.setPositiveButton(getResources().getString(R.string.exportDb), (dialog, which) -> {
+                clickAllow = false;
+                Toast.makeText(this, getResources().getString(R.string.pleaseWait), Toast.LENGTH_SHORT).show();
+                exportDb(item);
+
+                new Handler(Looper.getMainLooper()).postDelayed(() -> clickAllow = true, 10000);
+            });
+
+            if (clickAllow) {
+                AlertDialog alertDialog = alertDialogBuilder.create();
+                alertDialog.show();
+            }
+        });
+
         binding.listOfDb.setAdapter(adapter);
+        binding.listOfDb.setLayoutManager(new LinearLayoutManager(this));
     }
 
     private void copyFileToInternalStorage(Uri uri) {

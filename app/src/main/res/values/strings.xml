@@ -80,4 +80,11 @@
     <string name="change_note_time">Сhange \'Note\' time</string>
     <string name="global">Global</string>
     <string name="currency_changed">"Currency changed to: "</string>
+    <string name="creators">Creators</string>
+    <string name="designer_ky_sonnya">Designer: ky_sonnya</string>
+    <string name="developer_anready">Developer: Anready</string>
+    <string name="testers_yulia_michail">Testers: Yulia, Michail</string>
+    <string name="features_marco_tuzza">Features: marco-tuzza</string>
+    <string name="source_code_and_contributors">Source code and contributors</string>
+    <string name="join_our_discord_server_codersanx">Join Our Discord Server: CodersANX</string>
 </resources>

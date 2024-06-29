@@ -36,7 +36,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="3dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="12dp"
         app:layout_constraintEnd_toStartOf="@+id/chart"
         app:layout_constraintStart_toEndOf="@+id/back_b"
         app:layout_constraintTop_toTopOf="parent">
@@ -55,7 +55,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="2dp"
+        android:layout_marginEnd="8dp"
         android:background="?attr/selectableItemBackground"
         android:contentDescription="@string/Chart"
         android:src="@drawable/ic_pie_chart"

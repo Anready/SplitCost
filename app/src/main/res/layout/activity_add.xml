@@ -127,7 +127,7 @@
                         android:id="@+id/calculator"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
+                        android:layout_marginTop="20dp"
                         android:background="@drawable/sample_button"
                         android:backgroundTint="#6B7280"
                         android:drawableStart="@drawable/ic_calc"
@@ -141,13 +141,13 @@
                         android:textColor="#FFF"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/dateTimeE" />
+                        app:layout_constraintTop_toBottomOf="@+id/save" />
 
                     <android.widget.Button
                         android:id="@+id/save"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
+                        android:layout_marginTop="16dp"
                         android:background="@drawable/sample_button"
                         android:backgroundTint="#16A34A"
                         android:drawableStart="@drawable/ic_add"
@@ -161,7 +161,7 @@
                         android:textColor="#FFF"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/calculator" />
+                        app:layout_constraintTop_toBottomOf="@+id/dateTimeE" />
 
                     <TextView
                         android:id="@+id/textView6"
