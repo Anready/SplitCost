@@ -117,17 +117,27 @@ public class Add extends AppCompatActivity {
                         int hour = calendar.get(Calendar.HOUR_OF_DAY);
                         int minute = calendar.get(Calendar.MINUTE);
 
-                        TimePickerDialog timePickerDialog = new TimePickerDialog(this,
-                                (view1, selectedHour, selectedMinute) -> {
-                                    // Combine selected date and time
-                                    selectedDate.set(Calendar.HOUR_OF_DAY, selectedHour);
-                                    selectedDate.set(Calendar.MINUTE, selectedMinute);
+                        String isChangeTime = new Databases(this, MAIN_SETTINGS).get("time");
+                        if (isChangeTime != null && isChangeTime.equals(TRUE)) {
+                            TimePickerDialog timePickerDialog = new TimePickerDialog(this,
+                                    (view1, selectedHour, selectedMinute) -> {
+                                        // Combine selected date and time
+                                        selectedDate.set(Calendar.HOUR_OF_DAY, selectedHour);
+                                        selectedDate.set(Calendar.MINUTE, selectedMinute);
 
-                                    SimpleDateFormat combinedFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm", Locale.getDefault());
-                                    binding.dateTimeE.setText(combinedFormat.format(selectedDate.getTime()));
-                                }, hour, minute, true);
+                                        SimpleDateFormat combinedFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm", Locale.getDefault());
+                                        binding.dateTimeE.setText(combinedFormat.format(selectedDate.getTime()));
+                                    }, hour, minute, true);
 
-                        timePickerDialog.show();
+                            timePickerDialog.show();
+                            return;
+                        }
+
+                        selectedDate.set(Calendar.HOUR_OF_DAY, calendar.get(Calendar.HOUR_OF_DAY));
+                        selectedDate.set(Calendar.MINUTE, calendar.get(Calendar.MINUTE));
+
+                        SimpleDateFormat combinedFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm", Locale.getDefault());
+                        binding.dateTimeE.setText(combinedFormat.format(selectedDate.getTime()));
                     }, year, month, dayOfMonth);
 
             datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());

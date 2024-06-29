@@ -3,6 +3,7 @@ package com.codersanx.splitcost;
 import static com.codersanx.splitcost.utils.Constants.ALL_DATABASES;
 import static com.codersanx.splitcost.utils.Constants.CATEGORY;
 import static com.codersanx.splitcost.utils.Constants.EXPENSES;
+import static com.codersanx.splitcost.utils.Constants.FALSE;
 import static com.codersanx.splitcost.utils.Constants.INCOMES;
 import static com.codersanx.splitcost.utils.Constants.MAIN_SETTINGS;
 import static com.codersanx.splitcost.utils.Constants.TRUE;
@@ -250,6 +251,40 @@ public class Settings extends AppCompatActivity {
             finish();
         });
 
+        String isChangeTime = new Databases(this, MAIN_SETTINGS).get("time");
+        binding.changeTime.setChecked(isChangeTime != null && isChangeTime.equals(TRUE));
+        binding.changeTime.setOnCheckedChangeListener((buttonView, isChecked) -> new Databases(this, MAIN_SETTINGS).set("time", isChecked ? TRUE : FALSE));
+
+        binding.githubAnready.setOnClickListener( v -> {
+            Uri uri = Uri.parse("https://github.com/Anready");
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            startActivity(intent);
+        });
+
+        binding.githubMarco.setOnClickListener( v -> {
+            Uri uri = Uri.parse("https://github.com/marco-tuzza");
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            startActivity(intent);
+        });
+
+        binding.githubCode.setOnClickListener( v -> {
+            Uri uri = Uri.parse("https://github.com/Anready/SplitCost");
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            startActivity(intent);
+        });
+
+        binding.instagramSonnya.setOnClickListener( v -> {
+            Uri uri = Uri.parse("https://www.instagram.com/ky_sonnya");
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            startActivity(intent);
+        });
+
+        binding.discord.setOnClickListener( v -> {
+            Uri uri = Uri.parse("https://discord.com/invite/hXcJKFybvD");
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            startActivity(intent);
+        });
+
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
@@ -257,8 +292,6 @@ public class Settings extends AppCompatActivity {
                 finish();
             }
         });
-
-
     }
 
     private void deleteAll(String s) {

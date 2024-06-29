@@ -75,6 +75,9 @@
     <string name="view_income">View Income</string>
     <string name="view_expense">View Expense</string>
     <string name="current_balance">Current Balance</string>
-    <string name="change_prefix">Change Prefix</string>
+    <string name="change_prefix">Change Currency</string>
     <string name="back_description">Back</string>
+    <string name="change_note_time">Сhange \'Note\' time</string>
+    <string name="global">Global</string>
+    <string name="currency_changed">"Currency changed to: "</string>
 </resources>
