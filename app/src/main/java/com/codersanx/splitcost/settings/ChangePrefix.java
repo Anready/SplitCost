@@ -33,6 +33,7 @@ public class ChangePrefix extends AppCompatActivity {
             String selectedItem = (String) parent.getItemAtPosition(position);
             new Databases(this, currentDb(this) + MAIN_SETTINGS).set(PREFIX, selectedItem.split(", ")[1]);
             Toast.makeText(this, getResources().getText(R.string.currency_changed) + selectedItem.split(", ")[1], Toast.LENGTH_SHORT).show();
+            setResult(RESULT_OK);
             finish();
         });
 

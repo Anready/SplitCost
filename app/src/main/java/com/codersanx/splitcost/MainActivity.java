@@ -8,6 +8,7 @@ import static com.codersanx.splitcost.utils.Constants.PREFIX;
 import static com.codersanx.splitcost.utils.Utils.applyTheme;
 import static com.codersanx.splitcost.utils.Utils.currentDb;
 import static com.codersanx.splitcost.utils.Utils.getAllDb;
+import static com.codersanx.splitcost.utils.Utils.getPrefix;
 import static com.codersanx.splitcost.utils.Utils.initApp;
 
 import android.content.Intent;
@@ -124,8 +125,7 @@ public class MainActivity extends AppCompatActivity implements GetUpdate.UpdateC
         expensesPerAll = perAll(true);
         incomesPerAll = perAll(false);
 
-        String tempPrefix = new Databases(this, currentDb + MAIN_SETTINGS).get(PREFIX);
-        prefix = (tempPrefix != null) ? tempPrefix : "$";
+        prefix = getPrefix(this);
     }
 
     private void setText() {

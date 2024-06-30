@@ -1,59 +1,48 @@
 package com.codersanx.splitcost.utils.adapters;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.codersanx.splitcost.R;
 
 import java.util.List;
 
-public class DatabaseAdapter extends RecyclerView.Adapter<DatabaseAdapter.ViewHolder> {
-    private final List<String> items;
-    private final OnItemClickListener listener;
+public class DatabaseAdapter extends ArrayAdapter<String> {
+    private final int resourceLayout;
+    private final Context mContext;
 
-    public interface OnItemClickListener {
-        void onItemClick(String item);
-    }
-
-    public DatabaseAdapter(List<String> items, OnItemClickListener listener) {
-        this.items = items;
-        this.listener = listener;
+    public DatabaseAdapter(Context context, int resource, List<String> items) {
+        super(context, resource, items);
+        this.resourceLayout = resource;
+        this.mContext = context;
     }
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.database_settings, parent, false);
-        return new ViewHolder(view);
-    }
+    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
+        View view = convertView;
 
-    @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        String item = items.get(position);
-        holder.bind(item, listener);
-    }
-
-    @Override
-    public int getItemCount() {
-        return items.size();
-    }
-
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        private final TextView textView;
-
-        public ViewHolder(View itemView) {
-            super(itemView);
-            textView = itemView.findViewById(R.id.textViewTitle); // Use your actual TextView ID from the layout
+        if (view == null) {
+            LayoutInflater inflater;
+            inflater = LayoutInflater.from(mContext);
+            view = inflater.inflate(resourceLayout, null);
         }
 
-        public void bind(final String item, final OnItemClickListener listener) {
-            textView.setText(item);
-            itemView.setOnClickListener(v -> listener.onItemClick(item));
+        String item = getItem(position);
+
+        if (item != null) {
+            TextView textView = view.findViewById(R.id.textViewTitle);
+            if (textView != null) {
+                textView.setText(item);
+            }
         }
+
+        return view;
     }
 }

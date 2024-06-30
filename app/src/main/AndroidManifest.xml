@@ -15,12 +15,15 @@
         android:theme="@style/Theme.SplitCost"
         tools:targetApi="31">
         <activity
+            android:name=".settings.ManageDatabase"
+            android:exported="false" />
+        <activity
             android:name=".settings.ChangePrefix"
             android:exported="false" />
         <activity
             android:name=".add.calculator.Calculator"
-            android:screenOrientation="portrait"
             android:exported="false"
+            android:screenOrientation="portrait"
             tools:ignore="DiscouragedApi,LockedOrientationActivity" />
         <activity
             android:name=".Settings"
