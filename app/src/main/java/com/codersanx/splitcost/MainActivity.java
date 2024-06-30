@@ -4,7 +4,6 @@ import static com.codersanx.splitcost.utils.Constants.CURRENT_DB;
 import static com.codersanx.splitcost.utils.Constants.EXPENSES;
 import static com.codersanx.splitcost.utils.Constants.INCOMES;
 import static com.codersanx.splitcost.utils.Constants.MAIN_SETTINGS;
-import static com.codersanx.splitcost.utils.Constants.PREFIX;
 import static com.codersanx.splitcost.utils.Utils.applyTheme;
 import static com.codersanx.splitcost.utils.Utils.currentDb;
 import static com.codersanx.splitcost.utils.Utils.getAllDb;
