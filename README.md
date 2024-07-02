@@ -6,7 +6,7 @@ SplitCost is an Android application designed for convenient and efficient expens
   <tbody>
     <tr>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/Anready"><img src="https://avatars.githubusercontent.com/u/104269567?v=4" width="100px;" alt="Anready"/><br /><sub><b>Anready</b></sub></a><br /><a href="#code" title="code">💻</a><a href="#owner" title="owner">👑</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/coderGtm"><img src="https://avatars.githubusercontent.com/u/66418526?v=4?s=100" width="100px;" alt="Gautam Mehta"/><br /><sub><b>Gautam Mehta</b></sub></a><br /> <a href="#review-coderGtm" title="Reviewed clean code">👀</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/coderGtm"><img src="https://avatars.githubusercontent.com/u/66418526?v=4?s=100" width="100px;" alt="Gautam Mehta"/><br /><sub><b>Gautam Mehta</b></sub></a><br /> <a href="#review-coderGtm" title="Reviewed clean code">👀</a> <a href="#scopitiren-code" title="Скопитырен code">Скопитырин код</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/marco-tuzza"><img src="https://avatars.githubusercontent.com/u/62022949?v=4" width="100px;" alt="marco-tuzza"/><br /><sub><b>marco-tuzza</b></sub></a><br /><a href="#features" title="features">💭</a></td>
     </tr>
   </tbody>
