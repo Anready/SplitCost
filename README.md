@@ -32,10 +32,11 @@ SplitCost is an Android application designed for convenient and efficient expens
 ### Visualization
 - [x] **Charts:** Visualize your expenses with pie charts and bar graphs to get insights into your spending patterns.
 - [x] **Summary View:** Get a quick overview of total expenses and individual contributions.
+- [x] **Sorting by categories** Sorting mode for sorting by categories (by [marco-tuzza](https://github.com/marco-tuzza)
 
 ### Utilities
 - [x] **Calculator:** Built-in calculator for quick calculations without leaving the app.
-- [x] **Settings:** Customize app settings including themes, currency, and notifications.
+- [x] **Settings:** Customize app settings including themes, currency.
 
 ### Database Management
 - [x] **Multiple Databases:** Manage multiple databases for different purposes.
