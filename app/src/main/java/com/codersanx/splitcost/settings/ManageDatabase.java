@@ -5,6 +5,7 @@ import static com.codersanx.splitcost.utils.Constants.CATEGORY;
 import static com.codersanx.splitcost.utils.Constants.EXPENSES;
 import static com.codersanx.splitcost.utils.Constants.INCOMES;
 import static com.codersanx.splitcost.utils.Constants.MAIN_SETTINGS;
+import static com.codersanx.splitcost.utils.Constants.TRUE;
 import static com.codersanx.splitcost.utils.Utils.currentDb;
 import static com.codersanx.splitcost.utils.Utils.getAllDb;
 import static com.codersanx.splitcost.utils.Utils.renameFile;
@@ -19,6 +20,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.provider.DocumentsContract;
+import android.text.Editable;
+import android.text.InputFilter;
+import android.text.TextWatcher;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -119,6 +125,85 @@ public class ManageDatabase extends AppCompatActivity {
                 AlertDialog alertDialog = alertDialogBuilder.create();
                 alertDialog.show();
             }
+        });
+
+        binding.addNew.setOnClickListener( v -> {
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this, R.style.RoundedDialog);
+            alertDialogBuilder.setTitle(getResources().getString(R.string.createDb));
+            alertDialogBuilder.setMessage(getResources().getString(R.string.descriptionCreateDb));
+
+            final EditText input = new EditText(this);
+
+            int marginHorizontal = 40;
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+            );
+            params.setMargins(marginHorizontal, 20, marginHorizontal, 0);
+            input.setLayoutParams(params);
+
+            LinearLayout container = new LinearLayout(this);
+            container.setOrientation(LinearLayout.VERTICAL);
+            container.addView(input);
+
+            InputFilter[] filters = new InputFilter[1];
+            filters[0] = new InputFilter.LengthFilter(17);
+
+            input.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+                    String text = editable.toString();
+                    if (text.contains(" ")) {
+                        int commaIndex = text.indexOf(' ');
+                        String newText = text.substring(0, commaIndex) + text.substring(commaIndex + 1);
+                        input.setText(newText);
+                        input.setSelection(commaIndex);
+                    } else if (text.contains("@")) {
+                        int commaIndex = text.indexOf('@');
+                        String newText = text.substring(0, commaIndex) + text.substring(commaIndex + 1);
+                        input.setText(newText);
+                        input.setSelection(commaIndex);
+                    } else if (text.contains(":")) {
+                        int commaIndex = text.indexOf(':');
+                        String newText = text.substring(0, commaIndex) + text.substring(commaIndex + 1);
+                        input.setText(newText);
+                        input.setSelection(commaIndex);
+                    }
+                }
+            });
+
+            input.setFilters(filters);
+            alertDialogBuilder.setView(container);
+
+            alertDialogBuilder.setPositiveButton(getResources().getString(R.string.create), (dialog, which) -> {
+                String userInput = input.getText().toString();
+                if (!userInput.isEmpty()) {
+                    if (allDb.get(userInput) != null) {
+                        Toast.makeText(this, getResources().getString(R.string.dbAlreadyExist), Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    allDb.set(userInput, TRUE);
+                    new Databases(this, userInput + CATEGORY + EXPENSES).set(getResources().getString(R.string.products), TRUE);
+                    new Databases(this, userInput + CATEGORY + INCOMES).set(getResources().getString(R.string.salary), TRUE);
+
+                    initVariables();
+                    dialog.cancel();
+                }
+            });
+
+            alertDialogBuilder.setNegativeButton(getResources().getString(R.string.cancel), (dialog, which) -> dialog.dismiss());
+
+            AlertDialog alertDialog = alertDialogBuilder.create();
+            alertDialog.show();
         });
     }
 

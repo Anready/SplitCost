@@ -14,6 +14,8 @@ import android.content.Context;
 
 import androidx.appcompat.app.AppCompatDelegate;
 
+import com.codersanx.splitcost.R;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -36,17 +38,17 @@ public class Utils {
         db.set(CURRENT_DB, "LocalDatabase");
 
         Databases expenseCategory = new Databases(c, currentDb(c) + CATEGORY + EXPENSES);
-        expenseCategory.set("Products", TRUE);
+        expenseCategory.set(c.getResources().getString(R.string.products), TRUE);
 
         Databases incomesCategory = new Databases(c, currentDb(c) + CATEGORY + INCOMES);
-        incomesCategory.set("Salary", TRUE);
+        incomesCategory.set(c.getResources().getString(R.string.salary), TRUE);
 
         settings.set(PREFIX, "$");
 
         settings.set("language", "en");
         settings.set("theme", "white");
         settings.set("isOnline", FALSE);
-        db.set("isInitComplete", FALSE);
+        db.set("isInitComplete", TRUE);
     }
 
     public static String currentDb(Context c) {

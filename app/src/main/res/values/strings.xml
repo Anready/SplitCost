@@ -89,4 +89,6 @@
     <string name="join_our_discord_server_codersanx">Join Our Discord Server: CodersANX</string>
     <string name="manage_db">Manage Databases</string>
     <string name="theme">Theme</string>
+    <string name="salary">Salary</string>
+    <string name="products">Products</string>
 </resources>
