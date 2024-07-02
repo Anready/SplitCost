@@ -32,7 +32,7 @@ SplitCost is an Android application designed for convenient and efficient expens
 ### Visualization
 - [x] **Charts:** Visualize your expenses with pie charts and bar graphs to get insights into your spending patterns.
 - [x] **Summary View:** Get a quick overview of total expenses and individual contributions.
-- [x] **Sorting by categories** Sorting mode for sorting by categories (by [marco-tuzza](https://github.com/marco-tuzza)
+- [x] **Sorting by categories** Sorting mode for sorting by categories (by [marco-tuzza](https://github.com/marco-tuzza))
 
 ### Utilities
 - [x] **Calculator:** Built-in calculator for quick calculations without leaving the app.
@@ -132,14 +132,14 @@ This project is licensed under the Eclipse Public License 2.0 (EPL-2.0). See the
 We value your feedback and ideas for improving SplitCost. Join our [Discord server](https://discord.gg/8HrYtdQQqZ) to discuss new features and report issues.
 
 ### Planned Features
-- Enhanced synchronization options.
-- Advanced charting and reporting tools.
-- Improved UI/UX for a better user experience.
+- [ ] Enhanced synchronization options.
+- [ ] Advanced charting and reporting tools.
+- [x] Improved UI/UX for a better user experience.
 
 ## Acknowledgements
 
 - Thanks to all our contributors for their hard work and dedication.
-- Special thanks to the open-source community for their valuable tools and libraries.
+- Special thanks to the open-source community for their valuable tools and libraries. [Mzip](https://mvnrepository.com/artifact/com.github.ghost1372/Mzip-Android/0.4.0), [PyChart](https://github.com/PhilJay/MPAndroidChart), [Exp4J](https://mvnrepository.com/artifact/net.objecthunter/exp4j/0.4.8)
 
 ## Contact
 
