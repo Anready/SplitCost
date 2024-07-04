@@ -4,7 +4,6 @@ import static com.codersanx.splitcost.utils.Constants.CURRENT_DB;
 import static com.codersanx.splitcost.utils.Constants.EXPENSES;
 import static com.codersanx.splitcost.utils.Constants.INCOMES;
 import static com.codersanx.splitcost.utils.Constants.MAIN_SETTINGS;
-import static com.codersanx.splitcost.utils.Utils.applyTheme;
 import static com.codersanx.splitcost.utils.Utils.currentDb;
 import static com.codersanx.splitcost.utils.Utils.getAllDb;
 import static com.codersanx.splitcost.utils.Utils.getPrefix;
@@ -138,7 +137,6 @@ public class MainActivity extends AppCompatActivity implements GetUpdate.UpdateC
         binding.currentDb.setOnItemClickListener((parent, view, position, id1) -> {
             db.set(CURRENT_DB, parent.getItemAtPosition(position).toString());
             initVariables();
-            applyTheme(new Databases(this, currentDb + MAIN_SETTINGS));
             binding.balans.setTextColor(Color.parseColor("#22C55E"));
             runOnUiThread(this::setText); // Update UI on the main thread
         });

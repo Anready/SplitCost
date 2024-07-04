@@ -29,7 +29,7 @@ public class Utils {
         Databases settings = new Databases(c, currentDb(c) + MAIN_SETTINGS);
 
         if (db.get("isInitComplete") != null){
-            applyTheme(settings);
+            applyTheme(new Databases(c, MAIN_SETTINGS));
             return;
         }
 

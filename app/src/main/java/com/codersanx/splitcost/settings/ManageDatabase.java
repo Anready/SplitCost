@@ -91,26 +91,37 @@ public class ManageDatabase extends AppCompatActivity {
             alertDialogBuilder.setMessage(getResources().getString(R.string.deleteDbDescription));
 
             alertDialogBuilder.setNegativeButton(getResources().getString(R.string.delete), (dialog, which) -> {
-                if(allDb.readAll().size() < 2) {
-                    Toast.makeText(this, "Error!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
+                AlertDialog.Builder areYouSure = new AlertDialog.Builder(this, R.style.RoundedDialog);
+                areYouSure.setTitle(getResources().getString(R.string.delete));
+                areYouSure.setMessage(getResources().getString(R.string.areYouSure) + " " + selectedItem + "?");
 
-                if (currentDb(this).equals(selectedItem)) {
-                    Toast.makeText(this, getResources().getText(R.string.changeDbBeforeDelete), Toast.LENGTH_SHORT).show();
-                    return;
-                }
+                areYouSure.setNegativeButton(getResources().getString(R.string.delete), (dialog_sure, which_sure) -> {
+                    if(allDb.readAll().size() < 2) {
+                        Toast.makeText(this, "Error!", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
 
-                setResult(RESULT_OK);
-                allDb.delete(selectedItem);
+                    if (currentDb(this).equals(selectedItem)) {
+                        Toast.makeText(this, getResources().getText(R.string.changeDbBeforeDelete), Toast.LENGTH_SHORT).show();
+                        return;
+                    }
 
-                deleteAll(selectedItem + INCOMES);
-                deleteAll(selectedItem + EXPENSES);
-                deleteAll(selectedItem + CATEGORY + INCOMES);
-                deleteAll(selectedItem + CATEGORY + EXPENSES);
-                deleteAll(selectedItem + MAIN_SETTINGS);
+                    setResult(RESULT_OK);
+                    allDb.delete(selectedItem);
 
-                initVariables();
+                    deleteAll(selectedItem + INCOMES);
+                    deleteAll(selectedItem + EXPENSES);
+                    deleteAll(selectedItem + CATEGORY + INCOMES);
+                    deleteAll(selectedItem + CATEGORY + EXPENSES);
+                    deleteAll(selectedItem + MAIN_SETTINGS);
+
+                    initVariables();
+                });
+
+                areYouSure.setPositiveButton(getResources().getString(R.string.cancel), (dialog_sure, which_sure) -> dialog_sure.cancel());
+
+                AlertDialog alertDialog = areYouSure.create();
+                alertDialog.show();
             });
 
             alertDialogBuilder.setPositiveButton(getResources().getString(R.string.exportDb), (dialog, which) -> {
@@ -161,22 +172,22 @@ public class ManageDatabase extends AppCompatActivity {
                 @Override
                 public void afterTextChanged(Editable editable) {
                     String text = editable.toString();
+                    int commaIndex = -1;
                     if (text.contains(" ")) {
-                        int commaIndex = text.indexOf(' ');
-                        String newText = text.substring(0, commaIndex) + text.substring(commaIndex + 1);
-                        input.setText(newText);
-                        input.setSelection(commaIndex);
+                        commaIndex = text.indexOf(' ');
                     } else if (text.contains("@")) {
-                        int commaIndex = text.indexOf('@');
-                        String newText = text.substring(0, commaIndex) + text.substring(commaIndex + 1);
-                        input.setText(newText);
-                        input.setSelection(commaIndex);
+                        commaIndex = text.indexOf('@');
                     } else if (text.contains(":")) {
-                        int commaIndex = text.indexOf(':');
-                        String newText = text.substring(0, commaIndex) + text.substring(commaIndex + 1);
-                        input.setText(newText);
-                        input.setSelection(commaIndex);
+                        commaIndex = text.indexOf(':');
+                    } else if (text.contains("/")) {
+                        commaIndex = text.indexOf('/');
                     }
+
+                    if (commaIndex == -1) return;
+
+                    String newText = text.substring(0, commaIndex) + text.substring(commaIndex + 1);
+                    input.setText(newText);
+                    input.setSelection(commaIndex);
                 }
             });
 

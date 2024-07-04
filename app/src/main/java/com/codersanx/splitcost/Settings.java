@@ -4,7 +4,6 @@ import static com.codersanx.splitcost.utils.Constants.FALSE;
 import static com.codersanx.splitcost.utils.Constants.MAIN_SETTINGS;
 import static com.codersanx.splitcost.utils.Constants.TRUE;
 import static com.codersanx.splitcost.utils.Utils.applyTheme;
-import static com.codersanx.splitcost.utils.Utils.currentDb;
 import static com.codersanx.splitcost.utils.Utils.getPrefix;
 
 import android.content.Intent;
@@ -43,11 +42,10 @@ public class Settings extends AppCompatActivity {
         List<String> items = getListOfThemes();
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.theme_adapter, items);
-
         adapter.setDropDownViewResource(R.layout.elements_theme_spinner);
         binding.theme.setAdapter(adapter);
 
-        Databases settings = new Databases(this, currentDb(this) + MAIN_SETTINGS);
+        Databases settings = new Databases(this, MAIN_SETTINGS);
 
         if (settings.get("theme") != null && settings.get("theme").equals("dark")) {
             binding.theme.setSelection(1);

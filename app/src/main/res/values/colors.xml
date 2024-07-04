@@ -24,4 +24,5 @@
     <color name="light_blue_600">#FF039BE5</color>
     <color name="light_blue_900">#FF01579B</color>
     <color name="border_color">#6c6c6c</color>
+    <color name="backButton">#322F2F</color>
 </resources>

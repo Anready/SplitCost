@@ -83,7 +83,7 @@
     <string name="creators">Contributors</string>
     <string name="designer_ky_sonnya">Designer: ky_sonnya</string>
     <string name="developer_anready">Developer: Anready</string>
-    <string name="testers_yulia_michail">QA: Yulia, Michail</string>
+    <string name="testers_yulia_michail">QA: Yuliia, Mykhailo</string>
     <string name="features_marco_tuzza">Features: marco-tuzza</string>
     <string name="source_code_and_contributors">Source code and contributors</string>
     <string name="join_our_discord_server_codersanx">Join Our Discord Server: CodersANX</string>
@@ -91,4 +91,5 @@
     <string name="theme">Theme</string>
     <string name="salary">Salary</string>
     <string name="products">Products</string>
+    <string name="areYouSure">Are you sure to delete database?</string>
 </resources>
