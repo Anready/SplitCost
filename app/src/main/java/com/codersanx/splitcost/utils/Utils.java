@@ -10,8 +10,15 @@ import static com.codersanx.splitcost.utils.Constants.MAIN_SETTINGS;
 import static com.codersanx.splitcost.utils.Constants.PREFIX;
 import static com.codersanx.splitcost.utils.Constants.TRUE;
 
+import android.app.Application;
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.Network;
+import android.net.NetworkCapabilities;
+import android.net.NetworkInfo;
+import android.os.Build;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatDelegate;
 
 import com.codersanx.splitcost.R;
@@ -89,5 +96,32 @@ public class Utils {
         String prefix = new Databases(c, currentDb(c) + MAIN_SETTINGS).get(PREFIX);
         if (prefix == null) prefix = "$";
         return prefix;
+    }
+
+    public static boolean isInternetAvailable(Application application) {
+        ConnectivityManager connectivityManager = (ConnectivityManager) application.getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            Network nw = connectivityManager.getActiveNetwork();
+            if (nw == null) return false;
+            NetworkCapabilities actNw = connectivityManager.getNetworkCapabilities(nw);
+            return actNw != null && (actNw.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) || actNw.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) || actNw.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) || actNw.hasTransport(NetworkCapabilities.TRANSPORT_BLUETOOTH));
+        } else {
+            NetworkInfo nwInfo = connectivityManager.getActiveNetworkInfo();
+            return nwInfo != null && nwInfo.isConnected();
+        }
+    }
+
+    public static boolean isDatabaseOnline(Context c) {
+        Databases settings = new Databases(c, currentDb(c) + MAIN_SETTINGS);
+        return settings.get("isOnline") != null && settings.get("isOnline").equals(TRUE);
+    }
+
+    public static void synchronizeDb(Context c) {
+        synchronizeDb(c,null);
+    }
+
+    public static void synchronizeDb(Context c, AlertDialog a) {
+        System.out.println("SYNCING");
+        if (a != null) a.cancel();
     }
 }

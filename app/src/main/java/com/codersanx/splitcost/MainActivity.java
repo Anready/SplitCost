@@ -8,6 +8,9 @@ import static com.codersanx.splitcost.utils.Utils.currentDb;
 import static com.codersanx.splitcost.utils.Utils.getAllDb;
 import static com.codersanx.splitcost.utils.Utils.getPrefix;
 import static com.codersanx.splitcost.utils.Utils.initApp;
+import static com.codersanx.splitcost.utils.Utils.isDatabaseOnline;
+import static com.codersanx.splitcost.utils.Utils.isInternetAvailable;
+import static com.codersanx.splitcost.utils.Utils.synchronizeDb;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -21,16 +24,20 @@ import android.view.View;
 import android.view.animation.AnticipateInterpolator;
 import android.widget.ArrayAdapter;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.WorkManager;
 
 import com.codersanx.splitcost.add.Add;
 import com.codersanx.splitcost.databinding.ActivityMainBinding;
 import com.codersanx.splitcost.utils.Databases;
 import com.codersanx.splitcost.utils.GetUpdate;
+import com.codersanx.splitcost.utils.SyncDbOnExit;
 import com.codersanx.splitcost.view.ViewData;
 
 import java.math.BigDecimal;
@@ -77,6 +84,18 @@ public class MainActivity extends AppCompatActivity implements GetUpdate.UpdateC
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        if (isInternetAvailable(getApplication()) && isDatabaseOnline(this)) {
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this, R.style.RoundedDialog);
+            alertDialogBuilder.setTitle(getResources().getString(R.string.changeData));
+            alertDialogBuilder.setMessage(getResources().getString(R.string.enterNewData));
+            alertDialogBuilder.setCancelable(false);
+
+            AlertDialog alertDialog = alertDialogBuilder.create();
+            alertDialog.show();
+
+            synchronizeDb(this, alertDialog);
+        }
+
         GetUpdate fetchData = new GetUpdate(getResources().getString(R.string.URL_WITH_UPDATES), this, this);
         fetchData.getUpdateInformation();
 
@@ -98,8 +117,14 @@ public class MainActivity extends AppCompatActivity implements GetUpdate.UpdateC
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {
                     if (result.getResultCode() == RESULT_OK) {
+                        initApp(this);
                         initVariables();
-                        binding.balans.setTextColor(Color.parseColor("#22C55E"));
+
+                        ArrayAdapter<String> adapter_new = new ArrayAdapter<>(this, R.layout.dropdown_item, getAllDb(this));
+                        binding.currentDb.setFocusable(false);
+                        binding.currentDb.setFocusableInTouchMode(false);
+                        binding.currentDb.setAdapter(adapter_new);
+
                         setText();
                     }
                 }
@@ -129,16 +154,24 @@ public class MainActivity extends AppCompatActivity implements GetUpdate.UpdateC
             addLauncher.launch(intent);
         });
 
-        binding.settings.setOnClickListener(v -> {
-            startActivity(new Intent(this, Settings.class));
-            finish();
-        });
+        binding.settings.setOnClickListener(v -> addLauncher.launch(new Intent(this, Settings.class)));
 
         binding.currentDb.setOnItemClickListener((parent, view, position, id1) -> {
             db.set(CURRENT_DB, parent.getItemAtPosition(position).toString());
             initVariables();
             binding.balans.setTextColor(Color.parseColor("#22C55E"));
             runOnUiThread(this::setText); // Update UI on the main thread
+        });
+
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                SyncDbOnExit.setActivity(MainActivity.this);
+
+                OneTimeWorkRequest myWorkRequest = new OneTimeWorkRequest.Builder(SyncDbOnExit.class).build();
+                WorkManager.getInstance(MainActivity.this).enqueue(myWorkRequest);
+                finish();
+            }
         });
     }
 

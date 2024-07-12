@@ -13,7 +13,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
-import androidx.activity.OnBackPressedCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
@@ -38,6 +37,8 @@ public class Settings extends AppCompatActivity {
 
         binding = ActivitySettingsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        setResult(RESULT_OK);
 
         List<String> items = getListOfThemes();
 
@@ -79,10 +80,7 @@ public class Settings extends AppCompatActivity {
 
         binding.manageDb.setOnClickListener( v -> startActivity(new Intent(this, ManageDatabase.class)));
 
-        binding.backB.setOnClickListener( v -> {
-            startActivity(new Intent(this, MainActivity.class));
-            finish();
-        });
+        binding.backB.setOnClickListener( v -> finish());
 
         String isChangeTime = new Databases(this, MAIN_SETTINGS).get("time");
         binding.changeTime.setChecked(isChangeTime != null && isChangeTime.equals(TRUE));
@@ -116,14 +114,6 @@ public class Settings extends AppCompatActivity {
             Uri uri = Uri.parse("https://discord.com/invite/hXcJKFybvD");
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
             startActivity(intent);
-        });
-
-        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
-            @Override
-            public void handleOnBackPressed() {
-                startActivity(new Intent(Settings.this, MainActivity.class));
-                finish();
-            }
         });
     }
 
