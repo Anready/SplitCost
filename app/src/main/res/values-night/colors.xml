@@ -15,4 +15,6 @@
     <color name="purple_700">#3ACD7C</color>
     <color name="border_color">#c1c1c1</color>
     <color name="backButton">#C1B4B4</color>
+    <color name="settings_item">#15FFFFFF</color>
+    <color name="settings_text_color">#FFFFFF</color>
 </resources>

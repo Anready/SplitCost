@@ -45,25 +45,44 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <android.widget.Button
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/manageDb"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
-                android:background="@drawable/border_for_spinner"
-                android:drawableEnd="@drawable/ic_db"
-                android:paddingStart="10dp"
-                android:paddingEnd="10dp"
-                android:text="@string/manage_db"
-                android:gravity="center_vertical"
-                android:textAllCaps="false"
-                android:textColor="@color/calcButtonText"
+                android:background="@drawable/round_background"
+                android:padding="12dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.607"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView2" />
+                app:layout_constraintTop_toBottomOf="@+id/textView2" >
+
+                <ImageView
+                    android:id="@+id/manageDb_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/manage_db"
+                    android:gravity="center_vertical"
+                    android:src="@drawable/ic_db"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/manageDb_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:text="@string/manage_db"
+                    android:textColor="@color/settings_text_color"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.0" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/changePrefix"
@@ -72,7 +91,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
-                android:background="@drawable/border_for_spinner"
+                android:background="@drawable/round_background"
                 android:padding="12dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.607"
@@ -86,7 +105,6 @@
                     android:gravity="center_vertical"
                     android:textColor="@color/teal_200"
                     android:textSize="16sp"
-                    android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -97,9 +115,8 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:text="@string/change_prefix"
-                    android:textColor="@color/calcButtonText"
+                    android:textColor="@color/settings_text_color"
                     android:textSize="14sp"
-                    android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -113,10 +130,9 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
-                android:background="@drawable/border_for_spinner"
+                android:background="@drawable/round_background"
                 android:paddingHorizontal="10dp"
                 android:text="@string/change_note_time"
-                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/theme_h_holder" />
@@ -129,7 +145,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
-                android:background="@drawable/border_for_spinner"
+                android:background="@drawable/round_background"
                 android:padding="12dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.607"
@@ -142,9 +158,8 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:text="@string/theme"
-                    android:textColor="@color/calcButtonText"
+                    android:textColor="@color/settings_text_color"
                     android:textSize="14sp"
-                    android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -168,7 +183,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="24dp"
                 android:text="@string/creators"
-                android:textColor="@color/calcButtonText"
+                android:textColor="@color/settings_text_color"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
@@ -181,7 +196,7 @@
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="10dp"
-                android:background="@drawable/border_for_spinner"
+                android:background="@drawable/round_background"
                 android:paddingVertical="10dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -245,7 +260,7 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="4dp"
                     android:text="@string/designer_ky_sonnya"
-                    android:textColor="@color/add_description"
+                    android:textColor="@color/settings_text_color"
                     android:textSize="16sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView12" />
@@ -257,7 +272,7 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="4dp"
                     android:text="@string/developer_anready"
-                    android:textColor="@color/add_description"
+                    android:textColor="@color/settings_text_color"
                     android:textSize="16sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView13" />
@@ -268,7 +283,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:text="@string/testers_yulia_michail"
-                    android:textColor="@color/add_description"
+                    android:textColor="@color/settings_text_color"
                     android:textSize="16sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -280,7 +295,7 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="4dp"
                     android:text="@string/features_marco_tuzza"
-                    android:textColor="@color/add_description"
+                    android:textColor="@color/settings_text_color"
                     android:textSize="16sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView11" />
@@ -292,7 +307,7 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="4dp"
                     android:text="@string/source_code_and_contributors"
-                    android:textColor="@color/add_description"
+                    android:textColor="@color/settings_text_color"
                     android:textSize="16sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView14" />
@@ -304,7 +319,7 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="4dp"
                     android:text="@string/join_our_discord_server_codersanx"
-                    android:textColor="@color/add_description"
+                    android:textColor="@color/settings_text_color"
                     android:textSize="16sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView15" />

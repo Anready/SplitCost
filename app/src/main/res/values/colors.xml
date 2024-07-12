@@ -25,4 +25,6 @@
     <color name="light_blue_900">#FF01579B</color>
     <color name="border_color">#6c6c6c</color>
     <color name="backButton">#322F2F</color>
+    <color name="settings_item">#15000000</color>
+    <color name="settings_text_color">#111827</color>
 </resources>
