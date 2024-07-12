@@ -15,6 +15,7 @@ public class Constants {
     public static final String ALL_DATABASES = "AllDatabases";
     public static final String CURRENT_DB = "currentDb";
     public static final String PREFIX = "prefix";
+    public static final String PASSWORD = "password";
     public static String PASS_FROM_ZIP(Context c) {
         return c.getResources().getString(R.string.PASS_FOR_ZIP);
     }

@@ -2,6 +2,7 @@ package com.codersanx.splitcost;
 
 import static com.codersanx.splitcost.utils.Constants.FALSE;
 import static com.codersanx.splitcost.utils.Constants.MAIN_SETTINGS;
+import static com.codersanx.splitcost.utils.Constants.PASSWORD;
 import static com.codersanx.splitcost.utils.Constants.TRUE;
 import static com.codersanx.splitcost.utils.Utils.applyTheme;
 import static com.codersanx.splitcost.utils.Utils.getPrefix;
@@ -12,15 +13,20 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
 import com.codersanx.splitcost.databinding.ActivitySettingsBinding;
 import com.codersanx.splitcost.settings.ChangePrefix;
 import com.codersanx.splitcost.settings.ManageDatabase;
+import com.codersanx.splitcost.settings.Password;
 import com.codersanx.splitcost.utils.Databases;
 
 import java.util.ArrayList;
@@ -55,6 +61,12 @@ public class Settings extends AppCompatActivity {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
 
+        if (settings.get(PASSWORD) != null) {
+            binding.setPasswordIcon.setImageResource(R.drawable.ic_lock);
+        } else {
+            binding.setPasswordIcon.setImageResource(R.drawable.ic_unlock);
+        }
+
         binding.theme.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -72,6 +84,12 @@ public class Settings extends AppCompatActivity {
                 result -> {
             if (result.getResultCode() == RESULT_OK) {
                 binding.startText.setText(getPrefix(this));
+
+                if (settings.get(PASSWORD) != null) {
+                    binding.setPasswordIcon.setImageResource(R.drawable.ic_lock);
+                } else {
+                    binding.setPasswordIcon.setImageResource(R.drawable.ic_unlock);
+                }
             }
         });
 
@@ -85,6 +103,46 @@ public class Settings extends AppCompatActivity {
         String isChangeTime = new Databases(this, MAIN_SETTINGS).get("time");
         binding.changeTime.setChecked(isChangeTime != null && isChangeTime.equals(TRUE));
         binding.changeTime.setOnCheckedChangeListener((buttonView, isChecked) -> new Databases(this, MAIN_SETTINGS).set("time", isChecked ? TRUE : FALSE));
+
+        binding.passwordHolder.setOnClickListener( v -> {
+            if (settings.get(PASSWORD) != null) {
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this, R.style.RoundedDialog);
+                alertDialogBuilder.setTitle(getResources().getString(R.string.password));
+                alertDialogBuilder.setMessage(getResources().getString(R.string.enterPasswordBeforeEditing));
+
+                final EditText input = new EditText(this);
+
+                int marginHorizontal = 40;
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT
+                );
+                params.setMargins(marginHorizontal, 20, marginHorizontal, 0);
+                input.setLayoutParams(params);
+
+                LinearLayout container = new LinearLayout(this);
+                container.setOrientation(LinearLayout.VERTICAL);
+                container.addView(input);
+
+                alertDialogBuilder.setView(container);
+
+                alertDialogBuilder.setPositiveButton(getResources().getString(R.string.change), (dialog, which) -> {
+                    String userInput = input.getText().toString();
+                    if (settings.get(PASSWORD).equals(userInput)) {
+                        prefix.launch(new Intent(this, Password.class));
+                    } else {
+                        Toast.makeText(this, getResources().getString(R.string.wrongPassword), Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+                alertDialogBuilder.setNegativeButton(getResources().getString(R.string.cancel), (dialog, which) -> dialog.dismiss());
+
+                AlertDialog alertDialog = alertDialogBuilder.create();
+                alertDialog.show();
+            } else {
+                prefix.launch(new Intent(this, Password.class));
+            }
+        });
 
         binding.githubAnready.setOnClickListener( v -> {
             Uri uri = Uri.parse("https://github.com/Anready");

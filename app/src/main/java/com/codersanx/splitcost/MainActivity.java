@@ -12,16 +12,10 @@ import static com.codersanx.splitcost.utils.Utils.isDatabaseOnline;
 import static com.codersanx.splitcost.utils.Utils.isInternetAvailable;
 import static com.codersanx.splitcost.utils.Utils.synchronizeDb;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.view.View;
-import android.view.animation.AnticipateInterpolator;
 import android.widget.ArrayAdapter;
 
 import androidx.activity.OnBackPressedCallback;
@@ -59,28 +53,6 @@ public class MainActivity extends AppCompatActivity implements GetUpdate.UpdateC
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            getSplashScreen().setOnExitAnimationListener(splashScreenView -> {
-                final ObjectAnimator slideUp = ObjectAnimator.ofFloat(
-                        splashScreenView,
-                        View.TRANSLATION_Y,
-                        0f,
-                        -splashScreenView.getHeight()
-                );
-                slideUp.setInterpolator(new AnticipateInterpolator());
-                slideUp.setDuration(600L);
-
-                slideUp.addListener(new AnimatorListenerAdapter() {
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-                        splashScreenView.remove();
-                    }
-                });
-
-                slideUp.start();
-            });
-        }
-
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
@@ -99,7 +71,6 @@ public class MainActivity extends AppCompatActivity implements GetUpdate.UpdateC
         GetUpdate fetchData = new GetUpdate(getResources().getString(R.string.URL_WITH_UPDATES), this, this);
         fetchData.getUpdateInformation();
 
-        initApp(this);
         initVariables();
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.dropdown_item, getAllDb(this));

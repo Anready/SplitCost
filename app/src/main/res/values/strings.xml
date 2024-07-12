@@ -93,4 +93,15 @@
     <string name="products">Products</string>
     <string name="areYouSure">Are you sure to delete database?</string>
     <string name="syncinc">Syncing database</string>
+    <string name="setPassword">Set Password</string>
+    <string name="password">Password</string>
+    <string name="repeatPassword">Repeat password</string>
+    <string name="view_password">View password</string>
+    <string name="passwords_dont_match">Passwords don\'t match</string>
+    <string name="deletePassword">Delete</string>
+    <string name="enter_password">Enter password!</string>
+    <string name="wrongPassword">Wrong password</string>
+    <string name="login">Login</string>
+    <string name="password_saved">Password saved!</string>
+    <string name="enterPasswordBeforeEditing">Enter the password before edit it:</string>
 </resources>

@@ -16,6 +16,9 @@
         android:theme="@style/Theme.SplitCost"
         tools:targetApi="31">
         <activity
+            android:name=".settings.Password"
+            android:exported="false" />
+        <activity
             android:name=".settings.ManageDatabase"
             android:exported="false" />
         <activity
@@ -40,6 +43,9 @@
             android:exported="false" />
         <activity
             android:name=".MainActivity"
+            android:exported="false"/>
+        <activity
+            android:name=".StartPasswordActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
