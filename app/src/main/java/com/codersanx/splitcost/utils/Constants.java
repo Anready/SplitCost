@@ -19,6 +19,8 @@ public class Constants {
     public static String PASS_FROM_ZIP(Context c) {
         return c.getResources().getString(R.string.PASS_FOR_ZIP);
     }
+    public static final String TOKEN = "token";
+    public static final String HOST = "host";
 
     public static final String[] ALL_PREFIX = {
             "Australian Dollar, A$",

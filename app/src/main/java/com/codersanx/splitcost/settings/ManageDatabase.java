@@ -3,11 +3,14 @@ package com.codersanx.splitcost.settings;
 import static com.codersanx.splitcost.utils.Constants.ALL_DATABASES;
 import static com.codersanx.splitcost.utils.Constants.CATEGORY;
 import static com.codersanx.splitcost.utils.Constants.EXPENSES;
+import static com.codersanx.splitcost.utils.Constants.HOST;
 import static com.codersanx.splitcost.utils.Constants.INCOMES;
 import static com.codersanx.splitcost.utils.Constants.MAIN_SETTINGS;
+import static com.codersanx.splitcost.utils.Constants.TOKEN;
 import static com.codersanx.splitcost.utils.Constants.TRUE;
 import static com.codersanx.splitcost.utils.Utils.currentDb;
 import static com.codersanx.splitcost.utils.Utils.getAllDb;
+import static com.codersanx.splitcost.utils.Utils.getToken;
 import static com.codersanx.splitcost.utils.Utils.renameFile;
 import static com.codersanx.splitcost.utils.Zip.extractZip;
 import static com.codersanx.splitcost.utils.Zip.packFile;
@@ -37,6 +40,10 @@ import com.codersanx.splitcost.R;
 import com.codersanx.splitcost.databinding.ActivityManageDatabaseBinding;
 import com.codersanx.splitcost.utils.Databases;
 import com.codersanx.splitcost.utils.adapters.DatabaseAdapter;
+import com.pcloud.sdk.AuthorizationActivity;
+import com.pcloud.sdk.AuthorizationData;
+import com.pcloud.sdk.AuthorizationRequest;
+import com.pcloud.sdk.AuthorizationResult;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -49,7 +56,7 @@ public class ManageDatabase extends AppCompatActivity {
     private ActivityManageDatabaseBinding binding;
     private Databases allDb;
     private boolean clickAllow = true;
-    private ActivityResultLauncher<Intent> sendFileLauncher, getFile;
+    private ActivityResultLauncher<Intent> sendFileLauncher, getFile, getAuth, getDbFile;
     private String newName;
 
     @Override
@@ -59,6 +66,29 @@ public class ManageDatabase extends AppCompatActivity {
         binding = ActivityManageDatabaseBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        getAuth = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                res -> {
+                    if (res.getData() != null) {
+                        AuthorizationData authData = AuthorizationActivity.getResult(res.getData());
+                        if (authData.result == AuthorizationResult.ACCESS_GRANTED) {
+                            Databases main = new Databases(this, MAIN_SETTINGS);
+                            main.set(TOKEN, authData.token);
+                            main.set(HOST, authData.apiHost);
+
+                            getDbFile.launch(new Intent(this, PCloudSelectItem.class));
+                        }
+                    }
+                }
+        );
+
+        getDbFile = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == RESULT_OK) {
+                        initVariables();
+                    }
+                });
 
         sendFileLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
@@ -329,12 +359,42 @@ public class ManageDatabase extends AppCompatActivity {
     }
 
     private void importDb() {
-        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-        intent.setType("*/*");
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            intent.putExtra(DocumentsContract.EXTRA_INITIAL_URI, (Uri) null);
-        }
-        getFile.launch(Intent.createChooser(intent, "Choose SCE file"));
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this, R.style.RoundedDialog);
+        alertDialogBuilder.setTitle(getResources().getString(R.string.getDb));
+        alertDialogBuilder.setMessage(getResources().getString(R.string.getDbDescription));
+
+        alertDialogBuilder.setPositiveButton(getResources().getString(R.string.local), (dialog, which) -> {
+            Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+            intent.addCategory(Intent.CATEGORY_OPENABLE);
+            intent.setType("*/*");
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                intent.putExtra(DocumentsContract.EXTRA_INITIAL_URI, (Uri) null);
+            }
+            getFile.launch(Intent.createChooser(intent, "Choose SCE file"));
+            dialog.cancel();
+        });
+
+        alertDialogBuilder.setNegativeButton(getResources().getString(R.string.cloud), (dialog, which) -> {
+            String token = getToken(this);
+            if (token == null) {
+                Toast.makeText(this, getResources().getString(R.string.pleaseLogin), Toast.LENGTH_SHORT).show();
+                Intent authIntent = AuthorizationActivity.createIntent(
+                        this,
+                        AuthorizationRequest.create()
+                                .setType(AuthorizationRequest.Type.TOKEN)
+                                .setClientId("Go7rrGfQQbQ")
+                                .setForceAccessApproval(true)
+                                .addPermission("manageshares")
+                                .build());
+
+                getAuth.launch(authIntent);
+                return;
+            }
+
+            getDbFile.launch(new Intent(this, PCloudSelectItem.class));
+        });
+
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
     }
 }

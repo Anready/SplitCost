@@ -5,9 +5,11 @@ import static com.codersanx.splitcost.utils.Constants.CATEGORY;
 import static com.codersanx.splitcost.utils.Constants.CURRENT_DB;
 import static com.codersanx.splitcost.utils.Constants.EXPENSES;
 import static com.codersanx.splitcost.utils.Constants.FALSE;
+import static com.codersanx.splitcost.utils.Constants.HOST;
 import static com.codersanx.splitcost.utils.Constants.INCOMES;
 import static com.codersanx.splitcost.utils.Constants.MAIN_SETTINGS;
 import static com.codersanx.splitcost.utils.Constants.PREFIX;
+import static com.codersanx.splitcost.utils.Constants.TOKEN;
 import static com.codersanx.splitcost.utils.Constants.TRUE;
 
 import android.app.Application;
@@ -123,5 +125,13 @@ public class Utils {
     public static void synchronizeDb(Context c, AlertDialog a) {
         System.out.println("SYNCING");
         if (a != null) a.cancel();
+    }
+
+    public static String getToken(Context c) {
+        return new Databases(c, MAIN_SETTINGS).get(TOKEN);
+    }
+
+    public static String getHost(Context c) {
+        return new Databases(c, MAIN_SETTINGS).get(HOST);
     }
 }

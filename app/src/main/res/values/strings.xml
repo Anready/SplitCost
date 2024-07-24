@@ -104,4 +104,9 @@
     <string name="login">Login</string>
     <string name="password_saved">Password saved!</string>
     <string name="enterPasswordBeforeEditing">Enter the password before edit it:</string>
+    <string name="local">Local</string>
+    <string name="getDbDescription">Import journal from local storage or get from cloud?</string>
+    <string name="getDb">Import Journal</string>
+    <string name="cloud">Cloud</string>
+    <string name="pleaseLogin">Please login in pCloud Account</string>
 </resources>

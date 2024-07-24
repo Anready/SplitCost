@@ -44,6 +44,8 @@ android {
 
 dependencies {
 
+    implementation 'com.pcloud.sdk:java-core:1.9.1'
+    implementation 'com.pcloud.sdk:android:1.9.1'
     implementation "androidx.work:work-runtime:2.7.1"
     implementation 'androidx.core:core-splashscreen:1.0.0'
     implementation 'com.github.ghost1372:Mzip-Android:0.4.0'
