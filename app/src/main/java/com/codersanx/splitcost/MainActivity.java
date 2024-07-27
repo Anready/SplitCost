@@ -60,12 +60,14 @@ public class MainActivity extends AppCompatActivity implements GetUpdate.UpdateC
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this, R.style.RoundedDialog);
             alertDialogBuilder.setTitle(getResources().getString(R.string.changeData));
             alertDialogBuilder.setMessage(getResources().getString(R.string.enterNewData));
-            alertDialogBuilder.setCancelable(false);
+
+            alertDialogBuilder.setPositiveButton(getResources().getString(R.string.yes), (dialog, which) -> {
+                synchronizeDb(MainActivity.this, dialog);
+                dialog.dismiss();
+            });
 
             AlertDialog alertDialog = alertDialogBuilder.create();
             alertDialog.show();
-
-            synchronizeDb(this, alertDialog);
         }
 
         GetUpdate fetchData = new GetUpdate(getResources().getString(R.string.URL_WITH_UPDATES), this, this);

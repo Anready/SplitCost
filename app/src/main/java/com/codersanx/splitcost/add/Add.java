@@ -1,6 +1,7 @@
 package com.codersanx.splitcost.add;
 
 import static com.codersanx.splitcost.utils.Constants.CATEGORY;
+import static com.codersanx.splitcost.utils.Constants.CHANGED;
 import static com.codersanx.splitcost.utils.Constants.EXPENSES;
 import static com.codersanx.splitcost.utils.Constants.FALSE;
 import static com.codersanx.splitcost.utils.Constants.INCOMES;
@@ -197,6 +198,8 @@ public class Add extends AppCompatActivity {
                 for (Map.Entry<String, String> entry : db.readAll().entrySet()) {
                     if (entry.getKey().split("@")[1].equals(categoryToDelete)) {
                         category.set(categoryToDelete, FALSE);
+                        new Databases(this, currentDb(this) + CHANGED).set(categoryToDelete, FALSE);
+
                         Toast.makeText(this, getResources().getText(R.string.success), Toast.LENGTH_SHORT).show();
                         setCategoryE();
                         return;
@@ -374,6 +377,10 @@ public class Add extends AppCompatActivity {
             if (inputText.isEmpty()) {
                 Toast.makeText(this, "Error!", Toast.LENGTH_SHORT).show();
                 return;
+            }
+
+            if (db.get(inputText) != null && db.get(inputText).equals(FALSE)) {
+                new Databases(this, currentDb(this) + CHANGED).set(inputText, TRUE);
             }
 
             setLastCategory(inputText);

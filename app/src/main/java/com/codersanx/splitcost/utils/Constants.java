@@ -21,6 +21,8 @@ public class Constants {
     }
     public static final String TOKEN = "token";
     public static final String HOST = "host";
+    public static final String ONLINE = "isOnline";
+    public static final String CHANGED = "changed";
 
     public static final String[] ALL_PREFIX = {
             "Australian Dollar, A$",

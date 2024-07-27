@@ -1,5 +1,6 @@
 package com.codersanx.splitcost.view;
 
+import static com.codersanx.splitcost.utils.Constants.CHANGED;
 import static com.codersanx.splitcost.utils.Constants.EXPENSES;
 import static com.codersanx.splitcost.utils.Constants.INCOMES;
 import static com.codersanx.splitcost.utils.Utils.currentDb;
@@ -257,6 +258,7 @@ public class ViewData extends AppCompatActivity {
                         }
                     }
 
+                    new Databases(this, currentDb(this) + CHANGED).set(descriptionText + "@" + titleText, expenseText);
                     db.set(descriptionText + "@" + titleText, userInput);
 
                     setSort(false);

@@ -4,7 +4,6 @@ import static com.codersanx.splitcost.utils.Utils.getHost;
 import static com.codersanx.splitcost.utils.Utils.getToken;
 
 import android.app.Activity;
-import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,14 +13,14 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
+
 import com.codersanx.splitcost.R;
-import com.codersanx.splitcost.utils.Zip;
+import com.codersanx.splitcost.utils.DownloadTask;
 import com.pcloud.sdk.ApiClient;
-import com.pcloud.sdk.ApiError;
 import com.pcloud.sdk.Authenticators;
 import com.pcloud.sdk.Call;
 import com.pcloud.sdk.Callback;
-import com.pcloud.sdk.DataSink;
 import com.pcloud.sdk.PCloudSdk;
 import com.pcloud.sdk.ProgressListener;
 import com.pcloud.sdk.RemoteEntry;
@@ -29,7 +28,6 @@ import com.pcloud.sdk.RemoteFile;
 import com.pcloud.sdk.RemoteFolder;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -78,14 +76,27 @@ public class FileSelectAdapter extends BaseAdapter {
             }else if (entries.get(position).isFolder()) {
                 getObjectsByFolderId(ac, false, entries.get(position).id().replace("d", ""));
             } else {
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(ac, R.style.RoundedDialog);
+                alertDialogBuilder.setTitle(ac.getResources().getString(R.string.onlineDatabase));
+                alertDialogBuilder.setMessage(ac.getResources().getString(R.string.onlineDbDescription));
+
                 RemoteFile fileToDownload = entries.get(position).asFile();
                 File localFile = new File(ac.getFilesDir(), fileToDownload.name());
                 ProgressListener listener = (done, total) -> System.out.println(done + "/" + total);
-                ac.runOnUiThread(() -> {
-                    Toast.makeText(ac, "File download was started", Toast.LENGTH_SHORT).show();
-                    DownloadTask downloadTask = new DownloadTask(ac, fileToDownload, localFile, listener);
-                    downloadTask.execute();
+
+                alertDialogBuilder.setPositiveButton(ac.getResources().getString(R.string.yes), (dialog, which) -> {
+                    DownloadTask downloadTask = new DownloadTask(ac, fileToDownload, localFile, listener, true);
+                    startDownload(downloadTask);
                 });
+
+
+                alertDialogBuilder.setNegativeButton(ac.getResources().getString(R.string.no), (dialog, which) -> {
+                    DownloadTask downloadTask = new DownloadTask(ac, fileToDownload, localFile, listener, false);
+                    startDownload(downloadTask);
+                });
+
+                AlertDialog alertDialog = alertDialogBuilder.create();
+                alertDialog.show();
             }
         });
 
@@ -222,37 +233,11 @@ public class FileSelectAdapter extends BaseAdapter {
     public static void getObjectsByFolderId(Activity ac, boolean isRoot) {
         if (isRoot) getObjectsByFolderId(ac, true, "");
     }
-}
 
-class DownloadTask extends AsyncTask<Void, Void, Void> {
-    private final RemoteFile fileToDownload;
-    private final File localFile;
-    private final ProgressListener listener;
-    private final Activity ac;
-
-    public DownloadTask (Activity ac, RemoteFile fileToDownload, File localFile, ProgressListener listener) {
-        this.ac = ac;
-        this.fileToDownload = fileToDownload;
-        this.localFile = localFile;
-        this.listener = listener;
-    }
-
-    @Override
-    protected Void doInBackground(Void... params) {
-        try {
-            fileToDownload.download(DataSink.create(localFile), listener);
-        } catch (IOException | ApiError e) {
-            throw new RuntimeException(e);
-        }
-        return null;
-    }
-
-    @Override
-    protected void onPostExecute(Void result) {
-        // Update the UI if needed after download is complete
-        Toast.makeText(ac, "File downloaded successfully", Toast.LENGTH_SHORT).show();
-        Zip.extractZip(ac, localFile.getName());
-        ac.setResult(Activity.RESULT_OK);
-        ac.finish();
+    private void startDownload(DownloadTask dt) {
+        ac.runOnUiThread(() -> {
+            Toast.makeText(ac, "File download was started", Toast.LENGTH_SHORT).show();
+            dt.execute();
+        });
     }
 }

@@ -109,4 +109,8 @@
     <string name="getDb">Import Journal</string>
     <string name="cloud">Cloud</string>
     <string name="pleaseLogin">Please login in pCloud Account</string>
+    <string name="onlineDatabase">Is journal online?</string>
+    <string name="onlineDbDescription">If you plan to always this journal with cloud, press yes</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 </resources>

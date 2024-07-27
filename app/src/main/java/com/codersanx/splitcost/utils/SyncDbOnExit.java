@@ -36,7 +36,7 @@ public class SyncDbOnExit extends Worker {
         if (activityReference != null) {
             if (isInternetAvailable(activityReference.getApplication()) && isDatabaseOnline(context)) {
                 new Handler(Looper.getMainLooper()).post(() -> Toast.makeText(context, context.getResources().getString(R.string.syncinc), Toast.LENGTH_SHORT).show());
-                synchronizeDb(context);
+                synchronizeDb(activityReference);
             }
         }
 

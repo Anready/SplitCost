@@ -17,6 +17,9 @@ import net.lingala.zip4j.model.ZipParameters;
 import net.lingala.zip4j.util.Zip4jConstants;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 import ir.mahdi.mzip.zip.ZipArchive;
 
@@ -54,11 +57,17 @@ public class Zip {
     }
 
     public static boolean extractZip(Context c, String name) {
-        if (!getFileExtension(name).equals("sce")) {
+        return extractZip(c, name, false, null);
+    }
+
+    public static boolean extractZip(Context c, String name, boolean isSync, String additionalName) {
+        if (!name.endsWith("sce")) {
             return false;
         }
 
-        if (getBaseName(name).length() < 2 || getBaseName(name).length() > 17) {
+        String baseName = getBaseName(name);
+
+        if (baseName.length() < 2 || baseName.length() > 17) {
             return false;
         }
 
@@ -74,20 +83,55 @@ public class Zip {
             return false;
         }
 
-        if (!containsFile(c, newName, getBaseName(name) + "CategoryExpenses.xml")) {
+        if (!containsFile(c, newName, baseName + "CategoryExpenses.xml")) {
+            deleteFolder(new File(c.getFilesDir().getParent() + "/temp"));
             return false;
         }
 
         Databases db = new Databases(c, ALL_DATABASES);
-        if (db.get(getBaseName(name)) != null) {
+        if (db.get(baseName) != null && !isSync) {
             return false;
         }
 
-        ZipArchive.unzip(c.getFilesDir() + "/" + newName, c.getFilesDir().getParent() + "/shared_prefs/", PASS_FROM_ZIP(c));
-        db.set(getBaseName(name), TRUE);
+        moveFiles(c, baseName, additionalName == null ? "" : additionalName);
+
+        if (!isSync) db.set(getBaseName(name), TRUE);
 
         new File(c.getFilesDir() + "/" + newName).delete();
         return true;
+    }
+
+    private static void moveFiles(Context c, String name, String prefix) {
+        String[] files = {name + INCOMES, name + EXPENSES, name + CATEGORY + INCOMES,
+                name + CATEGORY + EXPENSES, name + MAIN_SETTINGS
+        };
+
+        for (String file : files) {
+            File targetFile = new File(c.getFilesDir().getParent() + "/temp/", file + ".xml");
+
+            try {
+                copyFile(targetFile, new File(c.getFilesDir().getParent() + "/shared_prefs/", prefix + file + ".xml"));
+                targetFile.delete();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+    public static void copyFile(File sourceFile, File destFile) throws IOException {
+        if (!destFile.exists()) {
+            destFile.createNewFile();
+        }
+
+        try (FileInputStream fis = new FileInputStream(sourceFile);
+             FileOutputStream fos = new FileOutputStream(destFile)) {
+
+            byte[] buffer = new byte[1024];
+            int length;
+            while ((length = fis.read(buffer)) > 0) {
+                fos.write(buffer, 0, length);
+            }
+        }
     }
 
     private static boolean isProtected(String zipFilePath) {
@@ -99,13 +143,6 @@ public class Zip {
         }
     }
 
-    private static String getFileExtension(String fileName) {
-        if (fileName == null || fileName.lastIndexOf(".") == -1) {
-            return "";
-        }
-        return fileName.substring(fileName.lastIndexOf(".") + 1);
-    }
-
     private static String getBaseName(String fileName) {
         if (fileName == null || fileName.lastIndexOf(".") == -1) {
             return fileName;
@@ -115,15 +152,7 @@ public class Zip {
 
     private static boolean containsFile(Context c, String newName, String fileName) {
         ZipArchive.unzip(c.getFilesDir() + "/" + newName, c.getFilesDir().getParent() + "/temp/", PASS_FROM_ZIP(c));
-        if(new File(c.getFilesDir().getParent() + "/temp/" + fileName).exists()) {
-            File folder = new File(c.getFilesDir().getParent() + "/temp");
-            deleteFolder(folder);
-            return true;
-        } else {
-            File folder = new File(c.getFilesDir().getParent() + "/temp");
-            deleteFolder(folder);
-            return false;
-        }
+        return new File(c.getFilesDir().getParent() + "/temp/" + fileName).exists();
     }
 
     private static boolean deleteFolder(File folder) {
