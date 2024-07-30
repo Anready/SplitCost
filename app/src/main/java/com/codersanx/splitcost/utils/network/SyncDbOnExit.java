@@ -1,4 +1,4 @@
-package com.codersanx.splitcost.utils;
+package com.codersanx.splitcost.utils.network;
 
 import static com.codersanx.splitcost.utils.Utils.isDatabaseOnline;
 import static com.codersanx.splitcost.utils.Utils.isInternetAvailable;

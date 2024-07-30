@@ -1,7 +1,6 @@
 package com.codersanx.splitcost.add;
 
 import static com.codersanx.splitcost.utils.Constants.CATEGORY;
-import static com.codersanx.splitcost.utils.Constants.CHANGED;
 import static com.codersanx.splitcost.utils.Constants.EXPENSES;
 import static com.codersanx.splitcost.utils.Constants.FALSE;
 import static com.codersanx.splitcost.utils.Constants.INCOMES;
@@ -9,6 +8,7 @@ import static com.codersanx.splitcost.utils.Constants.LAST_CATEGORY;
 import static com.codersanx.splitcost.utils.Constants.MAIN_SETTINGS;
 import static com.codersanx.splitcost.utils.Constants.TRUE;
 import static com.codersanx.splitcost.utils.Utils.currentDb;
+import static com.codersanx.splitcost.utils.Utils.setIsChanged;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
@@ -198,7 +198,6 @@ public class Add extends AppCompatActivity {
                 for (Map.Entry<String, String> entry : db.readAll().entrySet()) {
                     if (entry.getKey().split("@")[1].equals(categoryToDelete)) {
                         category.set(categoryToDelete, FALSE);
-                        new Databases(this, currentDb(this) + CHANGED).set(categoryToDelete, FALSE);
 
                         Toast.makeText(this, getResources().getText(R.string.success), Toast.LENGTH_SHORT).show();
                         setCategoryE();
@@ -207,6 +206,7 @@ public class Add extends AppCompatActivity {
                 }
 
                 category.delete(categoryToDelete);
+                setIsChanged(this, true);
                 Toast.makeText(this, getResources().getText(R.string.success), Toast.LENGTH_SHORT).show();
 
                 setCategoryE();
@@ -241,6 +241,7 @@ public class Add extends AppCompatActivity {
             }
 
             db.set(binding.dateTimeE.getText().toString() + ":" + seconds + "@" + binding.categoryE.getText().toString(), userInput);
+            setIsChanged(this, true);
             setLastCategory(binding.categoryE.getText().toString());
             setResult(RESULT_OK);
             finish();
@@ -379,12 +380,9 @@ public class Add extends AppCompatActivity {
                 return;
             }
 
-            if (db.get(inputText) != null && db.get(inputText).equals(FALSE)) {
-                new Databases(this, currentDb(this) + CHANGED).set(inputText, TRUE);
-            }
-
             setLastCategory(inputText);
             createNewCategory(inputText);
+            setIsChanged(this, true);
         });
 
         builder.setNegativeButton(getResources().getString(R.string.cancel), (dialog, which) -> {

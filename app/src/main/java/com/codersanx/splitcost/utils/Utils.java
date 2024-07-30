@@ -15,7 +15,6 @@ import static com.codersanx.splitcost.utils.Constants.TRUE;
 
 import android.app.Activity;
 import android.app.Application;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.net.ConnectivityManager;
@@ -28,6 +27,7 @@ import androidx.appcompat.app.AppCompatDelegate;
 
 import com.codersanx.splitcost.R;
 import com.codersanx.splitcost.utils.adapters.SyncDb;
+import com.codersanx.splitcost.utils.network.DownloadTask;
 import com.pcloud.sdk.ProgressListener;
 
 import java.io.File;
@@ -156,5 +156,14 @@ public class Utils {
 
     public static String getTimeOfLastSync(Context c, String name) {
         return new Databases(c, MAIN_SETTINGS).get(name + "lastSync");
+    }
+
+    public static boolean isChanged(Context c) {
+        String i = new Databases(c, MAIN_SETTINGS).get(currentDb(c) + "isChanged");
+        return i != null && i.equals(TRUE);
+    }
+
+    public static void setIsChanged(Context c, boolean i) {
+        new Databases(c, MAIN_SETTINGS).set(currentDb(c) + "isChanged", i ? TRUE : FALSE);
     }
 }

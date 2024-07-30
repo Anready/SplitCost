@@ -113,4 +113,9 @@
     <string name="onlineDbDescription">If you plan to always this journal with cloud, press yes</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="whatToDo">What to do</string>
+    <string name="descriptionWhatToDo">Apply data from cloud or from local? %s %s: %s</string>
+    <string name="fromLocal">From local</string>
+    <string name="fromCloud">From Cloud</string>
+    <string name="addOrRemove">From cloud: Add\nFrom local: Delete</string>
 </resources>

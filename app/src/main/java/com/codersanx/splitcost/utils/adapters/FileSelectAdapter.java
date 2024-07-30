@@ -16,7 +16,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 
 import com.codersanx.splitcost.R;
-import com.codersanx.splitcost.utils.DownloadTask;
+import com.codersanx.splitcost.utils.network.DownloadTask;
 import com.pcloud.sdk.ApiClient;
 import com.pcloud.sdk.Authenticators;
 import com.pcloud.sdk.Call;

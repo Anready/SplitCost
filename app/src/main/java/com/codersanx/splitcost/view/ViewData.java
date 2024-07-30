@@ -1,10 +1,10 @@
 package com.codersanx.splitcost.view;
 
-import static com.codersanx.splitcost.utils.Constants.CHANGED;
 import static com.codersanx.splitcost.utils.Constants.EXPENSES;
 import static com.codersanx.splitcost.utils.Constants.INCOMES;
 import static com.codersanx.splitcost.utils.Utils.currentDb;
 import static com.codersanx.splitcost.utils.Utils.getPrefix;
+import static com.codersanx.splitcost.utils.Utils.setIsChanged;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
@@ -258,12 +258,12 @@ public class ViewData extends AppCompatActivity {
                         }
                     }
 
-                    new Databases(this, currentDb(this) + CHANGED).set(descriptionText + "@" + titleText, expenseText);
                     db.set(descriptionText + "@" + titleText, userInput);
 
                     setSort(false);
 
                     click = true;
+                    setIsChanged(this, true);
                     setResult(RESULT_OK);
                     dialog.cancel();
                 }
@@ -274,6 +274,7 @@ public class ViewData extends AppCompatActivity {
                 setResult(RESULT_OK);
 
                 setSort(false);
+                setIsChanged(this, true);
 
                 click = true;
             });

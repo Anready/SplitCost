@@ -1,4 +1,4 @@
-package com.codersanx.splitcost.utils;
+package com.codersanx.splitcost.utils.network;
 
 import android.content.Context;
 import android.content.pm.PackageInfo;
